@@ -2433,31 +2433,31 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>שם מלא</label>
-                            <input type="text" placeholder="השם שלכם" required>
+                            <input type="text" name="name" placeholder="השם שלכם" required>
                         </div>
                         <div class="form-group">
                             <label>טלפון</label>
-                            <input type="tel" placeholder="052-629-9131" required>
+                            <input type="tel" name="phone" placeholder="052-629-9131" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>אימייל</label>
-                        <input type="email" placeholder="your@email.com" dir="ltr">
+                        <input type="email" name="email" placeholder="your@email.com" dir="ltr">
                     </div>
                     <div class="form-group">
                         <label>תחום עניין</label>
-                        <select>
+                        <select name="subject">
                             <option value="">בחרו תחום</option>
-                            <option value="ebmt">טיפול EBMT</option>
-                            <option value="bach">פרחי באך</option>
-                            <option value="neurofeedback">נוירופידבק</option>
-                            <option value="combined">טיפול משולב</option>
-                            <option value="other">אחר</option>
+                            <option value="טיפול EBMT">טיפול EBMT</option>
+                            <option value="פרחי באך">פרחי באך</option>
+                            <option value="נוירופידבק">נוירופידבק</option>
+                            <option value="טיפול משולב">טיפול משולב</option>
+                            <option value="אחר">אחר</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>ספרו לי קצת</label>
-                        <textarea placeholder="איך אוכל לעזור לכם?"></textarea>
+                        <textarea name="message" placeholder="איך אוכל לעזור לכם?"></textarea>
                     </div>
                     <button type="submit" class="form-submit">שליחת הודעה</button>
                 </form>
@@ -2635,15 +2635,46 @@
         // ========== FORM HANDLER ==========
         function handleSubmit(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('.form-submit');
+            const form = e.target;
+            const btn = form.querySelector('.form-submit');
             const originalText = btn.textContent;
-            btn.textContent = 'ההודעה נשלחה בהצלחה! ✓';
-            btn.style.background = 'linear-gradient(135deg, #5e7d5a, #4a6a46)';
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '';
-                e.target.reset();
-            }, 3000);
+            btn.textContent = 'שולח...';
+            btn.disabled = true;
+
+            const data = {
+                name: form.querySelector('[name="name"]').value,
+                phone: form.querySelector('[name="phone"]').value,
+                email: form.querySelector('[name="email"]').value,
+                subject: form.querySelector('[name="subject"]').value,
+                message: form.querySelector('[name="message"]').value,
+                source: 'mentalcare.co.il',
+                submitted_at: new Date().toISOString()
+            };
+
+            fetch('https://hook.eu1.make.com/z18fycqxpmeiim1ig645uuq8hrge7mmw', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                btn.textContent = 'ההודעה נשלחה בהצלחה! ✓';
+                btn.style.background = 'linear-gradient(135deg, #5e7d5a, #4a6a46)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                    form.reset();
+                }, 3000);
+            })
+            .catch(err => {
+                btn.textContent = 'שגיאה - נסו שוב';
+                btn.style.background = 'linear-gradient(135deg, #c0392b, #e74c3c)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                }, 3000);
+            });
         }
 
         // ========== PARALLAX ON HERO SHAPES ==========
