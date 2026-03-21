@@ -2651,12 +2651,15 @@
                 submitted_at: new Date().toISOString()
             };
 
+            console.log('Sending data to webhook:', data);
+
             fetch('https://hook.eu1.make.com/z18fycqxpmeiim1ig645uuq8hrge7mmw', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             })
             .then(res => {
+                console.log('Webhook response status:', res.status);
                 btn.textContent = 'ההודעה נשלחה בהצלחה! ✓';
                 btn.style.background = 'linear-gradient(135deg, #5e7d5a, #4a6a46)';
                 setTimeout(() => {
@@ -2667,6 +2670,7 @@
                 }, 3000);
             })
             .catch(err => {
+                console.error('Webhook error:', err);
                 btn.textContent = 'שגיאה - נסו שוב';
                 btn.style.background = 'linear-gradient(135deg, #c0392b, #e74c3c)';
                 setTimeout(() => {
