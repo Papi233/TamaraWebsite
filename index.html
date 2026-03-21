@@ -1763,6 +1763,162 @@
             .blog-card-body { padding: 1.2rem; }
             .service-card { padding: 2rem 1.5rem; }
         }
+
+        /* ========== ACCESSIBILITY WIDGET ========== */
+        .a11y-toggle {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 9999;
+            background: var(--sage);
+            color: white;
+            border: none;
+            border-radius: 0 12px 12px 0;
+            width: 44px;
+            padding: 12px 8px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .a11y-toggle:hover { width: 52px; background: var(--sage-dark); }
+
+        .a11y-panel {
+            position: fixed;
+            top: 50%;
+            left: -320px;
+            transform: translateY(-50%);
+            z-index: 9998;
+            background: white;
+            border-radius: 0 20px 20px 0;
+            box-shadow: 4px 0 30px rgba(0,0,0,0.15);
+            width: 300px;
+            padding: 2rem 1.5rem;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .a11y-panel.open { left: 0; }
+        .a11y-panel.open + .a11y-toggle { left: 300px; }
+
+        .a11y-panel h3 {
+            font-family: 'Frank Ruhl Libre', serif;
+            color: var(--sage-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            text-align: center;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--sage-light);
+        }
+
+        .a11y-group {
+            margin-bottom: 1.2rem;
+        }
+        .a11y-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .a11y-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .a11y-btn {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid var(--sage-light);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--sage-dark);
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .a11y-btn:hover, .a11y-btn.active {
+            background: var(--sage);
+            color: white;
+            border-color: var(--sage);
+        }
+        .a11y-reset {
+            display: block;
+            width: 100%;
+            margin-top: 1rem;
+            padding: 10px;
+            border: none;
+            background: linear-gradient(135deg, var(--sage-light), var(--blush-light));
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--sage-dark);
+            transition: all 0.3s ease;
+        }
+        .a11y-reset:hover { opacity: 0.8; }
+
+        /* Accessibility states */
+        html.a11y-large-text { font-size: 120% !important; }
+        html.a11y-xl-text { font-size: 140% !important; }
+        html.a11y-high-contrast { filter: contrast(1.4) !important; }
+        html.a11y-grayscale { filter: grayscale(1) !important; }
+        html.a11y-highlight-links a { outline: 3px solid #ff0 !important; outline-offset: 2px; }
+        html.a11y-big-cursor, html.a11y-big-cursor * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%23000' opacity='0.5'/%3E%3Ccircle cx='24' cy='24' r='8' fill='%23fff'/%3E%3C/svg%3E"), auto !important; }
+        html.a11y-line-height * { line-height: 2 !important; }
+        html.a11y-letter-spacing * { letter-spacing: 0.12em !important; }
+        html.a11y-no-animations *, html.a11y-no-animations *::before, html.a11y-no-animations *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .a11y-panel { width: 260px; }
+            .a11y-panel.open + .a11y-toggle { left: 260px; }
+        }
+
+        /* ========== COOKIE CONSENT ========== */
+        .cookie-banner {
+            position: fixed;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9997;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 30px rgba(0,0,0,0.1);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 700px;
+            width: 95%;
+            transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cookie-banner.show { bottom: 0; }
+        .cookie-banner p { font-size: 0.85rem; color: #555; flex: 1; margin: 0; line-height: 1.5; }
+        .cookie-accept {
+            background: var(--sage);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: background 0.3s ease;
+        }
+        .cookie-accept:hover { background: var(--sage-dark); }
+
+        @media (max-width: 600px) {
+            .cookie-banner { flex-direction: column; text-align: center; gap: 1rem; padding: 1.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -2487,6 +2643,55 @@
     <!-- Back to Top -->
     <button class="back-to-top" id="backToTop" aria-label="חזרה למעלה" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+    <!-- Accessibility Widget -->
+    <div class="a11y-panel" id="a11yPanel">
+        <h3>הגדרות נגישות</h3>
+        <div class="a11y-group">
+            <label>גודל טקסט</label>
+            <div class="a11y-buttons">
+                <button class="a11y-btn" onclick="a11yToggle('a11y-large-text','a11y-xl-text')">A+</button>
+                <button class="a11y-btn" onclick="a11yToggle('a11y-xl-text','a11y-large-text')">A++</button>
+            </div>
+        </div>
+        <div class="a11y-group">
+            <label>ניגודיות</label>
+            <div class="a11y-buttons">
+                <button class="a11y-btn" onclick="a11yToggle('a11y-high-contrast','a11y-grayscale')">ניגודיות גבוהה</button>
+                <button class="a11y-btn" onclick="a11yToggle('a11y-grayscale','a11y-high-contrast')">גווני אפור</button>
+            </div>
+        </div>
+        <div class="a11y-group">
+            <label>קישורים</label>
+            <div class="a11y-buttons">
+                <button class="a11y-btn" onclick="a11yToggle('a11y-highlight-links')">הדגשת קישורים</button>
+            </div>
+        </div>
+        <div class="a11y-group">
+            <label>קריאות</label>
+            <div class="a11y-buttons">
+                <button class="a11y-btn" onclick="a11yToggle('a11y-line-height')">מרווח שורות</button>
+                <button class="a11y-btn" onclick="a11yToggle('a11y-letter-spacing')">מרווח אותיות</button>
+            </div>
+        </div>
+        <div class="a11y-group">
+            <label>תצוגה</label>
+            <div class="a11y-buttons">
+                <button class="a11y-btn" onclick="a11yToggle('a11y-big-cursor')">סמן גדול</button>
+                <button class="a11y-btn" onclick="a11yToggle('a11y-no-animations')">ללא אנימציות</button>
+            </div>
+        </div>
+        <button class="a11y-reset" onclick="a11yReset()">איפוס הגדרות</button>
+    </div>
+    <button class="a11y-toggle" id="a11yToggleBtn" onclick="document.getElementById('a11yPanel').classList.toggle('open')" aria-label="הגדרות נגישות">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><path d="M12 7v5m0 0l-3 5m3-5l3 5"/><path d="M7 10.5h10"/></svg>
+    </button>
+
+    <!-- Cookie Consent -->
+    <div class="cookie-banner" id="cookieBanner">
+        <p>אתר זה משתמש בעוגיות (cookies) כדי לשפר את חוויית הגלישה שלכם. בהמשך הגלישה באתר אתם מסכימים לשימוש בעוגיות.</p>
+        <button class="cookie-accept" onclick="acceptCookies()">מסכים/ה</button>
+    </div>
+
     <!-- WhatsApp Float -->
     <a href="https://wa.me/972526299131" class="whatsapp-float" target="_blank" aria-label="שלחו הודעה בוואטסאפ">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -2753,6 +2958,62 @@
                 hero.style.backgroundPosition = 'center';
             };
             img.src = 'images/hero/hero-bg.jpg';
+        })();
+
+        // ========== ACCESSIBILITY WIDGET ==========
+        function a11yToggle(cls, conflicting) {
+            document.documentElement.classList.toggle(cls);
+            if (conflicting) document.documentElement.classList.remove(conflicting);
+            // Update button active states
+            document.querySelectorAll('.a11y-btn').forEach(btn => {
+                const onclick = btn.getAttribute('onclick') || '';
+                const match = onclick.match(/a11yToggle\('([^']+)'/);
+                if (match) {
+                    btn.classList.toggle('active', document.documentElement.classList.contains(match[1]));
+                }
+            });
+            // Save preferences
+            const classes = Array.from(document.documentElement.classList).filter(c => c.startsWith('a11y-'));
+            localStorage.setItem('a11y', JSON.stringify(classes));
+        }
+
+        function a11yReset() {
+            document.documentElement.className = document.documentElement.className
+                .split(' ').filter(c => !c.startsWith('a11y-')).join(' ');
+            document.querySelectorAll('.a11y-btn').forEach(btn => btn.classList.remove('active'));
+            localStorage.removeItem('a11y');
+        }
+
+        // Restore saved preferences
+        (function() {
+            const saved = localStorage.getItem('a11y');
+            if (saved) {
+                JSON.parse(saved).forEach(cls => document.documentElement.classList.add(cls));
+                // Restore active states on buttons
+                setTimeout(() => {
+                    document.querySelectorAll('.a11y-btn').forEach(btn => {
+                        const onclick = btn.getAttribute('onclick') || '';
+                        const match = onclick.match(/a11yToggle\('([^']+)'/);
+                        if (match) {
+                            btn.classList.toggle('active', document.documentElement.classList.contains(match[1]));
+                        }
+                    });
+                }, 100);
+            }
+        })();
+
+        // ========== COOKIE CONSENT ==========
+        function acceptCookies() {
+            document.getElementById('cookieBanner').classList.remove('show');
+            localStorage.setItem('cookiesAccepted', 'true');
+        }
+
+        (function() {
+            if (!localStorage.getItem('cookiesAccepted')) {
+                setTimeout(() => {
+                    document.getElementById('cookieBanner').classList.add('show');
+                }, 2000);
+            }
         })();
     </script>
 </body>
