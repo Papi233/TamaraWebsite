@@ -32,8 +32,8 @@
                 "email": "tamaraps95@gmail.com",
                 "address": {
                     "@type": "PostalAddress",
-                    "streetAddress": "הירדן 7",
-                    "addressLocality": "רמת גן",
+                    "streetAddress": "זלמן שזר 31",
+                    "addressLocality": "ראשון לציון",
                     "addressCountry": "IL"
                 },
                 "sameAs": ["https://wa.me/972526299131"],
@@ -86,9 +86,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
-        /* ========== RESET & BASE ========== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -97,3468 +97,918 @@
             --sage-dark: #5e7d5a;
             --cream: #faf6f0;
             --warm-white: #fdfcfa;
-            --blush: #e8c4b8;
-            --blush-light: #f2ddd5;
             --gold: #c9a96e;
             --gold-light: #e0cc9e;
-            --deep: #3a3a3a;
+            --deep: #2e2c28;
             --text: #4a4a4a;
             --text-light: #7a7a7a;
-            --lavender: #c5b8d4;
             --lavender-light: #e4dced;
-            --water: #a8c5d6;
-            --water-light: #d0e3ed;
         }
 
-        html { scroll-behavior: smooth; font-size: 16px; }
-
+        /* בלי פסי גלילה גלויים — הדף נקי משני הצדדים */
+        html { scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
+        html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
         body {
             font-family: 'Heebo', sans-serif;
             background: var(--cream);
             color: var(--text);
+            line-height: 1.8;
             overflow-x: hidden;
-            line-height: 1.8;
         }
+        ::selection { background: var(--gold); color: #fff; }
+        img, video { max-width: 100%; display: block; }
+        a { color: inherit; }
 
-        h1, h2, h3, h4 {
-            font-family: 'Frank Ruhl Libre', serif;
-            color: var(--deep);
-        }
+        .serif { font-family: 'Frank Ruhl Libre', serif; }
 
-        /* ========== PRELOADER ========== */
+        /* ===== פרילואודר ===== */
         .preloader {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
+            position: fixed; inset: 0; z-index: 100;
             background: var(--cream);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem;
         }
-
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
+        .preloader .name {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: clamp(1.3rem, 3vw, 1.9rem);
+            letter-spacing: 0.45em;
+            margin-right: 0.45em; /* איזון הריווח */
+            color: var(--deep);
         }
-
-        .preloader-flower {
-            width: 60px;
-            height: 60px;
-            position: relative;
-            animation: preloader-spin 2s ease-in-out infinite;
+        .preloader .line {
+            width: 160px; height: 1px; background: rgba(46,44,40,0.15);
+            overflow: hidden; position: relative;
         }
-
-        .preloader-flower .petal {
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background: var(--sage);
-            border-radius: 50% 0 50% 0;
-            top: 50%;
-            left: 50%;
-            transform-origin: -4px -4px;
-            opacity: 0.7;
+        .preloader .line::after {
+            content: ''; position: absolute; inset: 0;
+            background: var(--gold);
+            transform: scaleX(0); transform-origin: right;
+            animation: loadline 1.6s ease forwards;
         }
+        @keyframes loadline { to { transform: scaleX(1); } }
 
-        .preloader-flower .petal:nth-child(1) { transform: rotate(0deg); background: var(--sage); }
-        .preloader-flower .petal:nth-child(2) { transform: rotate(45deg); background: var(--blush); }
-        .preloader-flower .petal:nth-child(3) { transform: rotate(90deg); background: var(--lavender); }
-        .preloader-flower .petal:nth-child(4) { transform: rotate(135deg); background: var(--gold); }
-        .preloader-flower .petal:nth-child(5) { transform: rotate(180deg); background: var(--sage-light); }
-        .preloader-flower .petal:nth-child(6) { transform: rotate(225deg); background: var(--blush-light); }
-        .preloader-flower .petal:nth-child(7) { transform: rotate(270deg); background: var(--water); }
-        .preloader-flower .petal:nth-child(8) { transform: rotate(315deg); background: var(--lavender-light); }
-
-        @keyframes preloader-spin {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
+        /* ===== ניווט ===== */
+        .nav {
+            position: fixed; top: 0; right: 0; left: 0; z-index: 50;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.1rem clamp(1.2rem, 4vw, 3.5rem);
+            transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
         }
-
-        /* ========== FLOATING PARTICLES ========== */
-        .particles-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+        .nav.solid {
+            background: rgba(250, 246, 240, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 1px 0 rgba(46,44,40,0.06);
+            padding-top: 0.7rem; padding-bottom: 0.7rem;
         }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0;
-            animation: float-particle linear infinite;
+        .nav .logo {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 700; font-size: 1.2rem;
+            color: #fff; text-decoration: none;
+            letter-spacing: 0.06em;
+            transition: color 0.4s ease;
         }
-
-        @keyframes float-particle {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        .nav.solid .logo, .nav.dark-links .logo { color: var(--deep); }
+        .nav .links { display: flex; align-items: center; gap: clamp(0.9rem, 2vw, 1.8rem); }
+        .nav .links a {
+            font-size: 0.9rem; font-weight: 400;
+            color: rgba(255,255,255,0.85); text-decoration: none;
+            transition: color 0.3s ease;
         }
-
-        /* ========== NAVIGATION ========== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1000;
-            padding: 1.2rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .nav.solid .links a, .nav.dark-links .links a { color: var(--text); }
+        .nav .links a:hover { color: var(--gold); }
+        .nav .cta {
+            border: 1px solid currentColor; border-radius: 100px;
+            padding: 0.35rem 1.1rem !important;
         }
+        .nav .burger {
+            display: none; background: none; border: none; cursor: pointer;
+            width: 40px; height: 40px; position: relative; z-index: 60;
+        }
+        .nav .burger span {
+            display: block; width: 22px; height: 2px; margin: 5px auto;
+            background: #fff; transition: all 0.3s ease;
+        }
+        .nav.solid .burger span, .nav.dark-links .burger span { background: var(--deep); }
 
-        .navbar.scrolled {
-            background: rgba(250, 246, 240, 0.92);
+        .mobile-menu {
+            position: fixed; inset: 0; z-index: 55;
+            background: rgba(250, 246, 240, 0.97);
             backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
-            padding: 0.8rem 3rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6rem;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease;
         }
-
-        .nav-logo {
+        .mobile-menu.open { opacity: 1; visibility: visible; }
+        .mobile-menu a {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--sage-dark);
-            text-decoration: none;
-            transition: color 0.3s;
+            font-size: 1.6rem; color: var(--deep); text-decoration: none;
         }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 400;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            right: 0;
-            width: 0;
-            height: 2px;
-            background: var(--sage);
-            transition: width 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .nav-links a:hover { color: var(--sage-dark); }
-        .nav-links a:hover::after { width: 100%; }
-
-        .nav-cta {
-            background: var(--sage);
-            color: white !important;
-            padding: 0.6rem 1.6rem;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease !important;
-        }
-
-        .nav-cta::after { display: none !important; }
-        .nav-cta:hover { background: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(143, 174, 139, 0.4); }
-
-        /* Mobile hamburger */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-            background: none;
-            border: none;
-            padding: 5px;
-        }
-
-        .hamburger span {
-            width: 28px;
-            height: 2.5px;
-            background: var(--deep);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-        /* ========== HERO ========== */
+        /* ===== הירו וידאו ===== */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            position: relative; min-height: 100svh;
+            display: flex; align-items: flex-end;
             overflow: hidden;
-            background: linear-gradient(135deg, var(--cream) 0%, var(--sage-light) 30%, var(--lavender-light) 60%, var(--blush-light) 100%);
+            background: var(--deep);
         }
-
-        .hero-bg-shapes {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
+        .hero video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            animation: slowzoom 26s ease-in-out infinite alternate;
         }
-
-        .hero-shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
+        @keyframes slowzoom { from { transform: scale(1); } to { transform: scale(1.09); } }
+        .hero .shade {
+            position: absolute; inset: 0;
+            background: linear-gradient(200deg, rgba(20,24,16,0.15) 30%, rgba(20,24,16,0.62) 100%);
         }
-
-        .hero-shape-1 {
-            width: 600px;
-            height: 600px;
-            background: var(--sage-light);
-            top: -200px;
-            right: -100px;
-            animation: morph1 15s ease-in-out infinite;
-        }
-
-        .hero-shape-2 {
-            width: 400px;
-            height: 400px;
-            background: var(--lavender);
-            bottom: -100px;
-            left: -100px;
-            animation: morph2 12s ease-in-out infinite;
-        }
-
-        .hero-shape-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--blush);
-            top: 50%;
-            left: 50%;
-            animation: morph3 18s ease-in-out infinite;
-        }
-
-        @keyframes morph1 {
-            0%, 100% { transform: translate(0, 0) scale(1); border-radius: 50%; }
-            33% { transform: translate(50px, 30px) scale(1.1); border-radius: 40% 60% 50% 50%; }
-            66% { transform: translate(-30px, 50px) scale(0.95); border-radius: 60% 40% 50% 50%; }
-        }
-
-        @keyframes morph2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, -40px) scale(1.15); }
-        }
-
-        @keyframes morph3 {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-40%, -60%) scale(1.2); }
-        }
-
         .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 2rem;
-            max-width: 800px;
+            position: relative; z-index: 2;
+            padding: 0 clamp(1.4rem, 6vw, 5.5rem) clamp(4.5rem, 10vh, 7.5rem);
+            max-width: 900px;
+            color: #fff;
         }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            letter-spacing: 4px;
-            color: var(--sage-dark);
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            font-weight: 300;
-            opacity: 0;
-            animation: fadeUp 1s ease 0.5s forwards;
-        }
-
-        .hero-title {
-            font-size: clamp(2.8rem, 6vw, 4.5rem);
-            font-weight: 700;
-            color: var(--deep);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            opacity: 0;
-            animation: fadeUp 1s ease 0.8s forwards;
-        }
-
-        .hero-title .highlight {
-            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-description {
-            font-size: 1.15rem;
-            color: var(--text-light);
-            max-width: 550px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.9;
-            font-weight: 300;
-            opacity: 0;
-            animation: fadeUp 1s ease 1.1s forwards;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeUp 1s ease 1.4s forwards;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 20px rgba(143, 174, 139, 0.3);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(143, 174, 139, 0.5);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--sage-dark);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            border: 2px solid var(--sage);
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .btn-secondary:hover {
-            background: var(--sage);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .hero-scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            opacity: 0;
-            animation: fadeUp 1s ease 1.8s forwards;
-        }
-
-        .scroll-mouse {
-            width: 26px;
-            height: 40px;
-            border: 2px solid var(--sage);
-            border-radius: 13px;
-            position: relative;
-            margin: 0 auto 8px;
-        }
-
-        .scroll-mouse::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 8px;
-            background: var(--sage);
-            border-radius: 2px;
-            top: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: scroll-dot 2s ease-in-out infinite;
-        }
-
-        @keyframes scroll-dot {
-            0%, 100% { top: 6px; opacity: 1; }
-            50% { top: 20px; opacity: 0.3; }
-        }
-
-        .scroll-text {
-            font-size: 0.75rem;
-            color: var(--sage-dark);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ========== SECTIONS SHARED ========== */
-        section {
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-padding {
-            padding: 7rem 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            font-size: 0.85rem;
-            letter-spacing: 3px;
-            color: var(--sage);
-            text-transform: uppercase;
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-bottom: 1rem;
-            color: var(--deep);
-        }
-
-        .section-divider {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--sage), var(--gold));
-            margin: 1rem auto 1.5rem;
-            border-radius: 3px;
-        }
-
-        .section-description {
-            font-size: 1.05rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        /* Reveal animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-
-        /* ========== ABOUT ========== */
-        .about {
-            background: var(--warm-white);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-        }
-
-        .about-image-wrapper {
-            position: relative;
-        }
-
-        .about-image-frame {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-        }
-
-        .about-image-frame::before {
-            content: '';
-            display: block;
-            padding-bottom: 120%;
-            background: linear-gradient(135deg, var(--sage-light) 0%, var(--lavender-light) 50%, var(--blush-light) 100%);
-        }
-
-        .about-image-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            color: var(--sage-dark);
-            font-size: 0.85rem;
-            padding-bottom: 1.5rem;
-            background: linear-gradient(170deg, #c8dfc5 0%, #9dbf99 40%, #7aab75 70%, #5e8e59 100%);
-            overflow: hidden;
-        }
-
-        /* Portrait silhouette */
-        .about-image-placeholder::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65%;
-            height: 80%;
-            background: rgba(255,255,255,0.12);
-            border-radius: 50% 50% 0 0;
-        }
-
-        .about-image-placeholder::after {
-            content: '';
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30%;
-            aspect-ratio: 1;
-            background: rgba(255,255,255,0.18);
-            border-radius: 50%;
-        }
-
-        .about-image-placeholder .photo-hint {
-            position: relative;
-            z-index: 2;
-            color: rgba(255,255,255,0.85);
-            font-size: 0.8rem;
-            text-align: center;
-            background: rgba(0,0,0,0.15);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-        }
-
-        .about-real-photo {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-        }
-
-        .about-image-placeholder .flower-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            animation: gentle-float 3s ease-in-out infinite;
-        }
-
-        @keyframes gentle-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .about-decorative {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border: 3px solid var(--gold-light);
-            border-radius: 20px;
-            bottom: -20px;
-            left: -20px;
-            z-index: -1;
-        }
-
-        .about-text h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-text p {
+        .hero-label {
+            font-size: 0.82rem; letter-spacing: 0.42em; font-weight: 300;
+            color: var(--gold-light);
             margin-bottom: 1.2rem;
-            font-weight: 300;
-            line-height: 2;
         }
-
-        .about-highlights {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .highlight-item {
-            text-align: center;
-        }
-
-        .highlight-number {
+        .hero h1 {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--sage-dark);
-            line-height: 1;
+            font-weight: 900;
+            font-size: clamp(2.7rem, 7.5vw, 5.6rem);
+            line-height: 1.15;
+            letter-spacing: 0.01em;
         }
-
-        .highlight-label {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-top: 0.3rem;
+        .hero h1 em { font-style: normal; color: var(--gold-light); }
+        .hero p {
+            margin-top: 1.4rem; max-width: 54ch;
+            font-weight: 300; font-size: clamp(1rem, 2vw, 1.15rem);
+            color: rgba(255,255,255,0.85);
         }
-
-        /* ========== SERVICES ========== */
-        .services {
-            background: linear-gradient(180deg, var(--cream) 0%, var(--warm-white) 100%);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            cursor: default;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 4px;
-            border-radius: 24px 24px 0 0;
-            transition: height 0.5s ease;
-        }
-
-        .service-card:nth-child(1)::before { background: linear-gradient(90deg, var(--sage), var(--sage-light)); }
-        .service-card:nth-child(2)::before { background: linear-gradient(90deg, var(--blush), var(--gold)); }
-        .service-card:nth-child(3)::before { background: linear-gradient(90deg, var(--lavender), var(--water)); }
-
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-        }
-
-        .service-card:hover::before { height: 6px; }
-
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            transition: transform 0.5s ease;
-        }
-
-        .service-card:hover .service-icon { transform: scale(1.1) rotate(5deg); }
-
-        .service-card:nth-child(1) .service-icon { background: linear-gradient(135deg, #e8f5e6, #d0e8cd); }
-        .service-card:nth-child(2) .service-icon { background: linear-gradient(135deg, #fce8e0, #f5d5c8); }
-        .service-card:nth-child(3) .service-icon { background: linear-gradient(135deg, #e8e0f5, #d5c8f0); }
-
-        .service-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--deep);
-        }
-
-        .service-card p {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            font-weight: 300;
-            line-height: 1.8;
-        }
-
-        .service-features {
-            list-style: none;
-            margin-top: 1.5rem;
-            text-align: right;
-        }
-
-        .service-features li {
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
-            color: var(--text);
-            position: relative;
-            padding-right: 1.5rem;
-        }
-
-        .service-features li::before {
-            content: '✦';
-            position: absolute;
-            right: 0;
-            color: var(--sage);
-            font-size: 0.7rem;
-        }
-
-        /* ========== APPROACH / HOW IT WORKS ========== */
-        .approach {
-            background: var(--warm-white);
-        }
-
-        .approach-timeline {
-            position: relative;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .approach-timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 50%;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--sage-light), var(--lavender-light), var(--blush-light));
-            transform: translateX(50%);
-        }
-
-        .timeline-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .timeline-step:nth-child(even) { flex-direction: row-reverse; }
-
-        .timeline-number {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(143, 174, 139, 0.3);
-            z-index: 1;
-        }
-
-        .timeline-content {
-            flex: 1;
-            background: white;
-            padding: 1.5rem 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-        }
-
-        .timeline-content h4 {
-            font-size: 1.15rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            font-weight: 300;
-        }
-
-        /* ========== TESTIMONIALS ========== */
-        .testimonials {
-            background: linear-gradient(135deg, var(--sage-light) 0%, var(--lavender-light) 50%, var(--blush-light) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .testimonials::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(250, 246, 240, 0.7);
-        }
-
-        .testimonials .container { position: relative; z-index: 1; }
-
-        .testimonials-slider {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .testimonials-track {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .testimonial-card {
-            min-width: 100%;
-            padding: 0 1rem;
-        }
-
-        .testimonial-inner {
-            background: white;
-            border-radius: 24px;
-            padding: 3rem;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            position: relative;
-        }
-
-        .testimonial-quote {
-            font-size: 3rem;
-            color: var(--sage-light);
-            font-family: 'Frank Ruhl Libre', serif;
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-text {
-            font-size: 1.1rem;
-            line-height: 2;
-            color: var(--text);
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            font-weight: 500;
-            color: var(--sage-dark);
-            font-size: 0.95rem;
-        }
-
-        .testimonial-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 2rem;
-        }
-
-        .testimonial-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--sage-light);
-            cursor: pointer;
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.2rem; }
+        .btn {
+            display: inline-block; text-decoration: none;
+            border-radius: 100px; padding: 0.8rem 2.1rem;
+            font-size: 0.98rem; font-weight: 500;
             transition: all 0.3s ease;
-            border: none;
+        }
+        .btn-gold { background: var(--gold); color: #fff; }
+        .btn-gold:hover { background: var(--gold-light); color: var(--deep); transform: translateY(-2px); }
+        .btn-outline { border: 1px solid rgba(255,255,255,0.55); color: #fff; }
+        .btn-outline:hover { background: rgba(255,255,255,0.12); }
+        .btn-dark { background: var(--deep); color: var(--cream); }
+        .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(46,44,40,0.25); }
+
+        .hero-scroll {
+            position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
+            z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            color: rgba(255,255,255,0.7); font-size: 0.72rem; letter-spacing: 0.3em;
+        }
+        .hero-scroll .line { width: 1px; height: 46px; background: linear-gradient(to bottom, var(--gold-light), transparent); animation: drip 2.2s ease-in-out infinite; }
+        @keyframes drip {
+            0% { transform: scaleY(0); transform-origin: top; }
+            45% { transform: scaleY(1); transform-origin: top; }
+            55% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
         }
 
-        .testimonial-dot.active {
-            background: var(--sage-dark);
-            transform: scale(1.2);
+        /* ===== כלים כלליים ===== */
+        .section { position: relative; padding: clamp(4.5rem, 10vh, 7.5rem) clamp(1.4rem, 6vw, 5.5rem); overflow: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .sec-label { font-size: 0.78rem; letter-spacing: 0.4em; color: var(--gold); font-weight: 500; margin-bottom: 0.9rem; }
+        .sec-title {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
+            font-size: clamp(1.9rem, 4.6vw, 3.2rem); color: var(--deep); line-height: 1.2;
+        }
+        .sec-desc { margin-top: 0.9rem; max-width: 52ch; font-weight: 300; color: var(--text-light); }
+        .center { text-align: center; }
+        .center .sec-desc { margin-inline: auto; }
+
+        /* בלובים דקורטיביים */
+        .blob {
+            position: absolute; border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%;
+            filter: blur(55px); opacity: 0.45; z-index: 0; pointer-events: none;
+            animation: morph 18s ease-in-out infinite alternate;
+        }
+        @keyframes morph {
+            0% { border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%; transform: rotate(0) scale(1); }
+            100% { border-radius: 37% 63% 55% 45% / 42% 37% 63% 58%; transform: rotate(-10deg) scale(1.05); }
+        }
+        /* תמונת צמח דקורטיבית במיזוג לרקע */
+        .plant-decor {
+            position: absolute; z-index: 1; pointer-events: none;
+            mix-blend-mode: multiply; opacity: 0.55;
+            object-fit: cover;
+            -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 35%, transparent 72%);
+                    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 35%, transparent 72%);
         }
 
-        /* ========== BACH FLOWERS SECTION ========== */
-        .bach-flowers {
-            background: var(--warm-white);
-            overflow: hidden;
+        .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.9s ease, transform 0.9s ease; }
+        .reveal.in { opacity: 1; transform: none; }
+
+        /* ===== פס נתונים ===== */
+        .stats {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: clamp(2rem, 7vw, 6rem);
+            padding: clamp(2.5rem, 6vh, 4rem) 1.4rem;
+            border-bottom: 1px solid rgba(46,44,40,0.07);
+        }
+        .stat { text-align: center; }
+        .stat b {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
+            font-size: clamp(2rem, 5vw, 3rem); color: var(--deep); display: block; line-height: 1.1;
+            direction: ltr;
+        }
+        .stat span { font-size: 0.88rem; color: var(--text-light); font-weight: 300; }
+
+        /* ===== אודות ===== */
+        #about .about-grid {
+            display: grid; grid-template-columns: 1.15fr 0.85fr;
+            gap: clamp(2rem, 6vw, 5rem); align-items: center;
+        }
+        #about .about-text p { margin-bottom: 1.1rem; font-weight: 300; font-size: 1.04rem; }
+        #about .about-text p strong { color: var(--deep); font-weight: 500; }
+        .about-quote {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: clamp(1.5rem, 3.4vw, 2.3rem); font-weight: 500;
+            color: var(--deep); line-height: 1.5;
+            padding: 0 1.4rem;
+            border-right: 3px solid var(--gold);
+        }
+        .about-quote small { display: block; margin-top: 1rem; font-family: 'Heebo'; font-size: 0.9rem; color: var(--text-light); font-weight: 300; letter-spacing: 0.12em; }
+        .about-pills { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.6rem; }
+        .about-pills span {
+            border: 1px solid rgba(46,44,40,0.18); border-radius: 100px;
+            padding: 0.3rem 1.1rem; font-size: 0.85rem; color: var(--deep);
+            background: rgba(253,252,250,0.6);
         }
 
-        .bach-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
+        /* ===== שירותים ===== */
+        #services { background: linear-gradient(180deg, var(--cream), #f2ede2 60%, var(--cream)); overflow: hidden; }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 3rem; }
+        .service-card {
+            background: rgba(253, 252, 250, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(46,44,40,0.07);
+            border-radius: 20px; padding: 2rem 1.7rem;
+            box-shadow: 0 14px 40px rgba(46,44,40,0.07);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 24px 55px rgba(46,44,40,0.12); }
+        .service-card { padding: 0; text-align: right; }
+        .service-card .photo {
+            width: 100%; height: 180px; object-fit: cover;
+            -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+                    mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+        }
+        .service-card .body { padding: 0 1.7rem 2rem; margin-top: -0.6rem; position: relative; }
+        .service-card h3 { font-family: 'Frank Ruhl Libre', serif; font-size: 1.35rem; color: var(--deep); margin: 0.8rem 0 0.5rem; }
+        .service-card p { font-weight: 300; font-size: 0.95rem; }
+        .service-card ul { list-style: none; margin-top: 1rem; }
+        .service-card li { font-size: 0.88rem; padding: 0.28rem 0; color: var(--text); font-weight: 300; }
+        .service-card li::before { content: '✦'; color: var(--gold); margin-left: 0.5rem; font-size: 0.7rem; }
+
+        /* ===== רצועת וידאו (בסגנון Tao Tajima) ===== */
+        .video-break {
+            position: relative; min-height: 62vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background: var(--deep);
+        }
+        .video-break video {
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+        }
+        .video-break .shade { position: absolute; inset: 0; background: rgba(24, 26, 20, 0.55); }
+        .video-break .quote {
+            position: relative; z-index: 2; text-align: center; color: #fff; padding: 4rem 1.4rem;
+        }
+        .video-break .quote h2 {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
+            font-size: clamp(1.7rem, 4.5vw, 3.1rem); line-height: 1.35; max-width: 24ch;
+        }
+        .video-break .quote .sub { margin-top: 0.9rem; font-weight: 300; letter-spacing: 0.28em; font-size: 0.8rem; color: var(--gold-light); }
+        .video-break .quote .btn { margin-top: 1.8rem; }
+        .btn-big {
+            font-size: 1.15rem; font-weight: 700;
+            padding: 1.05rem 3rem;
+            box-shadow: 0 16px 44px rgba(201, 169, 110, 0.5);
+            animation: glowpulse 2.6s ease-in-out infinite;
+        }
+        @keyframes glowpulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 16px 44px rgba(201,169,110,0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 20px 60px rgba(201,169,110,0.75); }
+        }
+        .ci-label {
+            display: inline-block; min-width: 64px;
+            color: var(--gold-light); font-size: 0.8rem; letter-spacing: 0.08em;
+            margin-left: 0.6rem;
         }
 
+        /* ===== תהליך ===== */
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3rem; }
+        .step { position: relative; padding: 1.6rem 1.4rem 0; }
+        .step::before {
+            content: ''; position: absolute; top: 0; right: 1.4rem; left: 1.4rem;
+            height: 1px; background: rgba(46,44,40,0.12);
+        }
+        .step b {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
+            font-size: 2.2rem; color: var(--gold); display: block; line-height: 1;
+            direction: ltr; text-align: right;
+        }
+        .step h3 { font-size: 1.08rem; color: var(--deep); margin: 0.6rem 0 0.4rem; font-weight: 700; }
+        .step p { font-weight: 300; font-size: 0.92rem; }
+
+        /* ===== פרחי באך ===== */
+        #bach { overflow: hidden; }
+        .bach-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-top: 3rem; }
         .bach-item {
-            background: white;
-            border-radius: 16px;
-            padding: 1.8rem;
-            text-align: center;
-            transition: all 0.4s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-        }
-
-        .bach-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .bach-emoji {
-            font-size: 2.5rem;
-            margin-bottom: 0.8rem;
-            display: block;
-        }
-
-        .bach-item h4 {
-            font-size: 1rem;
-            margin-bottom: 0.4rem;
-            color: var(--sage-dark);
-        }
-
-        .bach-item p {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-weight: 300;
-        }
-
-        /* ========== CONTACT ========== */
-        .contact {
-            background: var(--cream);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .contact-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-info p {
-            font-weight: 300;
-            margin-bottom: 2rem;
-            color: var(--text-light);
-            line-height: 1.9;
-        }
-
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sage-light), var(--sage));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            background: rgba(253, 252, 250, 0.72);
+            border: 1px solid rgba(46,44,40,0.06);
+            padding: 0 0 1.2rem; text-align: center; overflow: hidden;
             transition: transform 0.3s ease;
         }
-
-        .contact-detail:hover .contact-icon { transform: scale(1.1); }
-
-        .contact-detail-text {
-            font-size: 1rem;
+        /* רדיוסים אורגניים מתחלפים — ממשיך את שפת הבלובים */
+        .bach-item:nth-child(4n+1) { border-radius: 34px 18px 30px 18px; }
+        .bach-item:nth-child(4n+2) { border-radius: 18px 34px 18px 30px; }
+        .bach-item:nth-child(4n+3) { border-radius: 30px 18px 34px 18px; }
+        .bach-item:nth-child(4n+4) { border-radius: 18px 30px 18px 34px; }
+        .bach-item:hover { transform: translateY(-4px); }
+        .bach-item img {
+            width: 100%; height: 120px; object-fit: cover;
+            mix-blend-mode: multiply; filter: saturate(1.05);
+            -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
+                    mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
         }
+        .bach-item h4 { color: var(--deep); font-size: 0.98rem; margin: 0.2rem 0.9rem 0.2rem; }
+        .bach-item p { font-size: 0.82rem; font-weight: 300; color: var(--text-light); padding: 0 0.9rem; }
 
-        .contact-detail-label {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            font-weight: 300;
+        /* ===== בלוג ===== */
+        #blog { background: linear-gradient(180deg, var(--cream), #efe9dc 55%, var(--cream)); }
+        .blog-row {
+            display: grid; grid-auto-flow: column; grid-auto-columns: min(300px, 78vw);
+            gap: 1.2rem; overflow-x: auto; padding: 3rem 0.2rem 1.2rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; scroll-behavior: smooth;
         }
-
-        .contact-form {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        .blog-row::-webkit-scrollbar { display: none; }
+        .blog-nav { display: flex; gap: 0.7rem; margin-top: 0.6rem; }
+        .blog-nav button {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 1px solid rgba(46,44,40,0.2); background: var(--warm-white);
+            color: var(--deep); font-size: 1.15rem; cursor: pointer;
+            transition: all 0.25s ease;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.9rem 1.2rem;
-            border: 2px solid #e8e5e0;
-            border-radius: 12px;
-            font-family: 'Heebo', sans-serif;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            background: var(--warm-white);
-            color: var(--text);
-            direction: rtl;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--sage);
-            box-shadow: 0 0 0 4px rgba(143, 174, 139, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-submit {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-family: 'Heebo', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .form-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(143, 174, 139, 0.4);
-        }
-
-        /* ========== FOOTER ========== */
-        .footer {
-            background: var(--deep);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            font-size: 0.9rem;
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .footer-social {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: var(--sage);
-            border-color: var(--sage);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
-            font-weight: 300;
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 968px) {
-            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .services-grid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
-            .contact-grid { grid-template-columns: 1fr; }
-            .bach-grid { grid-template-columns: repeat(2, 1fr); }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 100%;
-                height: 100vh;
-                background: rgba(250, 246, 240, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 2rem;
-                transition: right 0.4s ease;
-            }
-
-            .nav-links.open { right: 0; }
-
-            .hamburger { display: flex; }
-
-            .timeline-step,
-            .timeline-step:nth-child(even) {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .approach-timeline::before { display: none; }
-        }
-
-        @media (max-width: 600px) {
-            .section-padding { padding: 4rem 1.2rem; }
-            .navbar { padding: 1rem 1.5rem; }
-            .navbar.scrolled { padding: 0.8rem 1.5rem; }
-            .hero-buttons { flex-direction: column; align-items: center; }
-            .about-highlights { justify-content: center; }
-            .bach-grid { grid-template-columns: 1fr; max-width: 300px; margin: 0 auto; }
-            .form-row { grid-template-columns: 1fr; }
-            .contact-form { padding: 1.5rem; }
-        }
-
-        /* ========== BLOG / ARTICLES ========== */
-        .blog {
-            background: linear-gradient(180deg, var(--cream) 0%, var(--warm-white) 100%);
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
+        .blog-nav button:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
         .blog-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
+            scroll-snap-align: start;
+            background: var(--warm-white);
+            border: 1px solid rgba(46,44,40,0.07);
+            border-radius: 28px; padding: 1.6rem;
+            text-decoration: none; display: flex; flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .blog-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        .blog-card .thumb {
+            width: 60px; height: 60px; border-radius: 50%;
+            object-fit: cover; border: 2px solid var(--gold-light);
+            margin-bottom: 0.9rem;
         }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(46,44,40,0.1); }
+        .blog-card .tag { font-size: 0.72rem; letter-spacing: 0.14em; color: var(--gold); font-weight: 500; }
+        .blog-card h3 { font-family: 'Frank Ruhl Libre', serif; font-size: 1.08rem; color: var(--deep); margin: 0.5rem 0; line-height: 1.4; }
+        .blog-card p { font-size: 0.86rem; font-weight: 300; color: var(--text-light); flex: 1; }
+        .blog-card .more { margin-top: 0.9rem; font-size: 0.85rem; color: var(--deep); font-weight: 500; }
 
-        .blog-card-image {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            position: relative;
-            overflow: hidden;
+        /* ===== שאלות ===== */
+        .faq-list { max-width: 780px; margin: 2.6rem auto 0; }
+        .faq-item { border-bottom: 1px solid rgba(46,44,40,0.1); }
+        .faq-item summary {
+            list-style: none; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+            padding: 1.15rem 0.2rem;
+            font-weight: 500; color: var(--deep); font-size: 1.02rem;
         }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '+'; font-size: 1.3rem; color: var(--gold); transition: transform 0.3s ease; }
+        .faq-item[open] summary::after { transform: rotate(45deg); }
+        .faq-item .a { padding: 0 0.2rem 1.2rem; font-weight: 300; font-size: 0.95rem; }
 
-        .blog-card:nth-child(1) .blog-card-image { background: linear-gradient(135deg, #e8f5e6, #d0e8cd); }
-        .blog-card:nth-child(2) .blog-card-image { background: linear-gradient(135deg, #fce8e0, #f5d5c8); }
-        .blog-card:nth-child(3) .blog-card-image { background: linear-gradient(135deg, #e8e0f5, #d5c8f0); }
-        .blog-card:nth-child(4) .blog-card-image { background: linear-gradient(135deg, #d0e3ed, #a8c5d6); }
-        .blog-card:nth-child(5) .blog-card-image { background: linear-gradient(135deg, #e0cc9e, #f5ecd5); }
-
-        .blog-card-body {
-            padding: 1.8rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        /* ===== המלצות ===== */
+        #testimonials { background: linear-gradient(180deg, var(--cream), var(--lavender-light) 60%, var(--cream)); overflow: hidden; }
+        .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 3rem; }
+        .quote-card {
+            background: rgba(253, 252, 250, 0.8);
+            border-radius: 18px; padding: 1.8rem 1.6rem;
+            border: 1px solid rgba(46,44,40,0.06);
+            box-shadow: 0 12px 36px rgba(46,44,40,0.07);
         }
+        .quote-card p { font-family: 'Frank Ruhl Libre', serif; font-size: 1.05rem; color: var(--deep); line-height: 1.7; }
+        .quote-card span { display: block; margin-top: 1rem; font-size: 0.85rem; color: var(--text-light); letter-spacing: 0.06em; }
+        .quote-card::before { content: '“'; font-family: 'Frank Ruhl Libre', serif; font-size: 2.6rem; color: var(--gold); line-height: 0.4; display: block; margin-bottom: 0.8rem; }
 
-        .blog-card-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--sage-dark);
-            background: rgba(143, 174, 139, 0.12);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            margin-bottom: 0.8rem;
-            align-self: flex-start;
-        }
-
-        .blog-card h3 {
-            font-size: 1.15rem;
-            color: var(--deep);
-            margin-bottom: 0.7rem;
-            line-height: 1.5;
-        }
-
-        .blog-card p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: 300;
-            line-height: 1.8;
-            flex: 1;
-        }
-
-        .blog-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 1.2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #f0ede8;
-        }
-
-        .blog-card-date {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            font-weight: 300;
-        }
-
-        .blog-card-read {
-            font-size: 0.85rem;
-            color: var(--sage-dark);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            transition: gap 0.3s ease;
-        }
-
-        .blog-card:hover .blog-card-read { gap: 0.6rem; }
-
-        .blog-top-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .blog-top-row .blog-card .blog-card-image { height: 240px; }
-
-        .blog-bottom-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .blog-extra-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .blog-extra-row .blog-card:nth-child(1) .blog-card-image { background: linear-gradient(135deg, #fce8e0, #e8c4b8); }
-        .blog-extra-row .blog-card:nth-child(2) .blog-card-image { background: linear-gradient(135deg, #e0f0e8, #b8d8c8); }
-        .blog-extra-row .blog-card:nth-child(3) .blog-card-image { background: linear-gradient(135deg, #e8e0f5, #cfc4e0); }
-        .blog-extra-row .blog-card:nth-child(4) .blog-card-image { background: linear-gradient(135deg, #fdf0d8, #f0dbb0); }
-        .blog-extra-row .blog-card:nth-child(5) .blog-card-image { background: linear-gradient(135deg, #dce8f5, #b8cfe8); }
-
-        .blog-view-all {
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        @media (max-width: 968px) {
-            .blog-top-row { grid-template-columns: 1fr; }
-            .blog-bottom-row { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
-            .blog-extra-row { grid-template-columns: 1fr; max-width: 450px; margin: 2rem auto 0; }
-        }
-
-        /* ========== WHATSAPP FLOAT ========== */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            z-index: 999;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #25D366;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            animation: pulse-green 2s ease-in-out infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
-        }
-
-        .whatsapp-float svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
-            50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6), 0 0 0 10px rgba(37, 211, 102, 0.1); }
-        }
-
-        /* ========== CURSOR GLOW (desktop) ========== */
-        .cursor-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(143, 174, 139, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
-        }
-
-        /* ========== SCROLL PROGRESS BAR ========== */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--sage), var(--gold), var(--blush));
-            z-index: 10001;
-            width: 0%;
-            transform-origin: right;
-            border-radius: 0 0 3px 0;
-        }
-
-        /* ========== STATS COUNTER ========== */
-        .stats {
-            background: linear-gradient(135deg, var(--sage-dark) 0%, #3d5e39 60%, #2e4a2b 100%);
-            padding: 4rem 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 50%, rgba(201,169,110,0.08) 0%, transparent 60%);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item { color: white; }
-
-        .stat-number {
-            font-family: 'Frank Ruhl Libre', serif;
-            font-size: 3.2rem;
-            font-weight: 700;
-            color: white;
-            line-height: 1;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 0.1rem;
-        }
-
-        .stat-suffix {
-            font-size: 1.8rem;
-            font-weight: 400;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-divider {
-            width: 1px;
-            background: rgba(255,255,255,0.2);
-            margin: 0 auto;
-        }
-
-        /* ========== PHOTO GALLERY ========== */
-        .gallery {
-            background: var(--cream);
-        }
-
-        .gallery-mosaic {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: 200px 200px;
-            gap: 12px;
-        }
-
-        .gallery-cell {
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .gallery-cell:nth-child(1) { grid-column: span 5; grid-row: span 2; }
-        .gallery-cell:nth-child(2) { grid-column: span 4; }
-        .gallery-cell:nth-child(3) { grid-column: span 3; }
-        .gallery-cell:nth-child(4) { grid-column: span 3; }
-        .gallery-cell:nth-child(5) { grid-column: span 4; }
-
-        .gallery-bg {
-            position: absolute;
-            inset: 0;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .gallery-cell:hover .gallery-bg { transform: scale(1.07); }
-
-        .gallery-cell:nth-child(1) .gallery-bg {
-            background: linear-gradient(135deg, #c8dfc5 0%, #9dbf99 30%, #7aab75 60%, #5e8e59 100%);
-        }
-        .gallery-cell:nth-child(2) .gallery-bg {
-            background: linear-gradient(135deg, #f5e6de 0%, #e8c4b8 50%, #d9a898 100%);
-        }
-        .gallery-cell:nth-child(3) .gallery-bg {
-            background: linear-gradient(135deg, #ddd5ec 0%, #c5b8d4 50%, #a99bc0 100%);
-        }
-        .gallery-cell:nth-child(4) .gallery-bg {
-            background: linear-gradient(135deg, #cde3ed 0%, #a8c5d6 50%, #88afc4 100%);
-        }
-        .gallery-cell:nth-child(5) .gallery-bg {
-            background: linear-gradient(135deg, #f0e8d5 0%, #e0cc9e 50%, #c9a96e 100%);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(58, 58, 58, 0);
-            transition: background 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gallery-cell:hover .gallery-overlay { background: rgba(58, 58, 58, 0.18); }
-
-        .gallery-label {
-            color: white;
-            font-weight: 500;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            background: rgba(0,0,0,0.25);
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-        }
-
-        .gallery-cell:hover .gallery-label {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Add a soft lens flare effect to gallery cells */
-        .gallery-cell::after {
-            content: '';
-            position: absolute;
-            top: -30%;
-            right: -10%;
-            width: 60%;
-            height: 60%;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .gallery-add-photo {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-style: italic;
-        }
-
-        /* ========== FAQ ACCORDION ========== */
-        .faq {
+        /* ===== הסמכות ===== */
+        .certs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 3rem; }
+        .cert {
+            text-align: center; padding: 2rem 1.4rem;
+            border: 1px solid rgba(46,44,40,0.08); border-radius: 18px;
             background: var(--warm-white);
         }
-
-        .faq-list {
-            max-width: 820px;
-            margin: 0 auto;
+        .cert .icon { font-size: 2rem; }
+        .cert h3 { font-family: 'Frank Ruhl Libre', serif; color: var(--deep); font-size: 1.15rem; margin: 0.7rem 0 0.4rem; }
+        .cert p { font-size: 0.88rem; font-weight: 300; }
+        .cert .badge {
+            display: inline-block; margin-top: 0.9rem; font-size: 0.72rem; letter-spacing: 0.1em;
+            color: var(--sage-dark); border: 1px solid var(--sage-light); border-radius: 100px; padding: 0.15rem 0.8rem;
         }
 
-        .faq-item {
-            border-bottom: 1px solid rgba(143, 174, 139, 0.2);
-        }
+        /* ===== מפה וקשר ===== */
+        .map-wrap { border-radius: 20px; overflow: hidden; margin-top: 3rem; border: 1px solid rgba(46,44,40,0.08); }
+        .map-wrap iframe { width: 100%; height: 380px; border: 0; display: block; filter: saturate(0.85); }
+        .map-info { display: flex; flex-wrap: wrap; gap: 1.6rem; justify-content: center; margin-top: 1.6rem; font-size: 0.92rem; color: var(--text); font-weight: 300; }
 
-        .faq-item:first-child {
-            border-top: 1px solid rgba(143, 174, 139, 0.2);
+        #contact { position: relative; overflow: hidden; background: var(--deep); color: var(--cream); }
+        #contact video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        #contact .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(24,26,20,0.5), rgba(24,26,20,0.75)); }
+        #contact .sec-title, #contact .sec-label { color: var(--cream); }
+        #contact .sec-label { color: var(--gold-light); }
+        #contact .sec-desc { color: rgba(250,246,240,0.75); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); margin-top: 3rem; }
+        .contact-info h3 { font-family: 'Frank Ruhl Libre', serif; font-size: 1.5rem; margin-bottom: 0.7rem; }
+        .contact-info p { font-weight: 300; color: rgba(250,246,240,0.8); }
+        .contact-items { margin-top: 1.6rem; display: grid; gap: 0.9rem; }
+        .contact-items div { display: flex; align-items: center; gap: 0.8rem; font-size: 0.98rem; }
+        .contact-items a { color: var(--gold-light); text-decoration: none; }
+        .contact-form {
+            background: rgba(250, 246, 240, 0.07);
+            border: 1px solid rgba(250,246,240,0.15);
+            border-radius: 20px; padding: 1.8rem;
+            backdrop-filter: blur(8px);
         }
+        .contact-form label { display: block; font-size: 0.82rem; margin: 0.9rem 0 0.3rem; color: rgba(250,246,240,0.8); }
+        .contact-form input, .contact-form select, .contact-form textarea {
+            width: 100%; padding: 0.7rem 0.9rem;
+            background: rgba(250,246,240,0.1); color: var(--cream);
+            border: 1px solid rgba(250,246,240,0.2); border-radius: 10px;
+            font-family: 'Heebo'; font-size: 0.95rem;
+        }
+        .contact-form option { color: var(--deep); }
+        .contact-form textarea { min-height: 90px; resize: vertical; }
+        .contact-form button { margin-top: 1.4rem; width: 100%; border: none; cursor: pointer; font-family: 'Heebo'; }
 
-        .faq-question {
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 1.4rem 0;
-            text-align: right;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            font-family: 'Heebo', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 500;
-            color: var(--deep);
-            transition: color 0.3s;
-        }
+        /* ===== פוטר ===== */
+        footer { background: #221f1b; color: rgba(250,246,240,0.7); padding: 2.6rem 1.4rem; text-align: center; }
+        footer .logo { font-family: 'Frank Ruhl Libre', serif; font-size: 1.3rem; color: var(--cream); }
+        footer p { font-weight: 300; font-size: 0.9rem; margin-top: 0.7rem; }
+        footer .social { display: flex; gap: 1.2rem; justify-content: center; margin-top: 1.2rem; }
+        footer .social { align-items: center; color: rgba(250,246,240,0.4); }
+        footer .social a { text-decoration: none; font-size: 0.92rem; color: var(--gold-light); }
+        footer small { display: block; margin-top: 1.6rem; font-size: 0.78rem; color: rgba(250,246,240,0.45); }
 
-        .faq-question:hover { color: var(--sage-dark); }
-
-        .faq-icon {
-            width: 30px;
-            height: 30px;
-            flex-shrink: 0;
-            background: rgba(143, 174, 139, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.35s ease, background 0.3s, color 0.3s;
-            font-size: 1.1rem;
-            color: var(--sage-dark);
-            font-style: normal;
+        /* ===== צפים ===== */
+        .wa-float {
+            position: fixed; bottom: 1.4rem; left: 1.4rem; z-index: 40;
+            width: 54px; height: 54px; border-radius: 50%;
+            background: #25d366; color: #fff; text-decoration: none;
+            display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+            box-shadow: 0 10px 26px rgba(37, 211, 102, 0.4);
+            transition: transform 0.3s ease;
         }
-
-        .faq-item.open .faq-icon {
-            transform: rotate(45deg);
-            background: var(--sage);
-            color: white;
+        .wa-float:hover { transform: scale(1.08); }
+        .to-top {
+            position: fixed; bottom: 1.4rem; right: 1.4rem; z-index: 40;
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid rgba(46,44,40,0.2); background: rgba(253,252,250,0.85);
+            color: var(--deep); cursor: pointer; font-size: 1rem;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
         }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 400px;
-            padding-bottom: 1.5rem;
-        }
-
-        .faq-answer p {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.9;
-            font-weight: 300;
-        }
-
-        /* ========== BACK TO TOP ========== */
-        .back-to-top {
-            position: fixed;
-            bottom: 7rem;
-            left: 2rem;
-            width: 46px;
-            height: 46px;
-            background: white;
-            border: 2px solid var(--sage-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 997;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.35s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            color: var(--sage-dark);
-            font-size: 1.1rem;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background: var(--sage);
-            border-color: var(--sage);
-            color: white;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(143, 174, 139, 0.4);
-        }
-
-        /* ========== ADDITIONAL MOBILE FIXES ========== */
-        @media (max-width: 968px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
-            .gallery-mosaic {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: auto;
-                gap: 10px;
-            }
-            .gallery-cell { aspect-ratio: 4/3 !important; }
-            .gallery-cell:nth-child(1),
-            .gallery-cell:nth-child(2),
-            .gallery-cell:nth-child(3),
-            .gallery-cell:nth-child(4),
-            .gallery-cell:nth-child(5) {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 0.5rem; }
-            .stat-number { font-size: 2.5rem; }
-            .gallery-mosaic { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .gallery-cell:nth-child(1) { grid-column: span 2; }
-            .back-to-top { bottom: 5.5rem; left: 1.5rem; }
-            .whatsapp-float { bottom: 1.5rem; left: 1.5rem; width: 52px; height: 52px; }
-            .faq-question { font-size: 0.95rem; }
-            .blog-top-row, .blog-bottom-row, .blog-extra-row { gap: 1rem; }
-            .blog-card-body { padding: 1.2rem; }
-            .service-card { padding: 2rem 1.5rem; }
-        }
-
-        /* ========== ACCESSIBILITY WIDGET ========== */
-        .a11y-toggle {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            z-index: 9999;
-            background: var(--sage);
-            color: white;
-            border: none;
-            border-radius: 0 12px 12px 0;
-            width: 44px;
-            padding: 12px 8px;
-            cursor: pointer;
-            font-size: 1.3rem;
-            box-shadow: 2px 2px 12px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .a11y-toggle:hover { width: 52px; background: var(--sage-dark); }
-
-        .a11y-panel {
-            position: fixed;
-            top: 50%;
-            left: -320px;
-            transform: translateY(-50%);
-            z-index: 9998;
-            background: white;
-            border-radius: 0 20px 20px 0;
-            box-shadow: 4px 0 30px rgba(0,0,0,0.15);
-            width: 300px;
-            padding: 2rem 1.5rem;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .a11y-panel.open { left: 0; }
-        .a11y-panel.open + .a11y-toggle { left: 300px; }
-
-        .a11y-panel h3 {
-            font-family: 'Frank Ruhl Libre', serif;
-            color: var(--sage-dark);
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-            text-align: center;
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid var(--sage-light);
-        }
-
-        .a11y-group {
-            margin-bottom: 1.2rem;
-        }
-        .a11y-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        .a11y-buttons {
-            display: flex;
-            gap: 6px;
-        }
-        .a11y-btn {
-            flex: 1;
-            padding: 8px;
-            border: 2px solid var(--sage-light);
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--sage-dark);
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-        .a11y-btn:hover, .a11y-btn.active {
-            background: var(--sage);
-            color: white;
-            border-color: var(--sage);
-        }
-        .a11y-reset {
-            display: block;
-            width: 100%;
-            margin-top: 1rem;
-            padding: 10px;
-            border: none;
-            background: linear-gradient(135deg, var(--sage-light), var(--blush-light));
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--sage-dark);
-            transition: all 0.3s ease;
-        }
-        .a11y-reset:hover { opacity: 0.8; }
-
-        /* Accessibility states */
-        html.a11y-large-text { font-size: 120% !important; }
-        html.a11y-xl-text { font-size: 140% !important; }
-        html.a11y-high-contrast { filter: contrast(1.4) !important; }
-        html.a11y-grayscale { filter: grayscale(1) !important; }
-        html.a11y-highlight-links a { outline: 3px solid #ff0 !important; outline-offset: 2px; }
-        html.a11y-big-cursor, html.a11y-big-cursor * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%23000' opacity='0.5'/%3E%3Ccircle cx='24' cy='24' r='8' fill='%23fff'/%3E%3C/svg%3E"), auto !important; }
-        html.a11y-line-height * { line-height: 2 !important; }
-        html.a11y-letter-spacing * { letter-spacing: 0.12em !important; }
-        html.a11y-no-animations *, html.a11y-no-animations *::before, html.a11y-no-animations *::after {
-            animation: none !important;
-            transition: none !important;
-        }
-
-        @media (max-width: 600px) {
-            .a11y-panel { width: 260px; }
-            .a11y-panel.open + .a11y-toggle { left: 260px; }
-        }
-
-        /* ========== INSTAGRAM FEED ========== */
-        .instagram-section {
-            background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
-        }
-
-        .instagram-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 2rem;
-        }
-
-        .instagram-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, var(--sage-light), var(--blush-light));
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            transition: all 0.4s ease;
-        }
-        .instagram-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
-
-        .instagram-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .instagram-card:hover img { transform: scale(1.08); }
-
-        .instagram-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(143, 174, 139, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .instagram-card:hover .instagram-overlay { opacity: 1; }
-
-        .instagram-overlay svg {
-            width: 36px;
-            height: 36px;
-            fill: white;
-        }
-
-        .instagram-follow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 auto;
-            padding: 14px 36px;
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(131, 58, 180, 0.3);
-        }
-        .instagram-follow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(131, 58, 180, 0.4);
-        }
-        .instagram-follow svg { width: 22px; height: 22px; fill: white; }
-
-        .instagram-follow-wrapper { text-align: center; }
-
-        .instagram-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: var(--sage);
-            opacity: 0.5;
-        }
-
-        @media (max-width: 768px) {
-            .instagram-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 400px) {
-            .instagram-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        }
-
-        /* ========== COOKIE CONSENT ========== */
-        .cookie-banner {
-            position: fixed;
-            bottom: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9997;
-            background: white;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -4px 30px rgba(0,0,0,0.1);
-            padding: 1.5rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            max-width: 700px;
-            width: 95%;
-            transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .cookie-banner.show { bottom: 0; }
-        .cookie-banner p { font-size: 0.85rem; color: #555; flex: 1; margin: 0; line-height: 1.5; }
-        .cookie-accept {
-            background: var(--sage);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            transition: background 0.3s ease;
-        }
-        .cookie-accept:hover { background: var(--sage-dark); }
-
-        @media (max-width: 600px) {
-            .cookie-banner { flex-direction: column; text-align: center; gap: 1rem; padding: 1.2rem; }
-        }
-
-        /* ========== CERTIFICATES ========== */
-        .certificates {
-            background: linear-gradient(180deg, var(--cream) 0%, var(--warm-white) 100%);
-        }
-        .cert-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-        .cert-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(143,174,139,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .cert-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--sage), var(--gold), var(--lavender));
-        }
-        .cert-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.08);
-        }
-        .cert-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.2rem;
-            background: linear-gradient(135deg, var(--sage-light), var(--cream));
-        }
-        .cert-card h4 {
-            font-family: 'Frank Ruhl Libre', serif;
-            color: var(--sage-dark);
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
-        }
-        .cert-card p {
-            color: #777;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        .cert-badge {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 5px 14px;
-            background: linear-gradient(135deg, var(--sage-light), var(--gold-light));
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--sage-dark);
-        }
-        @media (max-width: 768px) {
-            .cert-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-        }
-
-        /* ========== GOOGLE MAP ========== */
-        .map-section { background: var(--warm-white); }
-        .map-wrapper {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            border: 3px solid rgba(143,174,139,0.2);
-        }
-        .map-wrapper iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
-            display: block;
-        }
-        .map-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .map-info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-            color: #555;
-        }
-        .map-info-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--sage-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        /* ========== EXIT POPUP ========== */
-        .exit-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 10000;
+        .to-top.show { opacity: 1; visibility: visible; }
+        .book-bar {
             display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            position: fixed; bottom: 0; right: 0; left: 0; z-index: 45;
+            background: rgba(250,246,240,0.95); backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(46,44,40,0.1);
+            padding: 0.7rem 1rem;
+            align-items: center; justify-content: space-between; gap: 1rem;
         }
-        .exit-overlay.show { display: flex; opacity: 1; }
-        .exit-popup {
-            background: white;
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            max-width: 480px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            animation: popupSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-        @keyframes popupSlide {
-            from { transform: translateY(30px) scale(0.95); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-        .exit-popup-close {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .exit-popup-close:hover { background: #f0f0f0; color: #333; }
-        .exit-popup-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .exit-popup h3 {
-            font-family: 'Frank Ruhl Libre', serif;
-            color: var(--sage-dark);
-            font-size: 1.6rem;
-            margin-bottom: 0.8rem;
-        }
-        .exit-popup p {
-            color: #666;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        .exit-popup-btn {
-            display: inline-block;
-            padding: 14px 36px;
-            background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(143,174,139,0.3);
-            border: none;
-            cursor: pointer;
-        }
-        .exit-popup-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(143,174,139,0.4); }
-        .exit-popup-skip {
-            display: block;
-            margin-top: 1rem;
-            background: none;
-            border: none;
-            color: #999;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-        .exit-popup-skip:hover { color: #666; }
+        .book-bar .t b { display: block; font-size: 0.92rem; color: var(--deep); }
+        .book-bar .t small { font-size: 0.75rem; color: var(--text-light); }
+        .book-bar .btn { padding: 0.55rem 1.4rem; font-size: 0.88rem; }
 
-        /* ========== MOBILE FLOATING BOOK BAR ========== */
-        .mobile-book-bar {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            z-index: 9990;
-            background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-            padding: 12px 20px;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* ===== רספונסיב ===== */
+        @media (max-width: 980px) {
+            .services-grid, .quotes, .certs { grid-template-columns: 1fr 1fr; }
+            .steps { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+            .bach-grid { grid-template-columns: 1fr 1fr; }
+            #about .about-grid, .contact-grid { grid-template-columns: 1fr; }
         }
-        .mobile-book-bar.visible { transform: translateY(0); }
-        .mobile-book-bar-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            max-width: 600px;
-            margin: 0 auto;
+        @media (max-width: 660px) {
+            .nav .links { display: none; }
+            .nav .burger { display: block; }
+            .services-grid, .quotes, .certs { grid-template-columns: 1fr; }
+            .book-bar { display: flex; }
+            .wa-float { bottom: 4.6rem; }
+            .to-top { bottom: 4.6rem; }
         }
-        .mobile-book-text {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-        .mobile-book-text small {
-            display: block;
-            font-weight: 400;
-            font-size: 0.75rem;
-            opacity: 0.85;
-        }
-        .mobile-book-btn {
-            padding: 10px 22px;
-            background: white;
-            color: var(--sage-dark);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        .mobile-book-btn:hover { transform: scale(1.05); }
-
-        @media (max-width: 768px) {
-            .mobile-book-bar { display: block; }
-            .whatsapp-float { bottom: 70px; }
-            .back-to-top { bottom: 130px; }
+        @media (prefers-reduced-motion: reduce) {
+            .hero video { animation: none; }
+            .reveal { transition: none; opacity: 1; transform: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Scroll Progress -->
-    <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- Preloader -->
     <div class="preloader" id="preloader">
-        <div class="preloader-flower">
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-        </div>
+        <div class="name">תמרה שעשוע</div>
+        <div class="line"></div>
     </div>
 
-    <!-- Cursor glow -->
-    <div class="cursor-glow" id="cursorGlow"></div>
-
-    <!-- Floating particles -->
-    <div class="particles-container" id="particles"></div>
-
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <a href="#" class="nav-logo">תמרה שעשוע</a>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#about" onclick="closeNav()">אודות</a></li>
-            <li><a href="#services" onclick="closeNav()">שירותים</a></li>
-            <li><a href="#approach" onclick="closeNav()">תהליך הטיפול</a></li>
-            <li><a href="#bach" onclick="closeNav()">פרחי באך</a></li>
-            <li><a href="#blog" onclick="closeNav()">מאמרים</a></li>
-            <li><a href="#testimonials" onclick="closeNav()">המלצות</a></li>
-            <li><a href="#contact" class="nav-cta" onclick="closeNav()">צרו קשר</a></li>
-        </ul>
-        <button class="hamburger" id="hamburger" aria-label="תפריט">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
-
-    <!-- Hero -->
-    <section class="hero" id="hero">
-        <div class="hero-bg-shapes">
-            <div class="hero-shape hero-shape-1"></div>
-            <div class="hero-shape hero-shape-2"></div>
-            <div class="hero-shape hero-shape-3"></div>
+    <nav class="nav" id="nav">
+        <a class="logo" href="#">תמרה שעשוע</a>
+        <div class="links">
+            <a href="#about">אודות</a>
+            <a href="#services">שירותים</a>
+            <a href="#approach">תהליך הטיפול</a>
+            <a href="#bach">פרחי באך</a>
+            <a href="#blog">מאמרים</a>
+            <a href="#testimonials">המלצות</a>
+            <a class="cta" href="#contact">צרו קשר</a>
         </div>
+        <button class="burger" id="burger" aria-label="תפריט"><span></span><span></span><span></span></button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about">אודות</a>
+        <a href="#services">שירותים</a>
+        <a href="#approach">תהליך הטיפול</a>
+        <a href="#bach">פרחי באך</a>
+        <a href="#blog">מאמרים</a>
+        <a href="#testimonials">המלצות</a>
+        <a href="#contact">צרו קשר</a>
+    </div>
+
+    <!-- הירו — וידאו חי -->
+    <header class="hero" id="hero">
+        <video autoplay muted loop playsinline poster="" src="videos/forest.mp4"></video>
+        <div class="shade"></div>
         <div class="hero-content">
-            <p class="hero-subtitle">טיפול רגשי ואנרגטי</p>
-            <h1 class="hero-title">
-                הדרך שלך אל<br>
-                <span class="highlight">איזון ושלווה</span>
-            </h1>
-            <p class="hero-description">
+            <div class="hero-label">טיפול רגשי ואנרגטי</div>
+            <h1>הדרך שלך אל<br><em>איזון ושלווה</em></h1>
+            <p>
                 תמרה שעשוע — מטפלת מוסמכת בשיטת EBMT, פרחי באך ונוירופידבק.
                 מלווה אותך במסע של ריפוי, העצמה ושחרור מדפוסים שכבר לא משרתים אותך.
             </p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn-primary">קביעת פגישת היכרות</a>
-                <a href="#services" class="btn-secondary">גלו את הטיפולים</a>
+            <div class="hero-actions">
+                <a class="btn btn-gold" href="#contact">קביעת פגישת היכרות</a>
+                <a class="btn btn-outline" href="#services">גלו את הטיפולים</a>
             </div>
         </div>
-        <div class="hero-scroll-indicator">
-            <div class="scroll-mouse"></div>
-            <span class="scroll-text">גללו למטה</span>
-        </div>
-    </section>
+        <div class="hero-scroll"><span>גללו למטה</span><div class="line"></div></div>
+    </header>
 
-    <!-- Stats Counter -->
-    <section class="stats" id="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number"><span class="count" data-target="8">0</span><span class="stat-suffix">+</span></div>
-                <div class="stat-label">שנות ניסיון</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number"><span class="count" data-target="500">0</span><span class="stat-suffix">+</span></div>
-                <div class="stat-label">מטופלים מרוצים</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number"><span class="count" data-target="3">0</span><span class="stat-suffix"></span></div>
-                <div class="stat-label">שיטות טיפול</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number"><span class="count" data-target="98">0</span><span class="stat-suffix">%</span></div>
-                <div class="stat-label">שביעות רצון</div>
-            </div>
-        </div>
-    </section>
+    <!-- נתונים -->
+    <div class="stats" id="stats">
+        <div class="stat reveal"><b>+3</b><span>שנות ניסיון</span></div>
+        <div class="stat reveal"><b>+50</b><span>מטופלים מרוצים</span></div>
+        <div class="stat reveal"><b>3</b><span>שיטות טיפול</span></div>
+        <div class="stat reveal"><b>38</b><span>תמציות פרחי באך</span></div>
+    </div>
 
-    <!-- About -->
-    <section class="about section-padding" id="about">
+    <!-- אודות — טיפוגרפי, בלי תמונות -->
+    <section class="section" id="about">
+        <div class="blob" style="width: 40vmax; height: 40vmax; top: -8vmax; left: -12vmax; background: var(--sage-light);"></div>
+        <img class="plant-decor" src="images/flowers/16-honeysuckle.jpg" alt="" aria-hidden="true"
+             style="width: min(560px, 60vw); height: min(560px, 60vw); left: -6vw; top: 10%;">
         <div class="container">
-            <div class="about-grid">
-                <div class="about-image-wrapper reveal">
-                    <div class="about-image-frame">
-                        <div class="about-image-placeholder" id="aboutImagePlaceholder">
-                            <span class="photo-hint">הוסיפו תמונת פורטרט כאן</span>
-                        </div>
-                        <img src="images/about/tamara-profile.jpg"
-                             alt="תמרה שעשוע — מטפלת רגשית"
-                             class="about-real-photo"
-                             onerror="this.style.display='none';document.getElementById('aboutImagePlaceholder').style.display='flex';"
-                             onload="document.getElementById('aboutImagePlaceholder').style.display='none';"
-                             loading="lazy">
+            <div class="sec-label reveal">הכירו אותי</div>
+            <h2 class="sec-title reveal">תמרה שעשוע</h2>
+            <div class="about-grid" style="margin-top: 2.4rem;">
+                <div class="about-text reveal">
+                    <p><strong>מטפלת רגשית מוסמכת המתמחה בשיטת EBMT</strong> — שיטה ייחודית שפותחה בישראל, המשלבת גוף, נפש ואנרגיה לתהליך ריפוי עמוק ומשמעותי.</p>
+                    <p>בנוסף, אני מטפלת בפרחי באך ומסייעת במצבים של הפרעות קשב וריכוז באמצעות טיפול מתקדם בנוירופידבק — שיטה לא פולשנית המבוססת על אימון מוחי.</p>
+                    <div class="about-pills">
+                        <span>EBMT · מוסמכת</span>
+                        <span>פרחי באך · יועצת</span>
+                        <span>נוירופידבק · NFB</span>
                     </div>
-                    <div class="about-decorative"></div>
                 </div>
-                <div class="about-text reveal reveal-delay-1">
-                    <div class="section-label">הכירו אותי</div>
-                    <h2>תמרה שעשוע</h2>
-                    <div class="section-divider" style="margin: 0 0 1.5rem 0;"></div>
-                    <p>
-                        מטפלת רגשית מוסמכת המתמחה בשיטת EBMT — שיטה ייחודית שפותחה בישראל,
-                        המשלבת גוף, נפש ואנרגיה לתהליך ריפוי עמוק ומשמעותי.
-                    </p>
-                    <p>
-                        בנוסף, אני מטפלת בפרחי באך ומסייעת במצבים של הפרעות קשב וריכוז
-                        באמצעות טיפול מתקדם בנוירופידבק — שיטה לא פולשנית המבוססת על
-                        אימון מוחי.
-                    </p>
-                    <p>
-                        אני מאמינה שלכל אדם יש את הכוח להשתנות ולצמוח. התפקיד שלי
-                        הוא ללוות אותך בדרך, בחמלה, בהקשבה ובמקצועיות.
-                    </p>
-                    <div class="about-highlights">
-                        <div class="highlight-item">
-                            <div class="highlight-number">EBMT</div>
-                            <div class="highlight-label">מוסמכת</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-number">באך</div>
-                            <div class="highlight-label">פרחי באך</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-number">NFB</div>
-                            <div class="highlight-label">נוירופידבק</div>
-                        </div>
-                    </div>
+                <div class="about-quote reveal">
+                    אני מאמינה שלכל אדם יש את הכוח להשתנות ולצמוח.
+                    <small>התפקיד שלי — ללוות אותך בדרך, בחמלה, בהקשבה ובמקצועיות.</small>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
-    <section class="services section-padding" id="services">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">תחומי טיפול</div>
-                <h2 class="section-title">שירותי הטיפול</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    שילוב ייחודי של שיטות טיפול מוכחות לתוצאות עמוקות ומשמעותיות
-                </p>
-            </div>
-
+    <!-- שירותים -->
+    <section class="section" id="services">
+        <div class="blob" style="width: 34vmax; height: 34vmax; bottom: -10vmax; right: -10vmax; background: var(--gold-light);"></div>
+        <div class="container center">
+            <div class="sec-label reveal">תחומי טיפול</div>
+            <h2 class="sec-title reveal">שירותי הטיפול</h2>
+            <p class="sec-desc reveal">שילוב ייחודי של שיטות טיפול מוכחות לתוצאות עמוקות ומשמעותיות</p>
             <div class="services-grid">
-                <!-- EBMT -->
-                <div class="service-card reveal reveal-delay-1">
-                    <div class="service-icon">🌿</div>
-                    <h3>טיפול בשיטת EBMT</h3>
-                    <p>
-                        שיטה ישראלית חדשנית — Emotional Body Mind Therapy — המאפשרת
-                        שחרור חסימות רגשיות ואנרגטיות דרך עבודה עם הגוף והנפש יחד.
-                    </p>
-                    <ul class="service-features">
-                        <li>שחרור טראומות ודפוסים חוזרים</li>
-                        <li>איזון רגשי ואנרגטי</li>
-                        <li>חיזוק הביטחון העצמי</li>
-                        <li>הפחתת חרדה ומתח</li>
-                    </ul>
-                </div>
-
-                <!-- Bach Flowers -->
-                <div class="service-card reveal reveal-delay-2">
-                    <div class="service-icon">🌸</div>
-                    <h3>פרחי באך</h3>
-                    <p>
-                        טיפול טבעי ועדין המבוסס על 38 תמציות פרחים
-                        שפותחו ע״י ד״ר אדוארד באך, לאיזון מצבים רגשיים.
-                    </p>
-                    <ul class="service-features">
-                        <li>טיפול טבעי וללא תופעות לוואי</li>
-                        <li>התאמה אישית של תמציות</li>
-                        <li>מתאים לכל הגילאים</li>
-                        <li>איזון רגשי עדין ומדויק</li>
-                    </ul>
-                </div>
-
-                <!-- Neurofeedback -->
-                <div class="service-card reveal reveal-delay-3">
-                    <div class="service-icon">🧠</div>
-                    <h3>נוירופידבק</h3>
-                    <p>
-                        טכנולוגיה מתקדמת לאימון מוחי — טיפול לא פולשני בהפרעות קשב
-                        וריכוז, שמלמד את המוח לווסת את עצמו בצורה יעילה.
-                    </p>
-                    <ul class="service-features">
-                        <li>שיפור קשב וריכוז</li>
-                        <li>הפחתת אימפולסיביות</li>
-                        <li>ללא תרופות, ללא כאב</li>
-                        <li>תוצאות מדידות ומוכחות</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="gallery section-padding" id="gallery">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">הקליניקה</div>
-                <h2 class="section-title">מרחב הטיפול</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    סביבה חמה, בטוחה ומכילה — כי הריפוי מתחיל באווירה הנכונה
-                </p>
-            </div>
-            <div class="gallery-mosaic reveal">
-                <div class="gallery-cell">
-                    <div class="gallery-bg"></div>
-                    <div class="gallery-overlay"><span class="gallery-label">חדר הטיפולים</span></div>
-                </div>
-                <div class="gallery-cell">
-                    <div class="gallery-bg"></div>
-                    <div class="gallery-overlay"><span class="gallery-label">טיפול EBMT</span></div>
-                </div>
-                <div class="gallery-cell">
-                    <div class="gallery-bg"></div>
-                    <div class="gallery-overlay"><span class="gallery-label">פרחי באך</span></div>
-                </div>
-                <div class="gallery-cell">
-                    <div class="gallery-bg"></div>
-                    <div class="gallery-overlay"><span class="gallery-label">נוירופידבק</span></div>
-                </div>
-                <div class="gallery-cell">
-                    <div class="gallery-bg"></div>
-                    <div class="gallery-overlay"><span class="gallery-label">אווירת הקליניקה</span></div>
-                </div>
-            </div>
-            <p class="gallery-add-photo">תמונות אמיתיות של הקליניקה יוצגו בקרוב</p>
-        </div>
-    </section>
-
-    <!-- Approach -->
-    <section class="approach section-padding" id="approach">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">איך זה עובד</div>
-                <h2 class="section-title">תהליך הטיפול</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    כל מסע מתחיל בצעד הראשון — הנה מה שמחכה לכם
-                </p>
-            </div>
-
-            <div class="approach-timeline">
-                <div class="timeline-step reveal">
-                    <div class="timeline-number">1</div>
-                    <div class="timeline-content">
-                        <h4>שיחת היכרות</h4>
-                        <p>פגישה ראשונית ללא עלות להכרות, הבנת הצרכים שלכם והתאמת הטיפול המתאים ביותר.</p>
+                <div class="service-card reveal">
+                    <img class="photo" src="images/flowers/27-rock-water.jpg" alt="" loading="lazy">
+                    <div class="body">
+                        <h3>טיפול בשיטת EBMT</h3>
+                        <p>שיטה ישראלית חדשנית — Emotional Body Mind Therapy — המאפשרת שחרור חסימות רגשיות ואנרגטיות דרך עבודה עם הגוף והנפש יחד.</p>
+                        <ul>
+                            <li>שחרור טראומות ודפוסים חוזרים</li>
+                            <li>איזון רגשי ואנרגטי</li>
+                            <li>חיזוק הביטחון העצמי</li>
+                            <li>הפחתת חרדה ומתח</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="timeline-step reveal reveal-delay-1">
-                    <div class="timeline-number">2</div>
-                    <div class="timeline-content">
-                        <h4>אבחון והתאמה אישית</h4>
-                        <p>מיפוי מעמיק של המצב הרגשי והפיזי, ובניית תוכנית טיפולית מותאמת אישית.</p>
+                <div class="service-card reveal">
+                    <img class="photo" src="images/flowers/06-cherry-plum.jpg" alt="" loading="lazy">
+                    <div class="body">
+                        <h3>פרחי באך</h3>
+                        <p>טיפול טבעי ועדין המבוסס על 38 תמציות פרחים שפותחו ע״י ד״ר אדוארד באך, לאיזון מצבים רגשיים.</p>
+                        <ul>
+                            <li>טיפול טבעי וללא תופעות לוואי</li>
+                            <li>התאמה אישית של תמציות</li>
+                            <li>מתאים לכל הגילאים</li>
+                            <li>איזון רגשי עדין ומדויק</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="timeline-step reveal reveal-delay-2">
-                    <div class="timeline-number">3</div>
-                    <div class="timeline-content">
-                        <h4>תהליך הטיפול</h4>
-                        <p>סדרת מפגשים מעמיקים בהם נעבוד יחד על שחרור, ריפוי וצמיחה בקצב שנכון עבורכם.</p>
-                    </div>
-                </div>
-                <div class="timeline-step reveal reveal-delay-3">
-                    <div class="timeline-number">4</div>
-                    <div class="timeline-content">
-                        <h4>צמיחה ושינוי</h4>
-                        <p>תחושת קלות, בהירות ואיזון. כלים מעשיים שילוו אתכם גם אחרי סיום הטיפול.</p>
+                <div class="service-card reveal">
+                    <img class="photo" src="images/flowers/24-pine.jpg" alt="" loading="lazy">
+                    <div class="body">
+                        <h3>נוירופידבק</h3>
+                        <p>טכנולוגיה מתקדמת לאימון מוחי — טיפול לא פולשני בהפרעות קשב וריכוז, שמלמד את המוח לווסת את עצמו בצורה יעילה.</p>
+                        <ul>
+                            <li>שיפור קשב וריכוז</li>
+                            <li>הפחתת אימפולסיביות</li>
+                            <li>ללא תרופות, ללא כאב</li>
+                            <li>תוצאות מדידות ומוכחות</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Bach Flowers Detail -->
-    <section class="bach-flowers section-padding" id="bach">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">עולם הפרחים</div>
-                <h2 class="section-title">פרחי באך — ריפוי מהטבע</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    38 תמציות פרחים טבעיות שמסייעות לאיזון מגוון מצבים רגשיים
-                </p>
-            </div>
+    <!-- רצועת וידאו 1 -->
+    <section class="video-break">
+        <video muted loop playsinline preload="metadata" src="videos/water.mp4"></video>
+        <div class="shade"></div>
+        <div class="quote reveal">
+            <h2>הריפוי מתחיל ברגע<br>שבוחרים להקשיב לעצמך</h2>
+            <div class="sub">EMOTIONAL · BODY · MIND</div>
+        </div>
+    </section>
 
+    <!-- תהליך -->
+    <section class="section" id="approach">
+        <div class="container">
+            <div class="sec-label reveal">איך זה עובד</div>
+            <h2 class="sec-title reveal">תהליך הטיפול</h2>
+            <p class="sec-desc reveal">כל מסע מתחיל בצעד הראשון — הנה מה שמחכה לכם</p>
+            <div class="steps">
+                <div class="step reveal"><b>01</b><h3>שיחת היכרות</h3><p>פגישה ראשונית ללא עלות להכרות, הבנת הצרכים שלכם והתאמת הטיפול המתאים ביותר.</p></div>
+                <div class="step reveal"><b>02</b><h3>אבחון והתאמה אישית</h3><p>מיפוי מעמיק של המצב הרגשי והפיזי, ובניית תוכנית טיפולית מותאמת אישית.</p></div>
+                <div class="step reveal"><b>03</b><h3>תהליך הטיפול</h3><p>סדרת מפגשים מעמיקים בהם נעבוד יחד על שחרור, ריפוי וצמיחה בקצב שנכון עבורכם.</p></div>
+                <div class="step reveal"><b>04</b><h3>צמיחה ושינוי</h3><p>תחושת קלות, בהירות ואיזון. כלים מעשיים שילוו אתכם גם אחרי סיום הטיפול.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- פרחי באך -->
+    <section class="section" id="bach" style="background: linear-gradient(180deg, var(--cream), #ece4d2 60%, var(--cream));">
+        <img class="plant-decor" src="images/flowers/37-wild-rose.jpg" alt="" aria-hidden="true"
+             style="width: min(520px, 62vw); height: min(520px, 62vw); right: -8vw; bottom: -6%;">
+        <div class="container center">
+            <div class="sec-label reveal">עולם הפרחים</div>
+            <h2 class="sec-title reveal">פרחי באך — ריפוי מהטבע</h2>
+            <p class="sec-desc reveal">38 תמציות פרחים טבעיות שמסייעות לאיזון מגוון מצבים רגשיים</p>
             <div class="bach-grid">
-                <div class="bach-item reveal">
-                    <span class="bach-emoji">😰</span>
-                    <h4>פחדים וחרדות</h4>
-                    <p>שחרור מפחדים ידועים ולא ידועים</p>
-                </div>
-                <div class="bach-item reveal reveal-delay-1">
-                    <span class="bach-emoji">😔</span>
-                    <h4>עצבות ודיכאון</h4>
-                    <p>חזרה לשמחת חיים ואופטימיות</p>
-                </div>
-                <div class="bach-item reveal reveal-delay-2">
-                    <span class="bach-emoji">😤</span>
-                    <h4>כעס ותסכול</h4>
-                    <p>מציאת שלווה פנימית ושקט</p>
-                </div>
-                <div class="bach-item reveal reveal-delay-3">
-                    <span class="bach-emoji">🤔</span>
-                    <h4>חוסר החלטיות</h4>
-                    <p>חיזוק הביטחון בקבלת החלטות</p>
-                </div>
-                <div class="bach-item reveal">
-                    <span class="bach-emoji">😴</span>
-                    <h4>עייפות ושחיקה</h4>
-                    <p>חידוש אנרגיה ומוטיבציה</p>
-                </div>
-                <div class="bach-item reveal reveal-delay-1">
-                    <span class="bach-emoji">💔</span>
-                    <h4>רגישות יתר</h4>
-                    <p>חיזוק גבולות רגשיים בריאים</p>
-                </div>
-                <div class="bach-item reveal reveal-delay-2">
-                    <span class="bach-emoji">🫂</span>
-                    <h4>בדידות</h4>
-                    <p>חיבור מחדש לעצמי ולאחרים</p>
-                </div>
-                <div class="bach-item reveal reveal-delay-3">
-                    <span class="bach-emoji">🌱</span>
-                    <h4>צמיחה אישית</h4>
-                    <p>פריחה והגשמה עצמית</p>
-                </div>
+                <div class="bach-item reveal"><img src="images/flowers/20-mimulus.jpg" alt="" loading="lazy"><h4>פחדים וחרדות</h4><p>שחרור מפחדים ידועים ולא ידועים</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/21-mustard.jpg" alt="" loading="lazy"><h4>עצבות ודיכאון</h4><p>חזרה לשמחת חיים ואופטימיות</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/15-holly.jpg" alt="" loading="lazy"><h4>כעס ותסכול</h4><p>מציאת שלווה פנימית ושקט</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/28-scleranthus.jpg" alt="" loading="lazy"><h4>חוסר החלטיות</h4><p>חיזוק הביטחון בקבלת החלטות</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/23-olive.jpg" alt="" loading="lazy"><h4>עייפות ושחיקה</h4><p>חידוש אנרגיה ומוטיבציה</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/01-agrimony.jpg" alt="" loading="lazy"><h4>רגישות יתר</h4><p>חיזוק גבולות רגשיים בריאים</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/14-heather.jpg" alt="" loading="lazy"><h4>בדידות</h4><p>חיבור מחדש לעצמי ולאחרים</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/37-wild-rose.jpg" alt="" loading="lazy"><h4>צמיחה אישית</h4><p>פריחה והגשמה עצמית</p></div>
             </div>
         </div>
     </section>
 
-    <!-- Blog / Articles -->
-    <section class="blog section-padding" id="blog">
+    <!-- רצועת וידאו 2 — פרומו לחוויה -->
+    <section class="video-break">
+        <video muted loop playsinline preload="metadata" src="videos/meadow.mp4"></video>
+        <div class="shade"></div>
+        <div class="quote reveal">
+            <h2>38 תמציות. רגש אחד לכל אחת.</h2>
+            <div class="sub">חוויה אינטראקטיבית תלת־ממדית</div>
+            <a class="btn btn-gold btn-big" href="bach-flowers-experience.html">למסע בין 38 התמציות</a>
+        </div>
+    </section>
+
+    <!-- בלוג -->
+    <section class="section" id="blog">
         <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">מאמרים ומידע</div>
-                <h2 class="section-title">הבלוג — ידע שמרפא</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    מאמרים מקצועיים שיעזרו לכם להבין את עולם הטיפול הרגשי והאנרגטי
-                </p>
+            <div class="sec-label reveal">מאמרים ומידע</div>
+            <h2 class="sec-title reveal">הבלוג — ידע שמרפא</h2>
+            <p class="sec-desc reveal">מאמרים מקצועיים שיעזרו לכם להבין את עולם הטיפול הרגשי והאנרגטי</p>
+        </div>
+        <div class="container">
+            <div class="blog-row" id="blogRow">
+                <a class="blog-card reveal" href="posts/ebmt-therapy.html"><img class="thumb" src="images/flowers/27-rock-water.jpg" alt="" loading="lazy"><span class="tag">EBMT</span><h3>מהו טיפול EBMT? מדריך מקיף לשיטת הטיפול הישראלית</h3><p>הכירו את שיטת ה-EBMT — שיטת טיפול ייחודית שפותחה בישראל, המשלבת גוף, נפש ואנרגיה.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/bach-flowers.html"><img class="thumb" src="images/flowers/06-cherry-plum.jpg" alt="" loading="lazy"><span class="tag">פרחי באך</span><h3>פרחי באך — מדריך מקיף לטיפול הטבעי שמשנה חיים</h3><p>מה הם פרחי באך, איך הם עובדים ולמי הם מתאימים? כל מה שרציתם לדעת על 38 התמציות.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/neurofeedback-adhd.html"><img class="thumb" src="images/flowers/24-pine.jpg" alt="" loading="lazy"><span class="tag">נוירופידבק</span><h3>נוירופידבק — טיפול מתקדם בהפרעות קשב ללא תרופות</h3><p>איך נוירופידבק מאמן את המוח לווסת את עצמו — ללא תרופות וללא כאב.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/adhd-guide.html"><img class="thumb" src="images/flowers/07-chestnut-bud.jpg" alt="" loading="lazy"><span class="tag">מדריך להורים</span><h3>הפרעות קשב וריכוז — כל מה שהורים צריכים לדעת</h3><p>סימנים, אבחון, אפשרויות טיפול וטיפים מעשיים להתמודדות יומיומית עם ADHD.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/emotional-therapy.html"><img class="thumb" src="images/flowers/16-honeysuckle.jpg" alt="" loading="lazy"><span class="tag">טיפול רגשי</span><h3>טיפול רגשי — איך לבחור את השיטה הנכונה עבורך</h3><p>מרגישים שמשהו תקוע? מדריך שיעזור לכם להבין איזו שיטה מתאימה לכם.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/anxiety-social.html"><img class="thumb" src="images/flowers/02-aspen.jpg" alt="" loading="lazy"><span class="tag">חרדה</span><h3>חרדה חברתית — גורמים, סימנים ואיך מתגברים עליה</h3><p>למדו לזהות את הסימנים ואת דרכי הטיפול המוכחות שיכולות לשנות את חייכם.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/adhd-adults.html"><img class="thumb" src="images/flowers/17-hornbeam.jpg" alt="" loading="lazy"><span class="tag">ADHD מבוגרים</span><h3>ADHD אצל מבוגרים — הפרעת קשב שלא עוברת עם הגיל</h3><p>רבים לא יודעים שיש להם ADHD עד גיל מבוגר. סימנים שכדאי להכיר.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/burnout.html"><img class="thumb" src="images/flowers/23-olive.jpg" alt="" loading="lazy"><span class="tag">שחיקה</span><h3>שחיקה תעסוקתית — איך מזהים, מונעים ומחלימים</h3><p>שחיקה היא לא רק "עייפות מהעבודה". הכירו את הסימנים ואת הדרך חזרה לאיזון.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/emotional-intelligence.html"><img class="thumb" src="images/flowers/29-star-of-bethlehem.jpg" alt="" loading="lazy"><span class="tag">אינטלגנציה רגשית</span><h3>אינטלגנציה רגשית — המיומנות שמשנה חיים</h3><p>למה היא חשובה יותר ממנת המשכל וכיצד מפתחים אותה בכל גיל.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/postpartum-depression.html"><img class="thumb" src="images/flowers/37-wild-rose.jpg" alt="" loading="lazy"><span class="tag">אחרי לידה</span><h3>דיכאון אחרי לידה — טיפול טבעי ותמיכה רגשית</h3><p>שכיח הרבה יותר ממה שמדברים עליו. שיטות טיפול טבעיות ותמיכה.</p><span class="more">לקריאה ←</span></a>
             </div>
-
-            <div class="blog-top-row">
-                <a href="posts/ebmt-therapy.html" class="blog-card reveal">
-                    <div class="blog-card-image">🌿</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">EBMT</span>
-                        <h3>מהו טיפול EBMT? מדריך מקיף לשיטת הטיפול הישראלית</h3>
-                        <p>הכירו את שיטת ה-EBMT — שיטת טיפול ייחודית שפותחה בישראל, המשלבת גוף, נפש ואנרגיה לתהליך ריפוי עמוק.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/bach-flowers.html" class="blog-card reveal reveal-delay-1">
-                    <div class="blog-card-image">🌸</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">פרחי באך</span>
-                        <h3>פרחי באך — מדריך מקיף לטיפול הטבעי שמשנה חיים</h3>
-                        <p>מה הם פרחי באך, איך הם עובדים, ולמי הם מתאימים? כל מה שרציתם לדעת על 38 תמציות הפרחים של ד״ר באך.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="blog-bottom-row">
-                <a href="posts/neurofeedback-adhd.html" class="blog-card reveal">
-                    <div class="blog-card-image">🧠</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">נוירופידבק</span>
-                        <h3>נוירופידבק — טיפול מתקדם בהפרעות קשב ללא תרופות</h3>
-                        <p>איך נוירופידבק מאמן את המוח לווסת את עצמו ועוזר בהפרעות קשב וריכוז — ללא תרופות וללא כאב.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/adhd-guide.html" class="blog-card reveal reveal-delay-1">
-                    <div class="blog-card-image">👨‍👩‍👧‍👦</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">מדריך להורים</span>
-                        <h3>הפרעות קשב וריכוז — כל מה שהורים צריכים לדעת</h3>
-                        <p>מדריך מקיף להורים: סימנים, אבחון, אפשרויות טיפול וטיפים מעשיים להתמודדות יומיומית עם ADHD.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/emotional-therapy.html" class="blog-card reveal reveal-delay-2">
-                    <div class="blog-card-image">💚</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">טיפול רגשי</span>
-                        <h3>טיפול רגשי — איך לבחור את השיטה הנכונה עבורך</h3>
-                        <p>מרגישים שמשהו תקוע? מדריך שיעזור לכם להבין איזו שיטת טיפול רגשי מתאימה לכם ואיך לבחור מטפל.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="blog-extra-row">
-                <a href="posts/anxiety-social.html" class="blog-card reveal">
-                    <div class="blog-card-image">😰</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">חרדה</span>
-                        <h3>חרדה חברתית — גורמים, סימנים ואיך מתגברים עליה</h3>
-                        <p>חרדה חברתית משפיעה על מיליוני אנשים. למדו לזהות את הסימנים ואת דרכי הטיפול המוכחות שיכולות לשנות את חייכם.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/adhd-adults.html" class="blog-card reveal reveal-delay-1">
-                    <div class="blog-card-image">⚡</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">ADHD מבוגרים</span>
-                        <h3>ADHD אצל מבוגרים — הפרעת קשב שלא עוברת עם הגיל</h3>
-                        <p>רבים לא יודעים שיש להם ADHD עד גיל מבוגר. סימנים שכדאי לשים לב אליהם ומה עושים כשמגלים.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/burnout.html" class="blog-card reveal reveal-delay-2">
-                    <div class="blog-card-image">🕯️</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">שחיקה</span>
-                        <h3>שחיקה תעסוקתית — איך מזהים, מונעים ומחלימים</h3>
-                        <p>שחיקה היא לא רק "עייפות מהעבודה". הכירו את הסימנים המוקדמים ואת הדרך לחזור לאיזון ולשמחת חיים.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/emotional-intelligence.html" class="blog-card reveal">
-                    <div class="blog-card-image">💡</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">אינטלגנציה רגשית</span>
-                        <h3>אינטלגנציה רגשית — המיומנות שמשנה חיים</h3>
-                        <p>מה היא אינטלגנציה רגשית ולמה היא חשובה יותר ממנת המשכל? כיצד מפתחים אותה בכל גיל.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="posts/postpartum-depression.html" class="blog-card reveal reveal-delay-1">
-                    <div class="blog-card-image">🌷</div>
-                    <div class="blog-card-body">
-                        <span class="blog-card-tag">אחרי לידה</span>
-                        <h3>דיכאון אחרי לידה — טיפול טבעי ותמיכה רגשית</h3>
-                        <p>דיכאון אחרי לידה שכיח הרבה יותר ממה שמדברים עליו. שיטות טיפול טבעיות ומה עושים כשמרגישים אבודות.</p>
-                        <div class="blog-card-footer">
-                            <span class="blog-card-date">מרץ 2026</span>
-                            <span class="blog-card-read">לקריאה ←</span>
-                        </div>
-                    </div>
-                </a>
+            <div class="blog-nav reveal">
+                <button id="blogPrev" aria-label="המאמר הקודם">→</button>
+                <button id="blogNext" aria-label="המאמר הבא">←</button>
             </div>
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="faq section-padding" id="faq">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">שאלות נפוצות</div>
-                <h2 class="section-title">כל מה שרציתם לדעת</h2>
-                <div class="section-divider"></div>
-            </div>
-            <div class="faq-list reveal">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>מה ההבדל בין EBMT לטיפול פסיכולוגי רגיל?</span>
-                        <i class="faq-icon">+</i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>טיפול EBMT (Emotional Body Mind Therapy) הוא שיטה ייחודית שפותחה בישראל, המשלבת עבודה עם הגוף, הנפש והאנרגיה יחד. בניגוד לטיפול פסיכולוגי קלאסי שמתמקד בעיקר בדיבור, EBMT עובד גם ברמה הגופנית ומאפשר שחרור חסימות עמוקות שלא תמיד מגיעות לרמת המודע.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>כמה זמן לוקח להרגיש שינוי?</span>
-                        <i class="faq-icon">+</i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>זה משתנה מאדם לאדם ולפי מטרת הטיפול. חלק מהמטופלים מדווחים על שינוי כבר אחרי 2-3 מפגשים. לתהליכי עומק כמו שחרור טראומות, בדרך כלל נדרשות 8-15 פגישות. בפרחי באך, שינויים ניכרים לרוב תוך 3-6 שבועות.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>האם נוירופידבק מתאים לילדים?</span>
-                        <i class="faq-icon">+</i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>כן! נוירופידבק מתאים מאוד לילדים החל מגיל 6, ואף יותר צעירים במקרים מסוימים. הטיפול הוא לא פולשני, ללא כאב ולא כרוך בתרופות. ילדים לרוב נהנים מהפגישות מכיוון שהן מבוססות על פעילות מחשב דמוית משחק.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>האם פרחי באך בטוחים לנשים בהריון?</span>
-                        <i class="faq-icon">+</i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>פרחי באך הם בין שיטות הטיפול הבטוחות ביותר — טבעיים לחלוטין, ללא תופעות לוואי ידועות, ומתאימים לנשים בהריון, תינוקות, ילדים וקשישים. חשוב תמיד לעדכן את הרופא המטפל, אך הם אינם מתערבים עם תרופות.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>האם הטיפול כלול בסל הבריאות?</span>
-                        <i class="faq-icon">+</i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>בשלב זה שיטות אלו אינן כלולות בסל הבריאות הממשלתי. עם זאת, חלק מקופות החולים וקרנות הבריאות מעניקים החזר חלקי לטיפולים משלימים. כדאי לבדוק את תנאי הביטוח הפרטי שלכם — רבים מהביטוחים המשלימים כוללים החזר לטיפולים אלו.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>כיצד ניתן לתאם פגישת היכרות?</span>
-                        <i class="faq-icon">+</i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>ניתן ליצור קשר דרך טופס יצירת הקשר באתר, לשלוח הודעת וואטסאפ למספר 052-629-9131 או להתקשר ישירות. פגישת ההיכרות הראשונה היא ללא עלות וללא התחייבות — רק שיחה קצרה כדי להכיר ולהבין מה מתאים לכם.</p>
-                    </div>
-                </div>
+    <!-- שאלות נפוצות -->
+    <section class="section" id="faq">
+        <div class="container center">
+            <div class="sec-label reveal">שאלות נפוצות</div>
+            <h2 class="sec-title reveal">כל מה שרציתם לדעת</h2>
+        </div>
+        <div class="faq-list">
+            <details class="faq-item reveal"><summary>מה ההבדל בין EBMT לטיפול פסיכולוגי רגיל?</summary><div class="a">טיפול EBMT (Emotional Body Mind Therapy) הוא שיטה ייחודית שפותחה בישראל, המשלבת עבודה עם הגוף, הנפש והאנרגיה יחד. בניגוד לטיפול פסיכולוגי קלאסי שמתמקד בעיקר בדיבור, EBMT עובד גם ברמה הגופנית ומאפשר שחרור חסימות עמוקות שלא תמיד מגיעות לרמת המודע.</div></details>
+            <details class="faq-item reveal"><summary>כמה זמן לוקח להרגיש שינוי?</summary><div class="a">זה משתנה מאדם לאדם ולפי מטרת הטיפול. חלק מהמטופלים מדווחים על שינוי כבר אחרי 2-3 מפגשים. לתהליכי עומק כמו שחרור טראומות, בדרך כלל נדרשות 8-15 פגישות. בפרחי באך, שינויים ניכרים לרוב תוך 3-6 שבועות.</div></details>
+            <details class="faq-item reveal"><summary>האם נוירופידבק מתאים לילדים?</summary><div class="a">כן! נוירופידבק מתאים מאוד לילדים החל מגיל 6, ואף יותר צעירים במקרים מסוימים. הטיפול לא פולשני, ללא כאב ולא כרוך בתרופות. ילדים לרוב נהנים מהפגישות מכיוון שהן מבוססות על פעילות מחשב דמוית משחק.</div></details>
+            <details class="faq-item reveal"><summary>האם פרחי באך בטוחים לנשים בהריון?</summary><div class="a">פרחי באך הם בין שיטות הטיפול הבטוחות ביותר — טבעיים לחלוטין, ללא תופעות לוואי ידועות, ומתאימים לנשים בהריון, תינוקות, ילדים וקשישים. חשוב תמיד לעדכן את הרופא המטפל, אך הם אינם מתערבים עם תרופות.</div></details>
+            <details class="faq-item reveal"><summary>האם הטיפול כלול בסל הבריאות?</summary><div class="a">בשלב זה שיטות אלו אינן כלולות בסל הבריאות הממשלתי. עם זאת, חלק מקופות החולים וקרנות הבריאות מעניקים החזר חלקי לטיפולים משלימים. כדאי לבדוק את תנאי הביטוח הפרטי שלכם — רבים מהביטוחים המשלימים כוללים החזר לטיפולים אלו.</div></details>
+            <details class="faq-item reveal"><summary>כיצד ניתן לתאם פגישת היכרות?</summary><div class="a">ניתן ליצור קשר דרך טופס יצירת הקשר באתר, לשלוח הודעת וואטסאפ למספר 052-629-9131 או להתקשר ישירות. פגישת ההיכרות הראשונה היא ללא עלות וללא התחייבות — רק שיחה קצרה כדי להכיר ולהבין מה מתאים לכם.</div></details>
+        </div>
+    </section>
+
+    <!-- המלצות -->
+    <section class="section" id="testimonials">
+        <div class="container center">
+            <div class="sec-label reveal">מה אומרים עליי</div>
+            <h2 class="sec-title reveal">המלצות מלקוחות</h2>
+            <div class="quotes">
+                <div class="quote-card reveal"><p>תמרה היא מטפלת יוצאת דופן. בזכות הטיפול בשיטת EBMT הצלחתי לשחרר דפוסים שליוו אותי שנים. אני מרגישה אדם חדש.</p><span>מ.ש, תל אביב</span></div>
+                <div class="quote-card reveal"><p>הבן שלי עבר טיפול בנוירופידבק אצל תמרה. השינוי בריכוז ובהתנהגות שלו הוא מדהים. היא מקצוענית עם לב ענק.</p><span>ר.כ, רעננה</span></div>
+                <div class="quote-card reveal"><p>פרחי הבאך שתמרה התאימה לי עשו פלאים. כבר אחרי שבוע הרגשתי שינוי משמעותי ברמת החרדה והשינה שלי. ממליצה בחום!</p><span>ל.א, הרצליה</span></div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials section-padding" id="testimonials">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">מה אומרים עליי</div>
-                <h2 class="section-title">המלצות מלקוחות</h2>
-                <div class="section-divider"></div>
-            </div>
-
-            <div class="testimonials-slider reveal">
-                <div class="testimonials-track" id="testimonialsTrack">
-                    <div class="testimonial-card">
-                        <div class="testimonial-inner">
-                            <div class="testimonial-quote">״</div>
-                            <p class="testimonial-text">
-                                תמרה היא מטפלת יוצאת דופן. בזכות הטיפול בשיטת EBMT הצלחתי
-                                לשחרר דפוסים שליוו אותי שנים. אני מרגישה אדם חדש.
-                            </p>
-                            <span class="testimonial-author">— מ.ש, תל אביב</span>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-inner">
-                            <div class="testimonial-quote">״</div>
-                            <p class="testimonial-text">
-                                הבן שלי עבר טיפול בנוירופידבק אצל תמרה. השינוי בריכוז ובהתנהגות
-                                שלו הוא מדהים. היא מקצוענית עם לב ענק.
-                            </p>
-                            <span class="testimonial-author">— ר.כ, רעננה</span>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-inner">
-                            <div class="testimonial-quote">״</div>
-                            <p class="testimonial-text">
-                                פרחי הבאך שתמרה התאימה לי עשו פלאים. כבר אחרי שבוע הרגשתי
-                                שינוי משמעותי ברמת החרדה והשינה שלי. ממליצה בחום!
-                            </p>
-                            <span class="testimonial-author">— ל.א, הרצליה</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-dots" id="testimonialDots">
-                    <button class="testimonial-dot active" data-index="0" aria-label="המלצה 1"></button>
-                    <button class="testimonial-dot" data-index="1" aria-label="המלצה 2"></button>
-                    <button class="testimonial-dot" data-index="2" aria-label="המלצה 3"></button>
-                </div>
+    <!-- הסמכות -->
+    <section class="section" id="certificates">
+        <div class="container center">
+            <div class="sec-label reveal">הכשרה וניסיון</div>
+            <h2 class="sec-title reveal">הסמכות ותעודות</h2>
+            <p class="sec-desc reveal">שנים של לימוד, התמחות ופרקטיקה — כדי שתקבלו את הטיפול הטוב ביותר</p>
+            <div class="certs">
+                <div class="cert reveal"><div class="icon">🎓</div><h3>מטפלת מוסמכת EBMT</h3><p>הסמכה מלאה בשיטת Emotional Body Mind Therapy — שיטת טיפול ישראלית ייחודית המשלבת גוף, נפש ואנרגיה.</p><span class="badge">הסמכה מוכרת</span></div>
+                <div class="cert reveal"><div class="icon">🌸</div><h3>יועצת פרחי באך</h3><p>הסמכה בינלאומית בטיפול בפרחי באך — 38 תמציות פרחים לאיזון רגשי וטיפול טבעי ללא תופעות לוואי.</p><span class="badge">הסמכה בינלאומית</span></div>
+                <div class="cert reveal"><div class="icon">🧠</div><h3>מטפלת בנוירופידבק</h3><p>הכשרה מקצועית בנוירופידבק לטיפול בהפרעות קשב וריכוז (ADHD), חרדות, הפרעות שינה ושיפור ביצועים.</p><span class="badge">הכשרה מקצועית</span></div>
             </div>
         </div>
     </section>
 
-    <!-- Certificates -->
-    <section class="certificates section-padding" id="certificates">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">הכשרה וניסיון</div>
-                <h2 class="section-title">הסמכות ותעודות</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    שנים של לימוד, התמחות ופרקטיקה — כדי שתקבלו את הטיפול הטוב ביותר
-                </p>
+    <!-- מפה -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container center">
+            <div class="sec-label reveal">מיקום הקליניקה</div>
+            <h2 class="sec-title reveal">איך מגיעים</h2>
+            <div class="map-wrap reveal">
+                <iframe title="מיקום הקליניקה — זלמן שזר 31, ראשון לציון" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=%D7%96%D7%9C%D7%9E%D7%9F%20%D7%A9%D7%96%D7%A8%2031%20%D7%A8%D7%90%D7%A9%D7%95%D7%9F%20%D7%9C%D7%A6%D7%99%D7%95%D7%9F&output=embed"></iframe>
             </div>
-
-            <div class="cert-grid reveal">
-                <div class="cert-card">
-                    <div class="cert-icon">🎓</div>
-                    <h4>מטפלת מוסמכת EBMT</h4>
-                    <p>הסמכה מלאה בשיטת Emotional Body Mind Therapy — שיטת טיפול ישראלית ייחודית המשלבת גוף, נפש ואנרגיה</p>
-                    <span class="cert-badge">הסמכה מוכרת</span>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon">🌸</div>
-                    <h4>יועצת פרחי באך</h4>
-                    <p>הסמכה בינלאומית בטיפול בפרחי באך — 38 תמציות פרחים לאיזון רגשי וטיפול טבעי ללא תופעות לוואי</p>
-                    <span class="cert-badge">הסמכה בינלאומית</span>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-icon">🧠</div>
-                    <h4>מטפלת בנוירופידבק</h4>
-                    <p>הכשרה מקצועית בנוירופידבק לטיפול בהפרעות קשב וריכוז (ADHD), חרדות, הפרעות שינה ושיפור ביצועים</p>
-                    <span class="cert-badge">הכשרה מקצועית</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Instagram -->
-    <section class="instagram-section section-padding" id="instagram">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">עקבו אחריי</div>
-                <h2 class="section-title">אינסטגרם</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    תוכן, השראה וטיפים מעולם הטיפול הרגשי
-                </p>
-            </div>
-
-            <div class="instagram-grid reveal">
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">🌿</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">🌸</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">🧠</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">💚</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">🌷</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">🕯️</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">✨</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-                <a class="instagram-card" href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">
-                    <div class="instagram-placeholder">🌻</div>
-                    <div class="instagram-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </div>
-                </a>
-            </div>
-
-            <div class="instagram-follow-wrapper reveal">
-                <a href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener" class="instagram-follow">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    עקבו אחריי באינסטגרם
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Map -->
-    <section class="map-section section-padding">
-        <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">מיקום הקליניקה</div>
-                <h2 class="section-title">איך מגיעים</h2>
-                <div class="section-divider"></div>
-            </div>
-
-            <div class="map-wrapper reveal">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.5!2d34.8!3d32.08!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z15TXmdeo15PXnyA3LCDXqNee16og15LXnw!5e0!3m2!1siw!2sil!4v1"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="מיקום הקליניקה — הירדן 7, רמת גן">
-                </iframe>
-            </div>
-
             <div class="map-info reveal">
-                <div class="map-info-item">
-                    <div class="map-info-icon">📍</div>
-                    <span>הירדן 7, רמת גן</span>
-                </div>
-                <div class="map-info-item">
-                    <div class="map-info-icon">🚗</div>
-                    <span>חנייה זמינה בקרבת מקום</span>
-                </div>
-                <div class="map-info-item">
-                    <div class="map-info-icon">🚆</div>
-                    <span>קרוב לרכבת רמת גן</span>
-                </div>
-                <div class="map-info-item">
-                    <div class="map-info-icon">🕐</div>
-                    <span>ימים א׳–ה׳ | 9:00–19:00</span>
-                </div>
+                <span>זלמן שזר 31, ראשון לציון</span>
+                <span>·</span>
+                <span>חנייה זמינה בקרבת מקום</span>
+                <span>·</span>
+                <span>ימים א׳–ה׳ | 9:00–19:00</span>
             </div>
         </div>
     </section>
 
-    <!-- Contact -->
-    <section class="contact section-padding" id="contact">
+    <!-- צור קשר — על רקע וידאו עננים -->
+    <section class="section" id="contact">
+        <video muted loop playsinline preload="metadata" src="videos/clouds.mp4"></video>
+        <div class="shade"></div>
         <div class="container">
-            <div class="section-header reveal">
-                <div class="section-label">בואו נדבר</div>
-                <h2 class="section-title">צרו קשר</h2>
-                <div class="section-divider"></div>
-                <p class="section-description">
-                    הצעד הראשון הוא הכי חשוב — אני כאן בשבילכם
-                </p>
-            </div>
-
+            <div class="sec-label reveal">בואו נדבר</div>
+            <h2 class="sec-title reveal">צרו קשר</h2>
+            <p class="sec-desc reveal">הצעד הראשון הוא הכי חשוב — אני כאן בשבילכם</p>
             <div class="contact-grid">
                 <div class="contact-info reveal">
                     <h3>תמרה שעשוע</h3>
-                    <p>
-                        מטפלת רגשית מוסמכת בשיטת EBMT, פרחי באך ונוירופידבק.
-                        מוזמנים ליצור קשר לשיחת היכרות ללא התחייבות.
-                    </p>
-
-                    <div class="contact-detail">
-                        <div class="contact-icon">📞</div>
-                        <div>
-                            <div class="contact-detail-text" dir="ltr">052-629-9131</div>
-                            <div class="contact-detail-label">טלפון</div>
-                        </div>
-                    </div>
-
-                    <div class="contact-detail">
-                        <div class="contact-icon">📧</div>
-                        <div>
-                            <div class="contact-detail-text">tamaraps95@gmail.com</div>
-                            <div class="contact-detail-label">אימייל</div>
-                        </div>
-                    </div>
-
-                    <div class="contact-detail">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <div class="contact-detail-text">הירדן 7, רמת גן</div>
-                            <div class="contact-detail-label">מיקום הקליניקה</div>
-                        </div>
-                    </div>
-
-                    <div class="contact-detail">
-                        <div class="contact-icon">🕐</div>
-                        <div>
-                            <div class="contact-detail-text">ימים א׳–ה׳ | 9:00–19:00</div>
-                            <div class="contact-detail-label">שעות פעילות</div>
-                        </div>
+                    <p>מטפלת רגשית מוסמכת בשיטת EBMT, פרחי באך ונוירופידבק. מוזמנים ליצור קשר לשיחת היכרות ללא התחייבות.</p>
+                    <div class="contact-items">
+                        <div><span class="ci-label">טלפון</span><a href="tel:0526299131">052-629-9131</a></div>
+                        <div><span class="ci-label">אימייל</span><a href="mailto:tamaraps95@gmail.com">tamaraps95@gmail.com</a></div>
+                        <div><span class="ci-label">קליניקה</span>זלמן שזר 31, ראשון לציון</div>
+                        <div><span class="ci-label">שעות</span>ימים א׳–ה׳ | 9:00–19:00</div>
                     </div>
                 </div>
-
-                <form class="contact-form reveal reveal-delay-1" onsubmit="handleSubmit(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>שם מלא</label>
-                            <input type="text" name="name" placeholder="השם שלכם" required>
-                        </div>
-                        <div class="form-group">
-                            <label>טלפון</label>
-                            <input type="tel" name="phone" placeholder="052-629-9131" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>אימייל</label>
-                        <input type="email" name="email" placeholder="your@email.com" dir="ltr">
-                    </div>
-                    <div class="form-group">
-                        <label>תחום עניין</label>
-                        <select name="subject">
-                            <option value="">בחרו תחום</option>
-                            <option value="טיפול EBMT">טיפול EBMT</option>
-                            <option value="פרחי באך">פרחי באך</option>
-                            <option value="נוירופידבק">נוירופידבק</option>
-                            <option value="טיפול משולב">טיפול משולב</option>
-                            <option value="אחר">אחר</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ספרו לי קצת</label>
-                        <textarea name="message" placeholder="איך אוכל לעזור לכם?"></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">שליחת הודעה</button>
+                <form class="contact-form reveal" id="contactForm">
+                    <label for="cf-name">שם מלא</label>
+                    <input id="cf-name" type="text" placeholder="השם שלכם" required>
+                    <label for="cf-phone">טלפון</label>
+                    <input id="cf-phone" type="tel" placeholder="052-629-9131" required>
+                    <label for="cf-topic">תחום עניין</label>
+                    <select id="cf-topic">
+                        <option>טיפול EBMT</option>
+                        <option>פרחי באך</option>
+                        <option>נוירופידבק</option>
+                        <option>טיפול משולב</option>
+                        <option>אחר</option>
+                    </select>
+                    <label for="cf-msg">ספרו לי קצת</label>
+                    <textarea id="cf-msg" placeholder="איך אוכל לעזור לכם?"></textarea>
+                    <button class="btn btn-gold" type="submit">שליחת הודעה בוואטסאפ</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">תמרה שעשוע</div>
-            <p class="footer-text">
-                טיפול רגשי בשיטת EBMT | פרחי באך | נוירופידבק<br>
-                מלווה אותך במסע אל איזון ושלווה
-            </p>
-            <div class="footer-social">
-                <a href="#" class="social-link" aria-label="פייסבוק">📘</a>
-                <a href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener" class="social-link" aria-label="אינסטגרם">📷</a>
-                <a href="#" class="social-link" aria-label="וואטסאפ">💬</a>
-            </div>
-            <div class="footer-bottom">
-                © 2026 תמרה שעשוע — כל הזכויות שמורות
-            </div>
+    <footer>
+        <div class="logo">תמרה שעשוע</div>
+        <p>טיפול רגשי בשיטת EBMT | פרחי באך | נוירופידבק<br>מלווה אותך במסע אל איזון ושלווה</p>
+        <div class="social">
+            <a href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">אינסטגרם</a>
+            <span>·</span>
+            <a href="https://wa.me/972526299131" target="_blank" rel="noopener">וואטסאפ</a>
         </div>
+        <small>© 2026 תמרה שעשוע — כל הזכויות שמורות</small>
     </footer>
 
-    <!-- Back to Top -->
-    <button class="back-to-top" id="backToTop" aria-label="חזרה למעלה" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-    <!-- Accessibility Widget -->
-    <div class="a11y-panel" id="a11yPanel">
-        <h3>הגדרות נגישות</h3>
-        <div class="a11y-group">
-            <label>גודל טקסט</label>
-            <div class="a11y-buttons">
-                <button class="a11y-btn" onclick="a11yToggle('a11y-large-text','a11y-xl-text')">A+</button>
-                <button class="a11y-btn" onclick="a11yToggle('a11y-xl-text','a11y-large-text')">A++</button>
-            </div>
-        </div>
-        <div class="a11y-group">
-            <label>ניגודיות</label>
-            <div class="a11y-buttons">
-                <button class="a11y-btn" onclick="a11yToggle('a11y-high-contrast','a11y-grayscale')">ניגודיות גבוהה</button>
-                <button class="a11y-btn" onclick="a11yToggle('a11y-grayscale','a11y-high-contrast')">גווני אפור</button>
-            </div>
-        </div>
-        <div class="a11y-group">
-            <label>קישורים</label>
-            <div class="a11y-buttons">
-                <button class="a11y-btn" onclick="a11yToggle('a11y-highlight-links')">הדגשת קישורים</button>
-            </div>
-        </div>
-        <div class="a11y-group">
-            <label>קריאות</label>
-            <div class="a11y-buttons">
-                <button class="a11y-btn" onclick="a11yToggle('a11y-line-height')">מרווח שורות</button>
-                <button class="a11y-btn" onclick="a11yToggle('a11y-letter-spacing')">מרווח אותיות</button>
-            </div>
-        </div>
-        <div class="a11y-group">
-            <label>תצוגה</label>
-            <div class="a11y-buttons">
-                <button class="a11y-btn" onclick="a11yToggle('a11y-big-cursor')">סמן גדול</button>
-                <button class="a11y-btn" onclick="a11yToggle('a11y-no-animations')">ללא אנימציות</button>
-            </div>
-        </div>
-        <button class="a11y-reset" onclick="a11yReset()">איפוס הגדרות</button>
-    </div>
-    <button class="a11y-toggle" id="a11yToggleBtn" onclick="document.getElementById('a11yPanel').classList.toggle('open')" aria-label="הגדרות נגישות">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><path d="M12 7v5m0 0l-3 5m3-5l3 5"/><path d="M7 10.5h10"/></svg>
-    </button>
-
-    <!-- Exit Intent Popup -->
-    <div class="exit-overlay" id="exitPopup">
-        <div class="exit-popup">
-            <button class="exit-popup-close" onclick="closeExitPopup()">&times;</button>
-            <div class="exit-popup-icon">🌿</div>
-            <h3>רגע לפני שעוזבים...</h3>
-            <p>פגישת היכרות ראשונה ללא עלות וללא התחייבות.<br>בואו נדבר ונבין יחד מה מתאים לכם.</p>
-            <a href="https://wa.me/972526299131?text=%D7%94%D7%99%D7%99%20%D7%AA%D7%9E%D7%A8%D7%94%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A4%D7%92%D7%99%D7%A9%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" class="exit-popup-btn">קביעת פגישת היכרות חינם</a>
-            <button class="exit-popup-skip" onclick="closeExitPopup()">אולי בפעם אחרת</button>
-        </div>
-    </div>
-
-    <!-- Mobile Floating Book Bar -->
-    <div class="mobile-book-bar" id="mobileBookBar">
-        <div class="mobile-book-bar-inner">
-            <div class="mobile-book-text">
-                פגישת היכרות חינם
-                <small>ללא התחייבות — בואו נדבר</small>
-            </div>
-            <a href="https://wa.me/972526299131?text=%D7%94%D7%99%D7%99%20%D7%AA%D7%9E%D7%A8%D7%94%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A4%D7%92%D7%99%D7%A9%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" class="mobile-book-btn">לוואטסאפ</a>
-        </div>
-    </div>
-
-    <!-- Cookie Consent -->
-    <div class="cookie-banner" id="cookieBanner">
-        <p>אתר זה משתמש בעוגיות (cookies) כדי לשפר את חוויית הגלישה שלכם. בהמשך הגלישה באתר אתם מסכימים לשימוש בעוגיות.</p>
-        <button class="cookie-accept" onclick="acceptCookies()">מסכים/ה</button>
-    </div>
-
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/972526299131" class="whatsapp-float" target="_blank" aria-label="שלחו הודעה בוואטסאפ">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+    <a class="wa-float" href="https://wa.me/972526299131" target="_blank" rel="noopener" aria-label="שלחו הודעה בוואטסאפ">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.12.9.86-3.04-.2-.31A8.1 8.1 0 1 1 12.04 20Zm4.44-6.07c-.24-.12-1.43-.7-1.65-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06a6.6 6.6 0 0 1-3.3-2.88c-.25-.43.25-.4.71-1.32.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.15.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"/></svg>
     </a>
+    <button class="to-top" id="toTop" aria-label="חזרה למעלה">↑</button>
+    <div class="book-bar">
+        <div class="t"><b>פגישת היכרות חינם</b><small>ללא התחייבות — בואו נדבר</small></div>
+        <a class="btn btn-gold" href="https://wa.me/972526299131?text=%D7%94%D7%99%D7%99%20%D7%AA%D7%9E%D7%A8%D7%94%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A4%D7%92%D7%99%D7%A9%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" rel="noopener">לוואטסאפ</a>
+    </div>
 
     <script>
-        // ========== PRELOADER ==========
-        window.addEventListener('load', () => {
+        // פרילואודר
+        addEventListener('load', () => {
+            const p = document.getElementById('preloader');
             setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 1200);
+                p.style.transition = 'opacity 0.7s ease';
+                p.style.opacity = '0';
+                setTimeout(() => p.remove(), 750);
+            }, 1400);
         });
 
-        // ========== FLOATING PARTICLES ==========
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const colors = ['var(--sage-light)', 'var(--blush-light)', 'var(--lavender-light)', 'var(--gold-light)', 'var(--water-light)'];
+        // ניווט: שקוף מעל הווידאו, מזוגג בגלילה
+        const nav = document.getElementById('nav');
+        const toTop = document.getElementById('toTop');
+        addEventListener('scroll', () => {
+            nav.classList.toggle('solid', scrollY > innerHeight * 0.75);
+            toTop.classList.toggle('show', scrollY > innerHeight);
+        }, { passive: true });
+        toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
-            for (let i = 0; i < 25; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 8 + 3;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
-                particle.style.animationDelay = (Math.random() * 15) + 's';
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
+        // תפריט מובייל
+        const burger = document.getElementById('burger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
-        // ========== NAVBAR SCROLL ==========
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-        });
+        // חשיפות בגלילה
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-        // ========== MOBILE MENU ==========
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('open');
-        });
-
-        function closeNav() {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('open');
-        }
-
-        // ========== CURSOR GLOW ==========
-        const cursorGlow = document.getElementById('cursorGlow');
-        if (window.matchMedia('(pointer: fine)').matches) {
-            document.addEventListener('mousemove', (e) => {
-                cursorGlow.style.left = e.clientX + 'px';
-                cursorGlow.style.top = e.clientY + 'px';
+        // וידאו: ניגון רק כשנראה (חיסכון בסוללה)
+        const vio = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                const v = e.target;
+                if (e.isIntersecting) { v.play().catch(() => {}); } else { v.pause(); }
             });
-        } else {
-            cursorGlow.style.display = 'none';
-        }
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.video-break video, #contact video').forEach(v => vio.observe(v));
 
-        // ========== SCROLL REVEAL ==========
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        // ניווט בלוג — בעברית קדימה זה שמאלה
+        const blogRow = document.getElementById('blogRow');
+        document.getElementById('blogNext').addEventListener('click', () => blogRow.scrollBy({ left: -330, behavior: 'smooth' }));
+        document.getElementById('blogPrev').addEventListener('click', () => blogRow.scrollBy({ left: 330, behavior: 'smooth' }));
 
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // ========== TESTIMONIALS SLIDER ==========
-        const track = document.getElementById('testimonialsTrack');
-        const dots = document.querySelectorAll('.testimonial-dot');
-        let currentSlide = 0;
-        let autoSlideInterval;
-
-        function goToSlide(index) {
-            currentSlide = index;
-            // RTL: positive translate for right-to-left
-            track.style.transform = `translateX(${index * 100}%)`;
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-        }
-
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                goToSlide(parseInt(dot.dataset.index));
-                resetAutoSlide();
-            });
-        });
-
-        function autoSlide() {
-            autoSlideInterval = setInterval(() => {
-                goToSlide((currentSlide + 1) % 3);
-            }, 5000);
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            autoSlide();
-        }
-
-        autoSlide();
-
-        // Touch swipe for testimonials
-        let touchStartX = 0;
-        const slider = document.querySelector('.testimonials-slider');
-
-        slider.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        slider.addEventListener('touchend', (e) => {
-            const diff = touchStartX - e.changedTouches[0].screenX;
-            if (Math.abs(diff) > 50) {
-                // RTL: swipe direction is reversed
-                if (diff < 0) {
-                    goToSlide(Math.min(currentSlide + 1, 2));
-                } else {
-                    goToSlide(Math.max(currentSlide - 1, 0));
-                }
-                resetAutoSlide();
-            }
-        });
-
-        // ========== SMOOTH SCROLL ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offset = 80;
-                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
-                    window.scrollTo({ top, behavior: 'smooth' });
-                }
-            });
-        });
-
-        // ========== FORM HANDLER ==========
-        function handleSubmit(e) {
+        // טופס → הודעת וואטסאפ מוכנה
+        document.getElementById('contactForm').addEventListener('submit', e => {
             e.preventDefault();
-            const form = e.target;
-            const btn = form.querySelector('.form-submit');
-            const originalText = btn.textContent;
-            btn.textContent = 'שולח...';
-            btn.disabled = true;
-
-            const data = {
-                name: form.querySelector('[name="name"]').value,
-                phone: form.querySelector('[name="phone"]').value,
-                email: form.querySelector('[name="email"]').value,
-                subject: form.querySelector('[name="subject"]').value,
-                message: form.querySelector('[name="message"]').value,
-                source: 'mentalcare.co.il',
-                submitted_at: new Date().toISOString()
-            };
-
-            console.log('Sending data to webhook:', data);
-
-            fetch('https://hook.eu1.make.com/z18fycqxpmeiim1ig645uuq8hrge7mmw', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            .then(res => {
-                console.log('Webhook response status:', res.status);
-                btn.textContent = 'ההודעה נשלחה בהצלחה! ✓';
-                btn.style.background = 'linear-gradient(135deg, #5e7d5a, #4a6a46)';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                    btn.disabled = false;
-                    form.reset();
-                }, 3000);
-            })
-            .catch(err => {
-                console.error('Webhook error:', err);
-                btn.textContent = 'שגיאה - נסו שוב';
-                btn.style.background = 'linear-gradient(135deg, #c0392b, #e74c3c)';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                    btn.disabled = false;
-                }, 3000);
-            });
-        }
-
-        // ========== PARALLAX ON HERO SHAPES ==========
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            const shapes = document.querySelectorAll('.hero-shape');
-            shapes.forEach((shape, i) => {
-                const speed = (i + 1) * 0.08;
-                shape.style.transform = `translateY(${scrolled * speed}px)`;
-            });
+            const name = document.getElementById('cf-name').value.trim();
+            const phone = document.getElementById('cf-phone').value.trim();
+            const topic = document.getElementById('cf-topic').value;
+            const msg = document.getElementById('cf-msg').value.trim();
+            const text = `היי תמרה, אשמח לתאם פגישת היכרות.\nשם: ${name}\nטלפון: ${phone}\nתחום: ${topic}${msg ? '\n' + msg : ''}`;
+            open('https://wa.me/972526299131?text=' + encodeURIComponent(text), '_blank');
         });
-
-        // ========== SCROLL PROGRESS BAR ==========
-        const progressBar = document.getElementById('scrollProgress');
-        window.addEventListener('scroll', () => {
-            const total = document.body.scrollHeight - window.innerHeight;
-            const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
-            progressBar.style.width = progress + '%';
-        });
-
-        // ========== BACK TO TOP ==========
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            backToTopBtn.classList.toggle('visible', window.scrollY > 400);
-        });
-
-        // ========== ANIMATED COUNTER ==========
-        function animateCounter(el) {
-            const target = parseInt(el.dataset.target);
-            const duration = 1800;
-            const step = target / (duration / 16);
-            let current = 0;
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    el.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    el.textContent = Math.floor(current);
-                }
-            }, 16);
-        }
-
-        const statsSection = document.querySelector('.stats');
-        let countersStarted = false;
-        const statsObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !countersStarted) {
-                countersStarted = true;
-                document.querySelectorAll('.count').forEach(animateCounter);
-            }
-        }, { threshold: 0.4 });
-        if (statsSection) statsObserver.observe(statsSection);
-
-        // ========== FAQ ACCORDION ==========
-        function toggleFaq(btn) {
-            const item = btn.closest('.faq-item');
-            const isOpen = item.classList.contains('open');
-            // Close all
-            document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-            // Open clicked if it was closed
-            if (!isOpen) item.classList.add('open');
-        }
-
-        // ========== HERO BACKGROUND PHOTO ==========
-        // Gracefully loads hero photo if it exists, falls back to CSS gradient
-        (function() {
-            const img = new Image();
-            img.onload = function() {
-                const hero = document.getElementById('hero');
-                hero.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.1)), url("' + img.src + '")';
-                hero.style.backgroundSize = 'cover';
-                hero.style.backgroundPosition = 'center';
-            };
-            img.src = 'images/hero/hero-bg.jpg';
-        })();
-
-        // ========== ACCESSIBILITY WIDGET ==========
-        function a11yToggle(cls, conflicting) {
-            document.documentElement.classList.toggle(cls);
-            if (conflicting) document.documentElement.classList.remove(conflicting);
-            // Update button active states
-            document.querySelectorAll('.a11y-btn').forEach(btn => {
-                const onclick = btn.getAttribute('onclick') || '';
-                const match = onclick.match(/a11yToggle\('([^']+)'/);
-                if (match) {
-                    btn.classList.toggle('active', document.documentElement.classList.contains(match[1]));
-                }
-            });
-            // Save preferences
-            const classes = Array.from(document.documentElement.classList).filter(c => c.startsWith('a11y-'));
-            localStorage.setItem('a11y', JSON.stringify(classes));
-        }
-
-        function a11yReset() {
-            document.documentElement.className = document.documentElement.className
-                .split(' ').filter(c => !c.startsWith('a11y-')).join(' ');
-            document.querySelectorAll('.a11y-btn').forEach(btn => btn.classList.remove('active'));
-            localStorage.removeItem('a11y');
-        }
-
-        // Restore saved preferences
-        (function() {
-            const saved = localStorage.getItem('a11y');
-            if (saved) {
-                JSON.parse(saved).forEach(cls => document.documentElement.classList.add(cls));
-                // Restore active states on buttons
-                setTimeout(() => {
-                    document.querySelectorAll('.a11y-btn').forEach(btn => {
-                        const onclick = btn.getAttribute('onclick') || '';
-                        const match = onclick.match(/a11yToggle\('([^']+)'/);
-                        if (match) {
-                            btn.classList.toggle('active', document.documentElement.classList.contains(match[1]));
-                        }
-                    });
-                }, 100);
-            }
-        })();
-
-        // ========== COOKIE CONSENT ==========
-        function acceptCookies() {
-            document.getElementById('cookieBanner').classList.remove('show');
-            localStorage.setItem('cookiesAccepted', 'true');
-        }
-
-        (function() {
-            if (!localStorage.getItem('cookiesAccepted')) {
-                setTimeout(() => {
-                    document.getElementById('cookieBanner').classList.add('show');
-                }, 2000);
-            }
-        })();
-
-        // ========== EXIT INTENT POPUP ==========
-        let exitShown = false;
-        function closeExitPopup() {
-            document.getElementById('exitPopup').classList.remove('show');
-            sessionStorage.setItem('exitPopupShown', 'true');
-        }
-
-        document.addEventListener('mouseout', function(e) {
-            if (e.clientY < 5 && !exitShown && !sessionStorage.getItem('exitPopupShown')) {
-                exitShown = true;
-                document.getElementById('exitPopup').classList.add('show');
-            }
-        });
-
-        // Close popup on overlay click
-        document.getElementById('exitPopup').addEventListener('click', function(e) {
-            if (e.target === this) closeExitPopup();
-        });
-
-        // ========== MOBILE FLOATING BOOK BAR ==========
-        (function() {
-            const bookBar = document.getElementById('mobileBookBar');
-            if (!bookBar) return;
-            let lastScroll = 0;
-            window.addEventListener('scroll', function() {
-                const currentScroll = window.scrollY;
-                // Show after scrolling past hero (400px) and when scrolling down
-                if (currentScroll > 400) {
-                    bookBar.classList.add('visible');
-                } else {
-                    bookBar.classList.remove('visible');
-                }
-                lastScroll = currentScroll;
-            });
-        })();
     </script>
 </body>
 </html>
