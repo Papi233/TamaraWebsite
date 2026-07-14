@@ -441,8 +441,9 @@
             inset: 0;
             width: 100%; height: 100%;
             object-fit: cover;
-            filter: saturate(1.2) contrast(1.06) brightness(1.02);
+            /* בלי filter — הצבע נצרב לתוך הקובץ, כדי לא לסנן 24 פריימים בשנייה על ה-GPU */
             animation: gateZoom 26s ease-out forwards;
+            will-change: transform;
         }
         @keyframes gateZoom {
             from { transform: scale(1.02); }
@@ -459,6 +460,12 @@
             animation: gateFade 1.8s ease forwards 0.6s;
         }
         @keyframes gateFade { to { opacity: 1; } }
+
+        /* מאחורי השער — שום דבר לא מצויר. כל ה-GPU שייך לוידאו */
+        body.is-gated .blob { animation-play-state: paused; }
+        body.is-gated #stage,
+        body.is-gated .plant-layer,
+        body.is-gated .bottle-glow { visibility: hidden; }
 
         .gate-flash {
             position: absolute;
@@ -613,7 +620,7 @@
     <div class="gate" id="gate">
         <video class="gate-video" id="gateVid"
                autoplay muted loop playsinline preload="auto"
-               poster="images/gate-poster.jpg" src="videos/water.mp4"></video>
+               poster="images/gate-poster.jpg" src="videos/gate-water.mp4"></video>
         <div class="gate-shade"></div>
         <div class="gate-flash"></div>
 
@@ -702,6 +709,8 @@
             const btn  = document.getElementById('gateBtn');
             let opened = false;
 
+            document.body.classList.add('is-gated');
+
             // אם הדפדפן חוסם הפעלה אוטומטית — הפוסטר נשאר, לא נשבר כלום
             const p = vid.play();
             if (p && p.catch) p.catch(() => {});
@@ -710,6 +719,7 @@
                 if (opened) return;
                 opened = true;
                 gate.classList.add('opening');
+                document.body.classList.remove('is-gated');
                 dispatchEvent(new Event('gateopen'));   // משחרר את החוויה
                 setTimeout(() => { try { vid.pause(); } catch (e) {} gate.remove(); }, 1400);
             }
@@ -874,6 +884,9 @@
         const LABEL_FRONT = Math.PI / 2; // הזווית שבה התווית פונה למצלמה
         const state = { idx: 0, explode: 0, animating: false, mouseX: 0, mouseY: 0, spinY: LABEL_FRONT, shardBlend: 0 };
         const shardData = [];
+
+        // כל עוד שער הכניסה למעלה — החוויה נעולה, והרינדור מושהה כדי שהוידאו יקבל את כל ה-GPU
+        let gated = !!document.getElementById('gate');
 
         if (webglOk) {
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1155,7 +1168,13 @@
             bottleGroup.userData.targetColor = targetColor;
 
             const clock = new THREE.Clock();
+            let warmFrames = 0;
             function tick() {
+                requestAnimationFrame(tick);
+                // מאחורי השער מספיק לרנדר כמה פריימים כדי שהסצנה תהיה מוכנה, ואז לעצור
+                if (gated && warmFrames > 2) return;
+                warmFrames++;
+
                 const t = clock.getElapsedTime();
                 const e = state.explode;
 
@@ -1183,7 +1202,6 @@
                 rimLight.color.copy(curColor);
 
                 renderer.render(scene, camera);
-                requestAnimationFrame(tick);
             }
             tick();
 
@@ -1349,7 +1367,6 @@
         gsap.set('body', { backgroundColor: FLOWERS[0].bg });
 
         const introTargets = [el.titleMeta, el.bigTitle, el.titleGroup, el.infoCard];
-        let gated = !!document.getElementById('gate');
         if (gated) gsap.set(introTargets, { opacity: 0 });
 
         function revealExperience() {
