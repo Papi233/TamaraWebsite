@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/posts/neurofeedback.html",
+      "destination": "/posts/neurofeedback-adhd.html",
+      "permanent": true
+    },
+    {
+      "source": "/posts/anxiety-treatment.html",
+      "destination": "/posts/anxiety-social.html",
+      "permanent": true
+    }
+  ]
+}

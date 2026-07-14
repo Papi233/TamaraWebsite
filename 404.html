@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הדף לא נמצא | תמרה שעשוע</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --deep: #3a3a3a; --text: #5a5a5a; --cream: #faf6f0; --gold: #c9a96e; }
+        body {
+            min-height: 100vh;
+            font-family: 'Heebo', sans-serif;
+            color: var(--deep);
+            background: #efe9dd;
+            line-height: 1.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.4rem;
+            overflow-x: hidden;
+        }
+        .blob {
+            position: fixed;
+            border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%;
+            filter: blur(70px);
+            opacity: 0.55;
+            z-index: 0;
+            pointer-events: none;
+            animation: morph 18s ease-in-out infinite alternate;
+        }
+        .b1 { width: 44vmax; height: 44vmax; top: -14vmax; right: -12vmax; background: #d8c9a8; }
+        .b2 { width: 36vmax; height: 36vmax; bottom: -12vmax; left: -10vmax; background: #c3d2bd; animation-duration: 23s; animation-delay: -7s; }
+        @keyframes morph {
+            0%   { border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%; transform: rotate(0deg) scale(1); }
+            100% { border-radius: 37% 63% 55% 45% / 42% 37% 63% 58%; transform: rotate(-10deg) scale(1.06); }
+        }
+        .wrap { position: relative; z-index: 1; max-width: 46rem; text-align: center; }
+        .code {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 900;
+            font-size: clamp(5rem, 18vw, 11rem);
+            line-height: 1;
+            color: var(--gold);
+            opacity: 0.5;
+            letter-spacing: 0.04em;
+        }
+        h1 {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 900;
+            font-size: clamp(1.7rem, 4.6vw, 2.9rem);
+            margin-top: 0.4rem;
+        }
+        .lead { margin: 1.1rem auto 0; max-width: 32rem; color: var(--text); font-weight: 300; }
+        .actions { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; margin-top: 2.2rem; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.95rem 2.1rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.98rem;
+            transition: transform 0.3s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.3s ease;
+        }
+        .btn-dark { background: var(--deep); color: var(--cream); box-shadow: 0 14px 34px -14px rgba(58,58,58,0.7); }
+        .btn-gold { background: linear-gradient(135deg, #f0dcb0, #c9a96e); color: #2b2110; box-shadow: 0 14px 38px -14px rgba(201,169,110,0.9); }
+        .btn:hover { transform: translateY(-3px); }
+        .posts { margin-top: 3.2rem; }
+        .posts h2 {
+            font-size: 0.76rem;
+            letter-spacing: 0.3em;
+            font-weight: 500;
+            color: var(--text);
+            opacity: 0.75;
+            margin-bottom: 1.2rem;
+        }
+        .list { display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; }
+        .list a {
+            padding: 0.5rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(58,58,58,0.16);
+            background: rgba(255,255,255,0.55);
+            color: var(--deep);
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 400;
+            transition: background 0.25s ease, border-color 0.25s ease;
+        }
+        .list a:hover { background: #fff; border-color: var(--gold); }
+    </style>
+</head>
+<body>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    <main class="wrap">
+        <div class="code">404</div>
+        <h1>הדף שחיפשתם לא נמצא</h1>
+        <p class="lead">
+            ייתכן שהכתובת השתנתה או שנפלה טעות בהקלדה.
+            אפשר לחזור לדף הבית, או להמשיך לאחת הכתבות למטה.
+        </p>
+
+        <div class="actions">
+            <a class="btn btn-dark" href="/">חזרה לדף הבית</a>
+            <a class="btn btn-gold" href="/bach-flowers-experience.html">38 תמציות פרחי באך ←</a>
+        </div>
+
+        <section class="posts">
+            <h2>כל הכתבות</h2>
+            <div class="list">
+                <a href="/posts/ebmt-therapy.html">טיפול EBMT</a>
+                <a href="/posts/bach-flowers.html">פרחי באך — מדריך מקיף</a>
+                <a href="/posts/neurofeedback-adhd.html">נוירופידבק והפרעות קשב</a>
+                <a href="/posts/adhd-guide.html">מדריך הורים ל-ADHD</a>
+                <a href="/posts/adhd-adults.html">ADHD אצל מבוגרים</a>
+                <a href="/posts/emotional-therapy.html">טיפול רגשי</a>
+                <a href="/posts/anxiety-social.html">חרדה חברתית</a>
+                <a href="/posts/burnout.html">שחיקה תעסוקתית</a>
+                <a href="/posts/emotional-intelligence.html">אינטליגנציה רגשית</a>
+                <a href="/posts/postpartum-depression.html">דיכאון אחרי לידה</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
