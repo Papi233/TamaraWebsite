@@ -20,7 +20,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -141,227 +141,167 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --sage: #8fae8b;
-            --sage-light: #b5ccb2;
-            --sage-dark: #5e7d5a;
+            --deep: #3a3a3a;
+            --text: #5a5a5a;
+            --text-light: #8a8a8a;
             --cream: #faf6f0;
-            --warm-white: #fdfcfa;
-            --blush: #e8c4b8;
-            --blush-light: #f2ddd5;
+            --card: rgba(253, 252, 250, 0.8);
+            --line: rgba(58, 58, 58, 0.08);
             --gold: #c9a96e;
             --gold-light: #e0cc9e;
-            --deep: #3a3a3a;
-            --text: #4a4a4a;
-            --text-light: #7a7a7a;
-            --lavender: #c5b8d4;
-            --lavender-light: #e4dced;
+            --sage: #8fa892;
         }
 
-        html { scroll-behavior: smooth; font-size: 16px; }
+        /* בלי פסי גלילה גלויים — כמו בדף הבית */
+        html { scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
+        html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 
         body {
             font-family: 'Heebo', sans-serif;
             background: var(--cream);
             color: var(--text);
-            overflow-x: hidden;
             line-height: 1.8;
+            overflow-x: hidden;
         }
+
+        ::selection { background: var(--gold); color: #fff; }
+        img, video { max-width: 100%; display: block; }
 
         h1, h2, h3, h4 {
             font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 900;
             color: var(--deep);
         }
 
-        a { color: var(--sage-dark); text-decoration: none; transition: color 0.3s; }
-        a:hover { color: var(--sage); }
+        a { color: var(--gold); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--deep); }
 
         /* ========== NAVIGATION ========== */
         .navbar {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1000;
-            padding: 1.2rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(250, 246, 240, 0.92);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+            position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.1rem clamp(1.2rem, 4vw, 3.5rem);
+            background: transparent;
+            transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
         }
 
         .navbar.scrolled {
-            padding: 0.8rem 3rem;
+            background: rgba(250, 246, 240, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            padding-top: 0.7rem; padding-bottom: 0.7rem;
         }
 
         .nav-logo {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--sage-dark);
-            text-decoration: none;
-            transition: color 0.3s;
+            font-weight: 700; font-size: 1.2rem;
+            letter-spacing: 0.06em;
+            color: var(--deep); text-decoration: none;
         }
+        .nav-logo span { color: var(--gold); }
 
         .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-            align-items: center;
+            display: flex; align-items: center; list-style: none;
+            gap: clamp(0.9rem, 2vw, 1.8rem);
         }
 
         .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 400;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.3s;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.9rem; font-weight: 400;
+            color: var(--deep); text-decoration: none;
+            transition: color 0.3s ease;
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            right: 0;
-            width: 0;
-            height: 2px;
-            background: var(--sage);
-            transition: width 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .nav-links a:hover { color: var(--sage-dark); }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold); }
 
         .nav-cta {
-            background: var(--sage);
-            color: white !important;
-            padding: 0.6rem 1.6rem;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease !important;
-        }
-
-        .nav-cta::after { display: none !important; }
-        .nav-cta:hover { background: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(143, 174, 139, 0.4); }
-
-        /* Mobile hamburger */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-            background: none;
-            border: none;
-            padding: 5px;
-        }
-
-        .hamburger span {
-            width: 28px;
-            height: 2.5px;
             background: var(--deep);
-            border-radius: 3px;
+            color: var(--cream) !important;
+            border-radius: 100px;
+            padding: 0.35rem 1.2rem;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(58, 58, 58, 0.25); }
 
-        .hamburger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        /* המבורגר למובייל */
+        .hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; z-index: 1001;
+            background: none; border: none; padding: 5px;
+        }
+        .hamburger span {
+            width: 26px; height: 2px;
+            background: var(--deep); border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* ========== ARTICLE HERO ========== */
         .article-hero {
-            padding: 8rem 2rem 3rem;
-            background: linear-gradient(135deg, var(--sage-light) 0%, var(--cream) 50%, var(--blush-light) 100%);
+            position: relative; overflow: hidden;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: clamp(8rem, 16vh, 10rem) 1.5rem 4rem;
+            background: var(--cream);
         }
 
-        .article-hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(143, 174, 139, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
+        /* בלובים אורגניים מטושטשים */
+        .blob {
+            position: absolute; z-index: 0; pointer-events: none;
+            border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%;
+            filter: blur(60px); opacity: 0.4;
+            animation: morph 18s ease-in-out infinite alternate;
         }
-
-        .article-hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(232, 196, 184, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
+        .blob-1 { width: 34rem; height: 30rem; top: -10rem; right: -10rem; background: #e8d9bd; }
+        .blob-2 { width: 28rem; height: 26rem; bottom: -12rem; left: -8rem; background: #cfdcc8; }
+        @keyframes morph {
+            0% { border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%; transform: rotate(0) scale(1); }
+            100% { border-radius: 37% 63% 55% 45% / 42% 37% 63% 58%; transform: rotate(-10deg) scale(1.05); }
         }
 
         .breadcrumb {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
+            font-size: 0.78rem; letter-spacing: 0.2em;
+            color: var(--deep); opacity: 0.6;
+            margin-bottom: 1.6rem;
         }
-
-        .breadcrumb a {
-            color: var(--sage-dark);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .breadcrumb a:hover { color: var(--sage); }
-
-        .breadcrumb .separator {
-            margin: 0 0.5rem;
-            color: var(--text-light);
-        }
-
-        .article-meta {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.88rem;
-            color: var(--text-light);
-            position: relative;
-            z-index: 1;
-        }
-
-        .article-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
+        .breadcrumb a { color: var(--deep); text-decoration: none; transition: color 0.3s ease; }
+        .breadcrumb a:hover { color: var(--gold); }
+        .breadcrumb .separator { margin: 0 0.5rem; color: var(--gold); }
 
         .article-hero h1 {
-            font-size: 2.5rem;
-            line-height: 1.4;
-            max-width: 800px;
+            position: relative; z-index: 1;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            line-height: 1.25;
+            max-width: 850px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
-            color: var(--deep);
         }
 
         .article-hero .subtitle {
-            font-size: 1.15rem;
+            position: relative; z-index: 1;
+            font-size: 1.12rem; font-weight: 300;
             color: var(--text-light);
-            margin-top: 1rem;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
-            font-weight: 300;
+            margin: 1.1rem auto 0;
         }
+
+        .article-meta {
+            position: relative; z-index: 1;
+            display: flex; justify-content: center; align-items: center;
+            flex-wrap: wrap; gap: 0.6rem 1.8rem;
+            margin-top: 1.6rem;
+            font-size: 0.85rem; font-weight: 300;
+            color: var(--text-light);
+        }
+        .article-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .article-meta span::before {
+            content: '';
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--gold);
+        }
+        .article-meta span:nth-child(even)::before { background: var(--sage); }
 
         /* ========== ARTICLE CONTENT ========== */
         .article-body {
@@ -378,22 +318,18 @@
         }
 
         .article-body h2 {
-            font-size: 1.8rem;
-            margin-top: 3rem;
+            font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+            margin-top: 3.2rem;
             margin-bottom: 1.2rem;
-            color: var(--sage-dark);
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.6rem;
         }
-
         .article-body h2::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(to left, var(--sage), var(--sage-light));
+            bottom: 0; right: 0;
+            width: 52px; height: 3px;
+            background: linear-gradient(to left, var(--gold), var(--gold-light));
             border-radius: 3px;
         }
 
@@ -401,7 +337,6 @@
             font-size: 1.35rem;
             margin-top: 2rem;
             margin-bottom: 0.8rem;
-            color: var(--deep);
         }
 
         .article-body ul, .article-body ol {
@@ -414,28 +349,28 @@
             font-size: 1.05rem;
             line-height: 1.9;
         }
+        .article-body li::marker { color: var(--gold); }
 
-        .article-body strong {
-            color: var(--deep);
-            font-weight: 700;
-        }
+        .article-body strong { color: var(--deep); font-weight: 700; }
 
-        /* Highlight box */
+        /* קופסת הדגשה */
         .highlight-box {
-            background: linear-gradient(135deg, rgba(143, 174, 139, 0.1) 0%, rgba(181, 204, 178, 0.15) 100%);
-            border-right: 4px solid var(--sage);
-            padding: 1.5rem 2rem;
-            border-radius: 0 12px 12px 0;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-right: 4px solid var(--gold);
+            border-radius: 22px;
+            padding: 1.6rem 2rem;
             margin: 2rem 0;
+            box-shadow: 0 18px 50px rgba(58, 58, 58, 0.10);
         }
-
         .highlight-box p {
             margin-bottom: 0 !important;
-            font-style: italic;
-            color: var(--sage-dark);
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.1rem;
+            color: var(--deep);
         }
 
-        /* Benefits list */
+        /* רשת יתרונות */
         .benefits-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -444,45 +379,60 @@
         }
 
         .benefit-item {
-            background: var(--warm-white);
+            background: var(--card);
+            border: 1px solid var(--line);
             padding: 1.2rem 1.5rem;
-            border-radius: 12px;
+            border-radius: 22px;
             display: flex;
             align-items: flex-start;
-            gap: 0.8rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            gap: 0.9rem;
+            box-shadow: 0 18px 50px rgba(58, 58, 58, 0.10);
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+        /* רדיוסים אורגניים מתחלפים */
+        .benefit-item:nth-child(4n+1) { border-radius: 28px 16px 26px 18px; }
+        .benefit-item:nth-child(4n+2) { border-radius: 16px 28px 18px 26px; }
+        .benefit-item:nth-child(4n+3) { border-radius: 26px 18px 28px 16px; }
+        .benefit-item:nth-child(4n+4) { border-radius: 18px 26px 16px 28px; }
 
         .benefit-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 26px 60px rgba(58, 58, 58, 0.16);
         }
 
         .benefit-icon {
-            font-size: 1.3rem;
-            flex-shrink: 0;
-            margin-top: 2px;
+            width: 12px; height: 12px; min-width: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin-top: 0.65rem;
         }
+        .benefit-item:nth-child(even) .benefit-icon { background: var(--sage); }
 
         .benefit-item p {
             margin-bottom: 0 !important;
             font-size: 0.95rem !important;
         }
 
-        /* Comparison table */
+        /* טבלת השוואה */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem;
+            border-radius: 18px;
+            box-shadow: 0 18px 50px rgba(58, 58, 58, 0.10);
+        }
+
         .comparison-table {
             width: 100%;
+            min-width: 560px;
             border-collapse: collapse;
-            margin: 1.5rem 0 2rem;
-            border-radius: 12px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+            background: var(--cream);
         }
 
         .comparison-table thead th {
-            background: var(--sage-dark);
-            color: white;
+            background: var(--deep);
+            color: var(--cream);
             padding: 1rem 1.2rem;
             font-family: 'Heebo', sans-serif;
             font-weight: 500;
@@ -493,40 +443,31 @@
         .comparison-table tbody td {
             padding: 0.9rem 1.2rem;
             font-size: 0.92rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            background: var(--warm-white);
+            border-bottom: 1px solid var(--line);
+            background: var(--cream);
             vertical-align: top;
         }
 
-        .comparison-table tbody tr:nth-child(even) td {
-            background: rgba(143, 174, 139, 0.06);
-        }
+        .comparison-table tbody tr:nth-child(even) td { background: rgba(58, 58, 58, 0.03); }
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
 
-        .comparison-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Steps */
+        /* שלבי התהליך */
         .step-card {
             display: flex;
-            gap: 1.2rem;
+            gap: 1.3rem;
             margin-bottom: 1.8rem;
             align-items: flex-start;
         }
 
         .step-number {
-            width: 44px;
-            height: 44px;
-            min-width: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-top: 4px;
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 900;
+            font-size: 2.3rem;
+            line-height: 1;
+            color: var(--gold);
+            min-width: 2.6rem;
+            text-align: center;
+            direction: ltr;
         }
 
         .step-content h3 {
@@ -540,23 +481,18 @@
             font-size: 0.98rem !important;
         }
 
-        /* FAQ Section */
-        .faq-section {
-            margin-top: 3rem;
-        }
+        /* ========== FAQ ========== */
+        .faq-section { margin-top: 3rem; }
 
         .faq-item {
-            background: var(--warm-white);
-            border-radius: 12px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
             margin-bottom: 1rem;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-            transition: box-shadow 0.3s ease;
+            transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
-        .faq-item:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
+        .faq-item:hover { box-shadow: 0 18px 50px rgba(58, 58, 58, 0.10); }
 
         .faq-question {
             width: 100%;
@@ -574,32 +510,25 @@
             text-align: right;
             transition: background 0.3s;
         }
-
-        .faq-question:hover {
-            background: rgba(143, 174, 139, 0.06);
-        }
+        .faq-question:hover { background: rgba(201, 169, 110, 0.07); }
 
         .faq-arrow {
-            transition: transform 0.3s ease;
-            font-size: 0.9rem;
-            color: var(--sage);
             flex-shrink: 0;
             margin-right: 1rem;
+            color: var(--gold);
+            font-size: 1.3rem;
+            line-height: 1;
+            transition: transform 0.3s ease;
         }
-
-        .faq-item.open .faq-arrow {
-            transform: rotate(180deg);
-        }
+        .faq-arrow::before { content: '+'; }
+        .faq-item.open .faq-arrow { transform: rotate(45deg); }
 
         .faq-answer {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease, padding 0.4s ease;
         }
-
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-        }
+        .faq-item.open .faq-answer { max-height: 300px; }
 
         .faq-answer-inner {
             padding: 0 1.5rem 1.2rem;
@@ -608,11 +537,12 @@
             color: var(--text);
         }
 
-        /* CTA Section */
+        /* ========== CTA ========== */
         .cta-section {
-            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
-            border-radius: 20px;
-            padding: 3rem 2.5rem;
+            background: var(--deep);
+            color: var(--cream);
+            border-radius: 28px;
+            padding: 3.2rem 2.5rem;
             text-align: center;
             margin-top: 3rem;
             position: relative;
@@ -622,28 +552,26 @@
         .cta-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -20%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            top: -55%; left: -15%;
+            width: 320px; height: 320px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.22) 0%, transparent 70%);
             border-radius: 50%;
         }
 
         .cta-section h2 {
-            color: white !important;
-            font-size: 1.8rem;
+            color: var(--cream) !important;
+            font-size: clamp(1.5rem, 3.4vw, 1.9rem);
             margin-bottom: 1rem;
             position: relative;
             z-index: 1;
         }
-
         .cta-section h2::after { display: none; }
 
         .cta-section p {
-            color: rgba(255, 255, 255, 0.9) !important;
+            color: rgba(250, 246, 240, 0.85) !important;
             font-size: 1.05rem;
-            margin-bottom: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 1.6rem;
             position: relative;
             z-index: 1;
         }
@@ -661,8 +589,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.9rem 2rem;
-            border-radius: 50px;
+            padding: 0.9rem 2.1rem;
+            border-radius: 100px;
             font-weight: 500;
             font-size: 1rem;
             text-decoration: none;
@@ -670,39 +598,38 @@
         }
 
         .cta-btn-primary {
-            background: white;
-            color: var(--sage-dark);
+            background: linear-gradient(135deg, #f0dcb0, #c9a96e);
+            color: #2b2110;
+            font-weight: 700;
+            box-shadow: 0 16px 44px -14px rgba(201, 169, 110, 0.85);
         }
-
         .cta-btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-            color: var(--sage-dark);
+            box-shadow: 0 22px 52px -14px rgba(201, 169, 110, 0.95);
+            color: #2b2110;
         }
 
         .cta-btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            color: var(--cream);
+            border: 1px solid rgba(250, 246, 240, 0.4);
         }
-
         .cta-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(250, 246, 240, 0.12);
             transform: translateY(-2px);
-            color: white;
+            color: var(--cream);
         }
 
-        /* Related Articles */
+        /* ========== מאמרים קשורים ========== */
         .related-articles {
             margin-top: 3rem;
             padding-top: 2rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            border-top: 1px solid var(--line);
         }
 
         .related-articles h3 {
             font-size: 1.4rem;
             margin-bottom: 1.2rem;
-            color: var(--sage-dark);
         }
 
         .related-grid {
@@ -712,128 +639,109 @@
         }
 
         .related-card {
-            background: var(--warm-white);
+            background: var(--card);
+            border: 1px solid var(--line);
             padding: 1.3rem 1.5rem;
-            border-radius: 12px;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 18px 50px rgba(58, 58, 58, 0.10);
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+        .related-card:nth-child(4n+1) { border-radius: 28px 16px 26px 18px; }
+        .related-card:nth-child(4n+2) { border-radius: 16px 28px 18px 26px; }
+        .related-card:nth-child(4n+3) { border-radius: 26px 18px 28px 16px; }
+        .related-card:nth-child(4n+4) { border-radius: 18px 26px 16px 28px; }
 
         .related-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 26px 60px rgba(58, 58, 58, 0.16);
         }
 
         .related-card h4 {
-            font-size: 1rem;
-            color: var(--sage-dark);
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: var(--deep);
             margin-bottom: 0.4rem;
-            font-family: 'Heebo', sans-serif;
-            font-weight: 500;
+            transition: color 0.3s ease;
         }
+        .related-card:hover h4 { color: var(--gold); }
 
         .related-card p {
             font-size: 0.85rem !important;
             color: var(--text-light) !important;
             margin-bottom: 0 !important;
             line-height: 1.6 !important;
+            font-weight: 300;
         }
 
         /* ========== FOOTER ========== */
         .footer {
             background: var(--deep);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 3rem 2rem;
+            color: rgba(250, 246, 240, 0.7);
+            padding: 2.8rem 1.4rem;
             text-align: center;
         }
 
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .footer-content { max-width: 600px; margin: 0 auto; }
 
         .footer-logo {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: var(--cream);
+            margin-bottom: 0.8rem;
         }
 
         .footer-text {
             font-size: 0.9rem;
             font-weight: 300;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.3rem;
             line-height: 1.8;
         }
 
         .footer-social {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 1.6rem;
+            color: rgba(250, 246, 240, 0.4);
         }
 
         .social-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--gold-light);
             text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            font-size: 0.92rem;
+            transition: color 0.3s ease;
         }
-
-        .social-link:hover {
-            background: var(--sage);
-            border-color: var(--sage);
-            transform: translateY(-3px);
-        }
+        .social-link:hover { color: var(--cream); }
 
         .footer-bottom {
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
+            border-top: 1px solid rgba(250, 246, 240, 0.12);
+            font-size: 0.78rem;
             font-weight: 300;
+            color: rgba(250, 246, 240, 0.45);
         }
 
         /* ========== WHATSAPP FLOAT ========== */
         .whatsapp-float {
             position: fixed;
-            bottom: 2rem;
-            left: 2rem;
+            bottom: 1.4rem;
+            left: 1.4rem;
             z-index: 999;
-            width: 60px;
-            height: 60px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
-            background: #25D366;
+            background: #25d366;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 10px 26px rgba(37, 211, 102, 0.4);
             text-decoration: none;
-            transition: all 0.3s ease;
-            animation: pulse-green 2s ease-in-out infinite;
+            transition: transform 0.3s ease;
         }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
-        }
-
-        .whatsapp-float svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
-            50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6), 0 0 0 10px rgba(37, 211, 102, 0.1); }
-        }
+        .whatsapp-float:hover { transform: scale(1.08); }
+        .whatsapp-float svg { width: 26px; height: 26px; fill: #fff; }
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
@@ -843,85 +751,48 @@
                 right: -100%;
                 width: 100%;
                 height: 100vh;
-                background: rgba(250, 246, 240, 0.98);
+                background: rgba(250, 246, 240, 0.97);
                 backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 gap: 2rem;
                 transition: right 0.4s ease;
             }
-
+            .nav-links a { font-family: 'Frank Ruhl Libre', serif; font-size: 1.4rem; }
+            .nav-links .nav-cta { font-family: 'Heebo', sans-serif; font-size: 1rem; }
             .nav-links.open { right: 0; }
-
             .hamburger { display: flex; }
 
-            .article-hero h1 {
-                font-size: 1.8rem;
-            }
+            .article-meta { gap: 0.5rem 1.2rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .related-grid { grid-template-columns: 1fr; }
 
-            .article-hero .subtitle {
-                font-size: 1rem;
-            }
-
-            .article-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: center;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .related-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .comparison-table {
-                font-size: 0.85rem;
-            }
-
+            .comparison-table { font-size: 0.85rem; }
             .comparison-table thead th,
-            .comparison-table tbody td {
-                padding: 0.7rem 0.8rem;
-            }
+            .comparison-table tbody td { padding: 0.7rem 0.8rem; }
 
-            .cta-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .cta-section h2 {
-                font-size: 1.4rem;
-            }
+            .cta-section { padding: 2.2rem 1.5rem; }
         }
 
         @media (max-width: 600px) {
             .navbar { padding: 1rem 1.5rem; }
             .navbar.scrolled { padding: 0.8rem 1.5rem; }
 
-            .article-hero {
-                padding: 7rem 1.2rem 2.5rem;
-            }
+            .article-hero { padding: 7rem 1.2rem 2.8rem; }
+            .article-body { padding: 2rem 1.2rem 3rem; }
 
-            .article-body {
-                padding: 2rem 1.2rem 3rem;
-            }
-
-            .article-hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .step-card {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
+            .step-card { gap: 1rem; }
 
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
             }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .blob { animation: none; }
         }
     </style>
 </head>
@@ -929,7 +800,7 @@
 
     <!-- Navigation -->
     <nav class="navbar scrolled">
-        <a href="../index.html" class="nav-logo">תמרה שעשוע</a>
+        <a href="../index.html" class="nav-logo">תמרה <span>שעשוע</span></a>
         <ul class="nav-links">
             <li><a href="../index.html">דף הבית</a></li>
             <li><a href="ebmt-therapy.html">טיפול EBMT</a></li>
@@ -947,6 +818,8 @@
 
     <!-- Article Hero -->
     <header class="article-hero">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="../index.html">דף הבית</a>
             <span class="separator">›</span>
@@ -955,14 +828,14 @@
             <span>טיפול EBMT</span>
         </nav>
 
-        <div class="article-meta">
-            <span>&#128197; מרץ 2026</span>
-            <span>&#9201; זמן קריאה: 6 דקות</span>
-            <span>&#9997;&#65039; מאת: תמרה שעשוע</span>
-        </div>
-
         <h1>מהו טיפול EBMT? מדריך מקיף לשיטת הטיפול הישראלית</h1>
         <p class="subtitle">כל מה שצריך לדעת על שיטת הטיפול הרגשי-גופני שפותחה בישראל ומשנה חיים</p>
+
+        <div class="article-meta">
+            <span>מרץ 2026</span>
+            <span>זמן קריאה: 6 דקות</span>
+            <span>מאת: תמרה שעשוע</span>
+        </div>
     </header>
 
     <!-- Article Content -->
@@ -1062,27 +935,27 @@
 
         <div class="benefits-grid">
             <div class="benefit-item">
-                <span class="benefit-icon">&#127793;</span>
+                <span class="benefit-icon"></span>
                 <p><strong>גישה הוליסטית</strong> — טיפול בגוף, בנפש ובמחשבה כמכלול אחד</p>
             </div>
             <div class="benefit-item">
-                <span class="benefit-icon">&#9889;</span>
+                <span class="benefit-icon"></span>
                 <p><strong>תוצאות מהירות</strong> — שינוי מורגש לעיתים כבר מהמפגש הראשון</p>
             </div>
             <div class="benefit-item">
-                <span class="benefit-icon">&#128156;</span>
+                <span class="benefit-icon"></span>
                 <p><strong>טיפול עדין</strong> — גישה לא פולשנית, מכבדת ומותאמת אישית</p>
             </div>
             <div class="benefit-item">
-                <span class="benefit-icon">&#127919;</span>
+                <span class="benefit-icon"></span>
                 <p><strong>מגיע לשורש</strong> — עבודה עם הסיבה ולא רק עם התסמין</p>
             </div>
             <div class="benefit-item">
-                <span class="benefit-icon">&#128170;</span>
+                <span class="benefit-icon"></span>
                 <p><strong>בניית חוסן</strong> — כלים שנשארים עם המטופל לאורך חיים</p>
             </div>
             <div class="benefit-item">
-                <span class="benefit-icon">&#129309;</span>
+                <span class="benefit-icon"></span>
                 <p><strong>מתאים לכולם</strong> — ילדים, נוער, מבוגרים וגיל שלישי</p>
             </div>
         </div>
@@ -1097,6 +970,7 @@
             כדי להבין טוב יותר את הייחודיות של שיטת EBMT, הנה השוואה תמציתית לשיטות טיפול מוכרות:
         </p>
 
+        <div class="table-wrap">
         <table class="comparison-table">
             <thead>
                 <tr>
@@ -1139,6 +1013,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <p>
             חשוב לציין שכל שיטה יכולה להתאים לאנשים שונים ולמצבים שונים. אין שיטת טיפול אחת שעדיפה על כולן. היתרון של EBMT הוא ביכולת שלה לעבוד עם הגוף ועם רגשות שלא תמיד ניתנים לביטוי מילולי, מה שהופך אותה לאפקטיבית במיוחד עבור אנשים שמרגישים שטיפול "רגיל" בשיחה לא מספיק.
@@ -1155,7 +1030,7 @@
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
                     מהו טיפול EBMT ואיך הוא שונה מטיפולים אחרים?
-                    <span class="faq-arrow">&#9660;</span>
+                    <span class="faq-arrow" aria-hidden="true"></span>
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
@@ -1167,7 +1042,7 @@
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
                     כמה זמן נמשך תהליך טיפולי ב-EBMT?
-                    <span class="faq-arrow">&#9660;</span>
+                    <span class="faq-arrow" aria-hidden="true"></span>
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
@@ -1179,7 +1054,7 @@
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
                     האם טיפול EBMT מתאים לילדים ולנוער?
-                    <span class="faq-arrow">&#9660;</span>
+                    <span class="faq-arrow" aria-hidden="true"></span>
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
@@ -1191,7 +1066,7 @@
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
                     מה ההבדל בין EBMT לטיפול פסיכולוגי רגיל?
-                    <span class="faq-arrow">&#9660;</span>
+                    <span class="faq-arrow" aria-hidden="true"></span>
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
@@ -1203,7 +1078,7 @@
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
                     האם טיפול EBMT מוכר על ידי קופות החולים?
-                    <span class="faq-arrow">&#9660;</span>
+                    <span class="faq-arrow" aria-hidden="true"></span>
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
@@ -1222,10 +1097,10 @@
             </p>
             <div class="cta-buttons">
                 <a href="https://wa.me/972526299131" class="cta-btn cta-btn-primary" target="_blank">
-                    &#128172; שליחת הודעה בוואטסאפ
+                    שליחת הודעה בוואטסאפ
                 </a>
                 <a href="tel:052-629-9131" class="cta-btn cta-btn-secondary">
-                    &#128222; 052-629-9131
+                    052-629-9131
                 </a>
             </div>
         </div>
@@ -1264,9 +1139,11 @@
                 מלווה אותך במסע אל איזון ושלווה
             </p>
             <div class="footer-social">
-                <a href="#" class="social-link" aria-label="פייסבוק">&#128216;</a>
-                <a href="#" class="social-link" aria-label="אינסטגרם">&#128247;</a>
-                <a href="https://wa.me/972526299131" class="social-link" aria-label="וואטסאפ" target="_blank">&#128172;</a>
+                <a href="#" class="social-link" aria-label="פייסבוק">פייסבוק</a>
+                <span>·</span>
+                <a href="#" class="social-link" aria-label="אינסטגרם">אינסטגרם</a>
+                <span>·</span>
+                <a href="https://wa.me/972526299131" class="social-link" aria-label="וואטסאפ" target="_blank">וואטסאפ</a>
             </div>
             <div class="footer-bottom">
                 &copy; 2026 תמרה שעשוע — כל הזכויות שמורות
