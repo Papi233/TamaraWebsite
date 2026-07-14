@@ -352,13 +352,18 @@
             inset: 0;
             z-index: 8;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             text-align: center;
-            padding: 1.5rem;
+            padding: 4.2rem 1.5rem 1.5rem;
+            overflow-y: auto;
             opacity: 0;
             visibility: hidden;
+        }
+        .outro-inner {
+            margin: auto;               /* ממורכז — וגם נגלל כשהתוכן גבוה מהמסך */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0 1.5rem;
         }
         .outro h2 {
             font-family: 'Frank Ruhl Libre', serif;
@@ -390,6 +395,7 @@
             transition: all 0.3s ease;
             pointer-events: auto;
         }
+        .btn[hidden] { display: none; }
         .btn-dark { background: var(--deep); color: var(--cream); }
         .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(58,58,58,0.3); }
         .btn-ghost { border: 1px solid rgba(58,58,58,0.35); color: var(--deep); }
@@ -403,8 +409,131 @@
             max-width: 52ch;
         }
 
+        /* ===== "התחברתי" — בחירת תמציות למיקס אישי ===== */
+        .connect-btn {
+            margin-top: 1.15rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.6rem 1.55rem;
+            border-radius: 100px;
+            border: 1.5px solid color-mix(in srgb, var(--accent) 70%, var(--deep));
+            background: transparent;
+            color: var(--deep);
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.93rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.35s cubic-bezier(0.2,0.8,0.2,1), color 0.35s ease, border-color 0.35s ease, transform 0.25s ease;
+        }
+        .connect-btn .heart { font-size: 1.1em; line-height: 1; transition: transform 0.3s ease; }
+        .connect-btn:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--accent) 18%, #fdfcfa); }
+        .connect-btn.picked {
+            background: var(--deep);
+            border-color: var(--deep);
+            color: var(--cream);
+        }
+        .connect-btn.picked .heart { transform: scale(1.2); color: var(--accent); }
+
+        /* מונה המיקס בסרגל העליון */
+        .mix-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 1px solid rgba(201, 169, 110, 0.65);
+            background: rgba(250, 246, 240, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: var(--deep);
+            border-radius: 100px;
+            padding: 0.35rem 1.05rem;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .mix-counter b { color: #a8813f; font-weight: 700; }
+        .mix-counter:hover { background: rgba(250, 246, 240, 0.95); transform: translateY(-1px); }
+        .mix-counter[hidden] { display: none; }
+
+        /* המיקס במסך הסיום */
+        .mix-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            justify-content: center;
+            max-width: 680px;
+            margin-top: 1.7rem;
+        }
+        .mix-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.42rem 1rem;
+            padding-inline-end: 0.5rem;
+            border-radius: 100px;
+            background: rgba(253, 252, 250, 0.9);
+            border: 1px solid rgba(58, 58, 58, 0.13);
+            box-shadow: 0 8px 22px rgba(58, 58, 58, 0.10);
+            font-size: 0.9rem;
+        }
+        .mix-chip .dot { width: 11px; height: 11px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(58,58,58,0.12); }
+        .mix-chip .nm {
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--deep);
+            border-bottom: 1px dashed transparent;
+            transition: border-color 0.25s ease;
+        }
+        .mix-chip .nm:hover { border-bottom-color: var(--gold); }
+        .mix-chip .rm {
+            width: 21px; height: 21px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            line-height: 1;
+            color: rgba(58, 58, 58, 0.5);
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+        .mix-chip .rm:hover { background: rgba(58, 58, 58, 0.09); color: #b05a4a; }
+
+        .mix-warn {
+            margin: 1.6rem auto 0;
+            max-width: 56ch;
+            text-align: right;
+            background: rgba(253, 252, 250, 0.92);
+            border: 1px solid rgba(201, 169, 110, 0.45);
+            border-right: 4px solid var(--gold);
+            border-radius: 16px;
+            padding: 1rem 1.3rem;
+            font-size: 0.92rem;
+            color: var(--text);
+            box-shadow: 0 14px 40px rgba(58, 58, 58, 0.12);
+        }
+        .mix-warn b { color: var(--deep); }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #f0dcb0 0%, #c9a96e 55%, #e9d29b 100%);
+            color: #2b2110;
+            font-weight: 700;
+            box-shadow: 0 16px 44px -14px rgba(201, 169, 110, 0.85);
+            animation: mixGlow 2.8s ease-in-out infinite;
+        }
+        .btn-gold:hover { transform: translateY(-2px); }
+        .btn-gold[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; animation: none; filter: grayscale(0.35); }
+        @keyframes mixGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(238, 214, 160, 0.5), 0 16px 44px -14px rgba(201, 169, 110, 0.85); }
+            50%      { box-shadow: 0 0 0 12px rgba(238, 214, 160, 0), 0 18px 52px -12px rgba(201, 169, 110, 1); }
+        }
+
         /* ===== מובייל ===== */
         @media (max-width: 760px) {
+            .mix-counter { font-size: 0.76rem; padding: 0.3rem 0.75rem; }
+            .connect-btn { font-size: 0.86rem; padding: 0.5rem 1.25rem; }
             .peek { display: none; }
             .title-layer {
                 right: 0;
@@ -658,6 +787,10 @@
             <span class="info-chip" id="infoChip"></span>
             <p class="info-desc" id="infoDesc"></p>
             <p class="info-positive"><strong>בצד המאוזן:</strong> <span id="infoPositive"></span></p>
+            <button class="connect-btn" id="connectBtn" type="button">
+                <span class="heart" aria-hidden="true">♡</span>
+                <span id="connectTxt">התחברתי לתמצית הזו</span>
+            </button>
         </article>
     </div>
 
@@ -669,6 +802,9 @@
 
     <nav class="topbar">
         <a class="brand" href="index.html">תמרה <span>שעשוע</span></a>
+        <button class="mix-counter" id="mixCounter" type="button" hidden>
+            המיקס שלי · <b id="mixCount">0</b>
+        </button>
         <a class="back-link" href="index.html#bach">→ חזרה לאתר</a>
     </nav>
 
@@ -686,19 +822,32 @@
     </div>
 
     <section class="outro" id="outro">
-        <h2>איזו תמצית מדברת אליך?</h2>
-        <p>
+      <div class="outro-inner">
+        <h2 id="outroTitle">איזו תמצית מדברת אליך?</h2>
+        <p id="outroLead">
             בטיפול בפרחי באך אני מרכיבה עבורך שילוב אישי של עד 7 תמציות,
             בהתאמה מדויקת למה שעובר עליך עכשיו. בואו נגלה יחד מה מתאים לך.
         </p>
+
+        <div class="mix-warn" id="mixWarn" hidden>
+            <b>למה דווקא 7?</b>
+            בקבוק אישי מורכב מעד <b>7 תמציות</b> — כך כל תמצית מקבלת מקום אמיתי לעבוד,
+            והמיקס נשאר מדויק למה שעובר עליכם עכשיו.
+            בחרתם <b id="mixOverCount"></b> — לחצו על שם תמצית כדי לחזור לסקירה שלה,
+            או הסירו עם ה-×, עד שנשארות 7 שמדברות אליכם הכי חזק.
+        </div>
+        <div class="mix-chips" id="mixChips"></div>
+
         <div class="outro-actions">
-            <a class="btn btn-dark" href="https://wa.me/972526299131?text=%D7%94%D7%99%D7%99%20%D7%AA%D7%9E%D7%A8%D7%94%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%98%D7%99%D7%A4%D7%95%D7%9C%20%D7%91%D7%A4%D7%A8%D7%97%D7%99%20%D7%91%D7%90%D7%9A" target="_blank" rel="noopener">לתיאום התאמה אישית בוואטסאפ</a>
+            <a class="btn btn-gold" id="mixCta" href="#" target="_blank" rel="noopener" hidden>אני רוצה בקבוק אישי ←</a>
+            <a class="btn btn-dark" id="waGeneric" href="https://wa.me/972526299131?text=%D7%94%D7%99%D7%99%20%D7%AA%D7%9E%D7%A8%D7%94%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%98%D7%99%D7%A4%D7%95%D7%9C%20%D7%91%D7%A4%D7%A8%D7%97%D7%99%20%D7%91%D7%90%D7%9A" target="_blank" rel="noopener">לתיאום התאמה אישית בוואטסאפ</a>
             <a class="btn btn-ghost" href="posts/bach-flowers.html">למדריך המלא על פרחי באך</a>
         </div>
         <small>
             המידע בעמוד זה כללי ואינו מהווה ייעוץ רפואי. פרחי באך אינם תחליף לטיפול רפואי או תרופתי.
             <br>צילומי הצמחים: ויקימדיה קומונס, רישיונות CC BY / CC BY-SA — L. de Honsvels, A. Kwiecień, GooseCanada, H. Rose, Acabashi, jacilluch, 3268zauber, Rudolphous, Kolforn, J. Martin, M. Pennington, Forest &amp; Kim Starr, Dietmar Rabich, XanaG, B. Schoenmakers, 4028mdk09, GT1976, MrPanyGoff, BLM California, Mars 2002, D.J. Bergsma, Mushushu, Kgbo, J. de Vojníkov, A. Curtis, A. Moro, K. Golik, E. Simak, K. Ziarnek, Jules Verne ×2, JLPC, W. Rubers, W.carter, Irmgard, Asurnipal, T. Reuschling
         </small>
+      </div>
     </section>
 
     <!-- שער הכניסה — עצמאי, לא תלוי ב-three.js -->
@@ -868,7 +1017,18 @@
             blob1: document.getElementById('blob1'),
             blob2: document.getElementById('blob2'),
             blob3: document.getElementById('blob3'),
-            titleLayer: document.querySelector('.title-layer')
+            titleLayer: document.querySelector('.title-layer'),
+            connectBtn: document.getElementById('connectBtn'),
+            connectTxt: document.getElementById('connectTxt'),
+            mixCounter: document.getElementById('mixCounter'),
+            mixCount: document.getElementById('mixCount'),
+            outroTitle: document.getElementById('outroTitle'),
+            outroLead: document.getElementById('outroLead'),
+            mixWarn: document.getElementById('mixWarn'),
+            mixOverCount: document.getElementById('mixOverCount'),
+            mixChips: document.getElementById('mixChips'),
+            mixCta: document.getElementById('mixCta'),
+            waGeneric: document.getElementById('waGeneric')
         };
 
         const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1253,14 +1413,122 @@
                 bottleGroup.userData.drawLabel(i);
                 bottleGroup.userData.targetColor.set(f.color);
             }
+            syncConnect(i);
         }
 
+        /* ============ המיקס האישי — "התחברתי" ============ */
+        const MIX_MAX = 7;
+        let picks = new Set();
+        try {
+            picks = new Set((JSON.parse(localStorage.getItem('bachPicks') || '[]'))
+                .filter(n => Number.isInteger(n) && n >= 0 && n < N));
+        } catch (e) {}
+        const savePicks = () => { try { localStorage.setItem('bachPicks', JSON.stringify([...picks])); } catch (e) {} };
+
+        function syncConnect(i) {
+            const on = picks.has(i);
+            el.connectBtn.classList.toggle('picked', on);
+            el.connectBtn.querySelector('.heart').textContent = on ? '♥' : '♡';
+            el.connectTxt.textContent = on ? 'נבחרה למיקס שלך' : 'התחברתי לתמצית הזו';
+        }
+
+        function updateCounter(pulse) {
+            const n = picks.size;
+            el.mixCount.textContent = n;
+            el.mixCounter.hidden = n === 0;
+            if (pulse && n) gsap.fromTo(el.mixCounter, { scale: 1.18 }, { scale: 1, duration: 0.45, ease: 'back.out(2.5)' });
+        }
+
+        function waUrl(list) {
+            const lines = list.map((idx, k) => `${k + 1}. ${FLOWERS[idx].he} (${FLOWERS[idx].en})`).join('\n');
+            const msg = 'היי תמרה 🌸 סיימתי את המסע של 38 התמציות ואשמח לבקבוק אישי.\n' +
+                        'התמציות שהתחברתי אליהן:\n' + lines;
+            return 'https://wa.me/972526299131?text=' + encodeURIComponent(msg);
+        }
+
+        function renderMix() {
+            const list = [...picks].sort((a, b) => a - b);
+            const n = list.length;
+            const over = n > MIX_MAX;
+
+            el.mixChips.innerHTML = list.map(idx => `
+                <span class="mix-chip" data-idx="${idx}">
+                    <span class="dot" style="background:${FLOWERS[idx].color}"></span>
+                    <span class="nm" title="לסקירת התמצית">${FLOWERS[idx].he}</span>
+                    <span class="rm" title="הסרה מהמיקס" role="button" aria-label="הסרת ${FLOWERS[idx].he}">×</span>
+                </span>`).join('');
+
+            el.mixWarn.hidden = !over;
+            if (over) el.mixOverCount.textContent = n + ' תמציות';
+
+            if (n === 0) {
+                el.outroTitle.textContent = 'איזו תמצית מדברת אליך?';
+                el.outroLead.textContent = 'בטיפול בפרחי באך אני מרכיבה עבורך שילוב אישי של עד 7 תמציות, בהתאמה מדויקת למה שעובר עליך עכשיו. אפשר לעבור שוב במסע ולסמן ״התחברתי״ על מה שמדבר אליך.';
+                el.mixCta.hidden = true;
+                el.waGeneric.hidden = false;
+            } else {
+                el.outroTitle.textContent = 'המיקס האישי שלך';
+                el.outroLead.textContent = over
+                    ? 'רגע לפני ששולחים — נשאר רק לזקק.'
+                    : 'אלו התמציות שדיברו אליך במסע. שלחו לי אותן, ואכין עבורך בקבוק אישי מדויק.';
+                el.mixCta.hidden = false;
+                el.waGeneric.hidden = true;
+                if (over) {
+                    el.mixCta.setAttribute('aria-disabled', 'true');
+                    el.mixCta.removeAttribute('href');
+                } else {
+                    el.mixCta.removeAttribute('aria-disabled');
+                    el.mixCta.href = waUrl(list);
+                }
+            }
+        }
+
+        el.connectBtn.addEventListener('click', () => {
+            picks.has(state.idx) ? picks.delete(state.idx) : picks.add(state.idx);
+            savePicks();
+            syncConnect(state.idx);
+            updateCounter(true);
+            gsap.fromTo(el.connectBtn, { scale: 0.94 }, { scale: 1, duration: 0.4, ease: 'back.out(3)' });
+        });
+
+        el.mixCounter.addEventListener('click', () => {
+            if (gated || state.animating || atOutro) return;
+            atOutro = true;
+            showOutro(true);
+        });
+
+        el.mixChips.addEventListener('click', e => {
+            const chip = e.target.closest('.mix-chip');
+            if (!chip) return;
+            const idx = +chip.dataset.idx;
+            if (e.target.classList.contains('rm')) {
+                picks.delete(idx);
+                savePicks();
+                updateCounter(false);
+                renderMix();
+                syncConnect(state.idx);
+            } else if (e.target.classList.contains('nm')) {
+                // חזרה לסקירת התמצית כדי להחליט אם היא נשארת במיקס
+                showOutro(false);
+                atOutro = false;
+                goTo(idx, idx >= state.idx ? 1 : -1);
+            }
+        });
+
+        el.mixCta.addEventListener('click', e => {
+            if (el.mixCta.getAttribute('aria-disabled') === 'true') e.preventDefault();
+        });
+
         function showOutro(show) {
+            if (show) renderMix();
             gsap.to(el.outro, {
                 autoAlpha: show ? 1 : 0, duration: 0.6,
                 onStart() { if (show) el.outro.style.visibility = 'visible'; }
             });
             gsap.to([el.infoCard, el.titleLayer], { autoAlpha: show ? 0 : 1, duration: 0.5 });
+            // הבקבוק, הצמח והשמות המציצים מפנים את הבמה למיקס
+            gsap.to(['#stage', '.plant-layer', '.bottle-glow', el.peekNext, el.peekPrev],
+                { autoAlpha: show ? 0 : 1, duration: 0.5 });
         }
 
         let atOutro = false;
@@ -1364,6 +1632,7 @@
 
         /* אתחול — התוכן ממתין מאחורי השער ונחשף רק אחרי הלחיצה */
         applyFlowerDom(0);
+        updateCounter(false);
         gsap.set('body', { backgroundColor: FLOWERS[0].bg });
 
         const introTargets = [el.titleMeta, el.bigTitle, el.titleGroup, el.infoCard];
