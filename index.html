@@ -552,6 +552,22 @@
         .contact-form option { color: var(--deep); }
         .contact-form textarea { min-height: 90px; resize: vertical; }
         .contact-form button { margin-top: 1.4rem; width: 100%; border: none; cursor: pointer; font-family: 'Heebo'; }
+        /* אישור תנאי שימוש */
+        .cf-consent {
+            display: flex; align-items: flex-start; gap: 0.6rem;
+            margin-top: 1.3rem; font-size: 0.85rem; line-height: 1.55;
+            color: rgba(250,246,240,0.85);
+        }
+        .cf-consent input[type="checkbox"] {
+            width: 20px; height: 20px; min-width: 20px; margin-top: 0.1rem;
+            accent-color: var(--gold); cursor: pointer; padding: 0;
+        }
+        .cf-consent label { display: inline; margin: 0; font-size: 0.85rem; color: inherit; cursor: pointer; }
+        .cf-consent .terms-link {
+            color: var(--gold-light); text-decoration: underline; cursor: pointer;
+            background: none; border: none; font: inherit; padding: 0;
+        }
+        .cf-consent .terms-link:hover { color: var(--gold); }
 
         /* ===== פוטר ===== */
         footer { background: #221f1b; color: rgba(250,246,240,0.7); padding: 2.6rem 1.4rem; text-align: center; }
@@ -604,8 +620,16 @@
             .nav .burger { display: block; }
             .services-grid, .quotes, .certs { grid-template-columns: 1fr; }
             .book-bar { display: flex; }
-            .wa-float { bottom: 4.6rem; }
-            .to-top { bottom: 4.6rem; }
+            /* מעל סרגל ההזמנה: וואטסאפ משמאל, נגישות מימין. "חזרה למעלה" מיותר במובייל */
+            .wa-float { bottom: 4.8rem; left: 1rem; }
+            .a11y-btn { bottom: 4.8rem !important; right: 1rem !important; }
+            .to-top { display: none !important; }
+        }
+        @media (max-width: 420px) {
+            /* גופנים ומרווחים חסכוניים במסכים צרים */
+            .hero h1 { font-size: clamp(2rem, 11vw, 2.8rem); }
+            .container { padding-left: 1.1rem; padding-right: 1.1rem; }
+            .cf-consent { font-size: 0.8rem; }
         }
         @media (prefers-reduced-motion: reduce) {
             .hero video { animation: none; }
@@ -927,6 +951,10 @@
                     </select>
                     <label for="cf-msg">ספרו לי קצת</label>
                     <textarea id="cf-msg" placeholder="איך אוכל לעזור לכם?"></textarea>
+                    <div class="cf-consent">
+                        <input type="checkbox" id="cf-terms" required>
+                        <label for="cf-terms">קראתי ואני מאשר/ת את <button type="button" class="terms-link" data-open-terms>תנאי השימוש ומדיניות הפרטיות</button> של האתר.</label>
+                    </div>
                     <button class="btn btn-gold" type="submit">שליחת הודעה בוואטסאפ</button>
                 </form>
             </div>
@@ -940,6 +968,10 @@
             <a href="https://www.instagram.com/tamara_shashua/" target="_blank" rel="noopener">אינסטגרם</a>
             <span>·</span>
             <a href="https://wa.me/972526299131" target="_blank" rel="noopener">וואטסאפ</a>
+            <span>·</span>
+            <a href="#" data-open-terms>תנאי שימוש</a>
+            <span>·</span>
+            <a href="#" data-a11y-statement>הצהרת נגישות</a>
         </div>
         <small>© 2026 תמרה שעשוע — כל הזכויות שמורות</small>
     </footer>
@@ -1002,6 +1034,11 @@
         // טופס → הודעת וואטסאפ מוכנה
         document.getElementById('contactForm').addEventListener('submit', e => {
             e.preventDefault();
+            const terms = document.getElementById('cf-terms');
+            if (!terms.checked) {
+                terms.reportValidity();   // הדפדפן יסמן שחובה לאשר תנאי שימוש
+                return;
+            }
             const name = document.getElementById('cf-name').value.trim();
             const phone = document.getElementById('cf-phone').value.trim();
             const topic = document.getElementById('cf-topic').value;
@@ -1010,5 +1047,9 @@
             open('https://wa.me/972526299131?text=' + encodeURIComponent(text), '_blank');
         });
     </script>
+
+    <!-- נגישות ותנאי שימוש (משותף לכל האתר) -->
+    <script src="/a11y.js" defer></script>
+    <script src="/legal.js" defer></script>
 </body>
 </html>
