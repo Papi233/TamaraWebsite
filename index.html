@@ -554,16 +554,20 @@
         .contact-form button { margin-top: 1.4rem; width: 100%; border: none; cursor: pointer; font-family: 'Heebo'; }
         /* אישור תנאי שימוש */
         .cf-consent {
-            display: flex; align-items: flex-start; gap: 0.6rem;
-            margin-top: 1.3rem; font-size: 0.85rem; line-height: 1.55;
+            display: flex; align-items: flex-start; gap: 0.55rem;
+            margin-top: 1.3rem;
             color: rgba(250,246,240,0.85);
         }
         .cf-consent input[type="checkbox"] {
-            width: 20px; height: 20px; min-width: 20px; margin-top: 0.1rem;
+            flex: none; width: 19px; height: 19px; margin: 0.15rem 0 0;
             accent-color: var(--gold); cursor: pointer; padding: 0;
         }
-        .cf-consent label { display: inline; margin: 0; font-size: 0.85rem; color: inherit; cursor: pointer; }
+        .cf-consent label {
+            flex: 1; margin: 0; text-align: right;
+            font-size: 0.85rem; line-height: 1.6; color: inherit; cursor: pointer;
+        }
         .cf-consent .terms-link {
+            display: inline; white-space: nowrap;
             color: var(--gold-light); text-decoration: underline; cursor: pointer;
             background: none; border: none; font: inherit; padding: 0;
         }
@@ -953,7 +957,7 @@
                     <textarea id="cf-msg" placeholder="איך אוכל לעזור לכם?"></textarea>
                     <div class="cf-consent">
                         <input type="checkbox" id="cf-terms" required>
-                        <label for="cf-terms">קראתי ואני מאשר/ת את <button type="button" class="terms-link" data-open-terms>תנאי השימוש ומדיניות הפרטיות</button> של האתר.</label>
+                        <label for="cf-terms">קראתי ואני מאשר/ת את <button type="button" class="terms-link" data-open-terms>תנאי השימוש ומדיניות הפרטיות</button></label>
                     </div>
                     <button class="btn btn-gold" type="submit">שליחת הודעה בוואטסאפ</button>
                 </form>
