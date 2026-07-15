@@ -530,10 +530,103 @@
             50%      { box-shadow: 0 0 0 12px rgba(238, 214, 160, 0), 0 18px 52px -12px rgba(201, 169, 110, 1); }
         }
 
+        /* ===== מפתח התמציות — ניווט מהיר לפי קבוצות ===== */
+        .index-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--deep);
+            border: 1px solid rgba(58, 58, 58, 0.28);
+            border-radius: 100px;
+            padding: 0.38rem 1.05rem;
+            background: rgba(250, 246, 240, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .index-btn:hover { background: rgba(250, 246, 240, 0.95); transform: translateY(-1px); }
+        .index-btn svg { width: 16px; height: 16px; }
+
+        .drawer-scrim {
+            position: fixed; inset: 0; z-index: 18;
+            background: rgba(30, 26, 20, 0.4);
+            backdrop-filter: blur(2px);
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+        .drawer-scrim.open { opacity: 1; visibility: visible; }
+
+        .idx-drawer {
+            position: fixed; top: 0; right: 0; bottom: 0; z-index: 19;
+            width: min(380px, 88vw);
+            background: linear-gradient(180deg, #fdfcfa 0%, #f7f1e6 100%);
+            box-shadow: -24px 0 70px rgba(58, 58, 58, 0.25);
+            display: flex; flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .idx-drawer.open { transform: none; }
+        .idx-head {
+            padding: 1.5rem 1.5rem 1.1rem;
+            border-bottom: 1px solid rgba(58, 58, 58, 0.1);
+        }
+        .idx-head-top { display: flex; align-items: center; justify-content: space-between; }
+        .idx-head h2 {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 900; font-size: 1.5rem; color: var(--deep);
+        }
+        .idx-close {
+            background: none; border: 0; font-size: 1.7rem; line-height: 1;
+            color: var(--deep); cursor: pointer; padding: 0.1rem 0.4rem; border-radius: 8px;
+        }
+        .idx-close:hover { background: rgba(58, 58, 58, 0.08); }
+        .idx-head p {
+            margin-top: 0.35rem; font-size: 0.82rem; color: var(--text);
+            letter-spacing: 0.04em;
+        }
+        .idx-body { overflow-y: auto; padding: 0.6rem 0.9rem 2rem; flex: 1; }
+        .idx-group { margin-top: 1rem; }
+        .idx-group:first-child { margin-top: 0.4rem; }
+        .idx-group-head {
+            display: flex; align-items: center; gap: 0.55rem;
+            padding: 0.55rem 0.6rem 0.4rem;
+        }
+        .idx-group-head .gdot { width: 12px; height: 12px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(58,58,58,0.12); }
+        .idx-group-head h3 {
+            font-family: 'Heebo', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--deep);
+        }
+        .idx-group-head span { font-size: 0.72rem; color: var(--text); opacity: 0.7; }
+        .idx-item {
+            display: flex; align-items: center; gap: 0.7rem; width: 100%;
+            padding: 0.55rem 0.7rem; border: 0; border-radius: 12px;
+            background: none; cursor: pointer; text-align: right;
+            font-family: 'Heebo', sans-serif; transition: background 0.2s ease;
+        }
+        .idx-item:hover { background: rgba(201, 169, 110, 0.14); }
+        .idx-item .inum {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
+            font-size: 0.78rem; color: var(--gold); min-width: 1.6rem; direction: ltr;
+        }
+        .idx-item .idot { width: 10px; height: 10px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(58,58,58,0.12); }
+        .idx-item .ihe { font-size: 0.92rem; font-weight: 500; color: var(--deep); }
+        .idx-item .ien { font-size: 0.72rem; color: var(--text); opacity: 0.7; direction: ltr; margin-inline-start: auto; }
+        .idx-item.active { background: var(--deep); }
+        .idx-item.active .ihe { color: var(--cream); }
+        .idx-item.active .inum { color: var(--gold-light, #e0cc9e); }
+        .idx-item.active .ien { color: rgba(250,246,240,0.6); }
+
         /* ===== מובייל ===== */
         @media (max-width: 760px) {
             .mix-counter { font-size: 0.76rem; padding: 0.3rem 0.75rem; }
             .connect-btn { font-size: 0.86rem; padding: 0.5rem 1.25rem; }
+            /* מפתח קומפקטי — רק האייקון, כדי לא לצופף את הסרגל */
+            .index-btn { padding: 0.4rem; font-size: 0; gap: 0; }
+            .index-btn svg { width: 20px; height: 20px; }
+            .idx-drawer { width: min(340px, 92vw); }
             .peek { display: none; }
             .title-layer {
                 right: 0;
@@ -802,11 +895,28 @@
 
     <nav class="topbar">
         <a class="brand" href="index.html">תמרה <span>שעשוע</span></a>
+        <button class="index-btn" id="indexBtn" type="button" aria-label="פתיחת מפתח התמציות" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            מפתח התמציות
+        </button>
         <button class="mix-counter" id="mixCounter" type="button" hidden>
             המיקס שלי · <b id="mixCount">0</b>
         </button>
         <a class="back-link" href="index.html#bach">→ חזרה לאתר</a>
     </nav>
+
+    <!-- מגירת ניווט מהיר לפי קבוצות -->
+    <div class="drawer-scrim" id="drawerScrim"></div>
+    <aside class="idx-drawer" id="idxDrawer" role="dialog" aria-label="מפתח התמציות" aria-modal="true">
+        <div class="idx-head">
+            <div class="idx-head-top">
+                <h2>מפתח התמציות</h2>
+                <button class="idx-close" id="idxClose" type="button" aria-label="סגירת המפתח">&times;</button>
+            </div>
+            <p>38 תמציות · 7 קבוצות רגשיות · בחרו לאן לקפוץ</p>
+        </div>
+        <div class="idx-body" id="idxBody"></div>
+    </aside>
 
     <div class="progress-ui">
         <div class="progress-count"><b id="progressNum">01</b> / 38</div>
@@ -1592,6 +1702,69 @@
 
         const next = () => goTo(atOutro ? N : state.idx + 1 === N ? N : state.idx + 1, 1);
         const prev = () => { if (atOutro) { showOutro(false); atOutro = false; state.animating = false; } else goTo(state.idx - 1, -1); };
+
+        /* ============ מפתח התמציות — ניווט מהיר לפי קבוצות ============ */
+        const idxBtn = document.getElementById('indexBtn');
+        const idxDrawer = document.getElementById('idxDrawer');
+        const idxScrim = document.getElementById('drawerScrim');
+        const idxBody = document.getElementById('idxBody');
+        const idxCloseBtn = document.getElementById('idxClose');
+
+        // קיבוץ לפי סדר הופעה ראשונה (עוקב אחר סדר הבקבוקים)
+        const groupOrder = [];
+        const groupMap = {};
+        FLOWERS.forEach((f, i) => {
+            if (!groupMap[f.group]) { groupMap[f.group] = []; groupOrder.push(f.group); }
+            groupMap[f.group].push(i);
+        });
+
+        idxBody.innerHTML = groupOrder.map(g => {
+            const items = groupMap[g];
+            const gcolor = FLOWERS[items[0]].color;
+            const rows = items.map(i => {
+                const f = FLOWERS[i];
+                return '<button class="idx-item" type="button" data-idx="' + i + '">' +
+                    '<span class="inum">' + String(i + 1).padStart(2, '0') + '</span>' +
+                    '<span class="idot" style="background:' + f.color + '"></span>' +
+                    '<span class="ihe">' + f.he + '</span>' +
+                    '<span class="ien">' + f.en + '</span>' +
+                '</button>';
+            }).join('');
+            return '<div class="idx-group">' +
+                '<div class="idx-group-head"><span class="gdot" style="background:' + gcolor + '"></span>' +
+                '<h3>' + g + '</h3><span>' + items.length + ' תמציות</span></div>' +
+                rows + '</div>';
+        }).join('');
+
+        function idxActive() {
+            idxBody.querySelectorAll('.idx-item').forEach(b => {
+                b.classList.toggle('active', +b.dataset.idx === state.idx && !atOutro);
+            });
+        }
+
+        let idxOpen = false;
+        function setDrawer(v) {
+            if (v && gated) return;               // לא נפתח מאחורי שער הכניסה
+            idxOpen = v;
+            idxDrawer.classList.toggle('open', v);
+            idxScrim.classList.toggle('open', v);
+            idxBtn.setAttribute('aria-expanded', v ? 'true' : 'false');
+            if (v) { idxActive(); idxDrawer.querySelector('.idx-item.active, .idx-item')?.focus(); }
+        }
+
+        idxBtn.addEventListener('click', () => setDrawer(!idxOpen));
+        idxCloseBtn.addEventListener('click', () => { setDrawer(false); idxBtn.focus(); });
+        idxScrim.addEventListener('click', () => setDrawer(false));
+        addEventListener('keydown', e => { if (e.key === 'Escape' && idxOpen) { setDrawer(false); idxBtn.focus(); } });
+
+        idxBody.addEventListener('click', e => {
+            const item = e.target.closest('.idx-item');
+            if (!item) return;
+            const i = +item.dataset.idx;
+            setDrawer(false);
+            if (i === state.idx && !atOutro) return;
+            goTo(i, i >= state.idx ? 1 : -1);
+        });
 
         /* קלט: גלגלת, מקלדת, מגע, חיצים, קצוות
            גלילה אחת = מעבר אחד: נעילה בזמן האנימציה + צינון שבולע את אינרציית הגלגלת */
