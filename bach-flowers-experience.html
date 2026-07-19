@@ -48,7 +48,7 @@
         /* ===== צורות רקע אורגניות (בלובים) ===== */
         .blob {
             position: fixed;
-            border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%;
+            border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;
             filter: blur(60px);
             opacity: 0.5;
             z-index: 0;
@@ -59,9 +59,9 @@
         .blob.b2 { width: 38vmax; height: 38vmax; bottom: -12vmax; left: -10vmax; animation-duration: 21s; animation-delay: -6s; }
         .blob.b3 { width: 24vmax; height: 24vmax; top: 52%; right: 6vw; opacity: 0.35; animation-duration: 13s; animation-delay: -3s; }
         @keyframes morph {
-            0%   { border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%; transform: rotate(0deg) scale(1); }
-            50%  { border-radius: 58% 42% 39% 61% / 55% 61% 39% 45%; transform: rotate(12deg) scale(1.08); }
-            100% { border-radius: 37% 63% 55% 45% / 42% 37% 63% 58%; transform: rotate(-9deg) scale(0.96); }
+            0%   { transform: rotate(0deg) scale(1); }
+            50%  { transform: rotate(12deg) scale(1.08); }
+            100% { transform: rotate(-9deg) scale(0.96); }
         }
 
         /* ===== שכבת הצמח הבוטני מאחורי הבקבוק ===== */
@@ -204,7 +204,7 @@
             border-radius: 100px;
             padding: 0.35rem 1rem;
             background: rgba(250, 246, 240, 0.4);
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
         .back-link:hover { background: rgba(250, 246, 240, 0.9); }
 
@@ -299,7 +299,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.25s ease;
+            transition: background-color 0.25s ease, transform 0.25s ease;
             user-select: none;
         }
         .nav-arrow:hover { background: rgba(253, 252, 250, 0.95); transform: translateY(-50%) scale(1.08); }
@@ -392,7 +392,7 @@
             padding: 0.85rem 2.2rem;
             font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             pointer-events: auto;
         }
         .btn[hidden] { display: none; }
@@ -1423,7 +1423,8 @@
                 contactShadow.position.y = state.baseY - 1.62 * state.baseScale;
             }
             layout();
-            addEventListener('resize', layout);
+            let _rz;
+            addEventListener('resize', () => { clearTimeout(_rz); _rz = setTimeout(layout, 150); });
             addEventListener('load', layout);
             setTimeout(layout, 600);
 
@@ -1439,8 +1440,13 @@
 
             const clock = new THREE.Clock();
             let warmFrames = 0;
+            let lastRender = 0;
             function tick() {
                 requestAnimationFrame(tick);
+                // תקרת ~30fps — חוסך CPU/GPU בלי לפגוע בתנועה (המהירות נגזרת מזמן t)
+                const nowRender = performance.now();
+                if (nowRender - lastRender < 33) return;
+                lastRender = nowRender;
                 // מאחורי השער מספיק לרנדר כמה פריימים כדי שהסצנה תהיה מוכנה, ואז לעצור
                 if (gated && warmFrames > 2) return;
                 warmFrames++;

@@ -86,6 +86,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="images/hero-poster.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
@@ -154,9 +155,7 @@
             transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
         }
         .nav.solid {
-            background: rgba(250, 246, 240, 0.88);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            background: rgba(250, 246, 240, 0.92);
             box-shadow: 0 1px 0 rgba(46,44,40,0.06);
             padding-top: 0.7rem; padding-bottom: 0.7rem;
         }
@@ -186,7 +185,7 @@
         }
         .nav .burger span {
             display: block; width: 22px; height: 2px; margin: 5px auto;
-            background: #fff; transition: all 0.3s ease;
+            background: #fff; transition: background-color 0.3s ease;
         }
         .nav.solid .burger span, .nav.dark-links .burger span { background: var(--deep); }
 
@@ -195,7 +194,7 @@
             background: rgba(250, 246, 240, 0.97);
             backdrop-filter: blur(20px);
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6rem;
-            opacity: 0; visibility: hidden; transition: all 0.4s ease;
+            opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         .mobile-menu.open { opacity: 1; visibility: visible; }
         .mobile-menu a {
@@ -249,7 +248,7 @@
             display: inline-block; text-decoration: none;
             border-radius: 100px; padding: 0.8rem 2.1rem;
             font-size: 0.98rem; font-weight: 500;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
         }
         .btn-gold { background: var(--gold); color: #fff; }
         .btn-gold:hover { background: var(--gold-light); color: var(--deep); transform: translateY(-2px); }
@@ -285,13 +284,13 @@
 
         /* בלובים דקורטיביים */
         .blob {
-            position: absolute; border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%;
+            position: absolute; border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;
             filter: blur(55px); opacity: 0.45; z-index: 0; pointer-events: none;
             animation: morph 18s ease-in-out infinite alternate;
         }
         @keyframes morph {
-            0% { border-radius: 42% 58% 63% 37% / 45% 42% 58% 55%; transform: rotate(0) scale(1); }
-            100% { border-radius: 37% 63% 55% 45% / 42% 37% 63% 58%; transform: rotate(-10deg) scale(1.05); }
+            0% { transform: rotate(0) scale(1); }
+            100% { transform: rotate(-10deg) scale(1.05); }
         }
         /* תמונת צמח דקורטיבית במיזוג לרקע */
         .plant-decor {
@@ -455,7 +454,7 @@
             width: 48px; height: 48px; border-radius: 50%;
             border: 1px solid rgba(46,44,40,0.2); background: var(--warm-white);
             color: var(--deep); font-size: 1.15rem; cursor: pointer;
-            transition: all 0.25s ease;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
         }
         .blog-nav button:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
         .blog-card {
@@ -598,7 +597,7 @@
             width: 44px; height: 44px; border-radius: 50%;
             border: 1px solid rgba(46,44,40,0.2); background: rgba(253,252,250,0.85);
             color: var(--deep); cursor: pointer; font-size: 1rem;
-            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .to-top.show { opacity: 1; visibility: visible; }
         .book-bar {
@@ -704,7 +703,7 @@
     <!-- אודות — טיפוגרפי, בלי תמונות -->
     <section class="section" id="about">
         <div class="blob" style="width: 40vmax; height: 40vmax; top: -8vmax; left: -12vmax; background: var(--sage-light);"></div>
-        <img class="plant-decor" src="images/flowers/16-honeysuckle.jpg" alt="" aria-hidden="true"
+        <img class="plant-decor" src="images/flowers/16-honeysuckle.jpg" alt="" aria-hidden="true" width="1000" height="750" loading="lazy"
              style="width: min(560px, 60vw); height: min(560px, 60vw); left: -6vw; top: 10%;">
         <div class="container">
             <div class="sec-label reveal">הכירו אותי</div>
@@ -736,7 +735,7 @@
             <p class="sec-desc reveal">שילוב ייחודי של שיטות טיפול מוכחות לתוצאות עמוקות ומשמעותיות</p>
             <div class="services-grid">
                 <div class="service-card reveal">
-                    <img class="photo" src="images/flowers/27-rock-water.jpg" alt="" loading="lazy">
+                    <img class="photo" src="images/flowers/27-rock-water.jpg" alt="" width="1000" height="610" loading="lazy">
                     <div class="body">
                         <h3>טיפול בשיטת EBMT</h3>
                         <p>שיטה ישראלית חדשנית — Emotional Body Mind Therapy — המאפשרת שחרור חסימות רגשיות ואנרגטיות דרך עבודה עם הגוף והנפש יחד.</p>
@@ -749,7 +748,7 @@
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="photo" src="images/flowers/06-cherry-plum.jpg" alt="" loading="lazy">
+                    <img class="photo" src="images/flowers/06-cherry-plum.jpg" alt="" width="1000" height="750" loading="lazy">
                     <div class="body">
                         <h3>פרחי באך</h3>
                         <p>טיפול טבעי ועדין המבוסס על 38 תמציות פרחים שפותחו ע״י ד״ר אדוארד באך, לאיזון מצבים רגשיים.</p>
@@ -762,7 +761,7 @@
                     </div>
                 </div>
                 <div class="service-card reveal">
-                    <img class="photo" src="images/flowers/24-pine.jpg" alt="" loading="lazy">
+                    <img class="photo" src="images/flowers/24-pine.jpg" alt="" width="1000" height="1334" loading="lazy">
                     <div class="body">
                         <h3>נוירופידבק</h3>
                         <p>טכנולוגיה מתקדמת לאימון מוחי — טיפול לא פולשני בהפרעות קשב וריכוז, שמלמד את המוח לווסת את עצמו בצורה יעילה.</p>
@@ -780,7 +779,7 @@
 
     <!-- רצועת וידאו 1 -->
     <section class="video-break">
-        <video muted loop playsinline preload="metadata" src="videos/water.mp4"></video>
+        <video muted loop playsinline preload="metadata" poster="images/water-poster.jpg" src="videos/water.mp4"></video>
         <div class="shade"></div>
         <div class="quote reveal">
             <h2>הריפוי מתחיל ברגע<br>שבוחרים להקשיב לעצמך</h2>
@@ -805,28 +804,28 @@
 
     <!-- פרחי באך -->
     <section class="section" id="bach" style="background: linear-gradient(180deg, var(--cream), #ece4d2 60%, var(--cream));">
-        <img class="plant-decor" src="images/flowers/37-wild-rose.jpg" alt="" aria-hidden="true"
+        <img class="plant-decor" src="images/flowers/37-wild-rose.jpg" alt="" aria-hidden="true" width="1000" height="896" loading="lazy"
              style="width: min(520px, 62vw); height: min(520px, 62vw); right: -8vw; bottom: -6%;">
         <div class="container center">
             <div class="sec-label reveal">עולם הפרחים</div>
             <h2 class="sec-title reveal">פרחי באך — ריפוי מהטבע</h2>
             <p class="sec-desc reveal">38 תמציות פרחים טבעיות שמסייעות לאיזון מגוון מצבים רגשיים</p>
             <div class="bach-grid">
-                <div class="bach-item reveal"><img src="images/flowers/20-mimulus.jpg" alt="" loading="lazy"><h4>פחדים וחרדות</h4><p>שחרור מפחדים ידועים ולא ידועים</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/21-mustard.jpg" alt="" loading="lazy"><h4>עצבות ודיכאון</h4><p>חזרה לשמחת חיים ואופטימיות</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/15-holly.jpg" alt="" loading="lazy"><h4>כעס ותסכול</h4><p>מציאת שלווה פנימית ושקט</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/28-scleranthus.jpg" alt="" loading="lazy"><h4>חוסר החלטיות</h4><p>חיזוק הביטחון בקבלת החלטות</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/23-olive.jpg" alt="" loading="lazy"><h4>עייפות ושחיקה</h4><p>חידוש אנרגיה ומוטיבציה</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/01-agrimony.jpg" alt="" loading="lazy"><h4>רגישות יתר</h4><p>חיזוק גבולות רגשיים בריאים</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/14-heather.jpg" alt="" loading="lazy"><h4>בדידות</h4><p>חיבור מחדש לעצמי ולאחרים</p></div>
-                <div class="bach-item reveal"><img src="images/flowers/37-wild-rose.jpg" alt="" loading="lazy"><h4>צמיחה אישית</h4><p>פריחה והגשמה עצמית</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/20-mimulus.jpg" alt="" width="1000" height="690" loading="lazy"><h4>פחדים וחרדות</h4><p>שחרור מפחדים ידועים ולא ידועים</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/21-mustard.jpg" alt="" width="1000" height="1334" loading="lazy"><h4>עצבות ודיכאון</h4><p>חזרה לשמחת חיים ואופטימיות</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/15-holly.jpg" alt="" width="1000" height="750" loading="lazy"><h4>כעס ותסכול</h4><p>מציאת שלווה פנימית ושקט</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/28-scleranthus.jpg" alt="" width="1000" height="1138" loading="lazy"><h4>חוסר החלטיות</h4><p>חיזוק הביטחון בקבלת החלטות</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/23-olive.jpg" alt="" width="1000" height="750" loading="lazy"><h4>עייפות ושחיקה</h4><p>חידוש אנרגיה ומוטיבציה</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/01-agrimony.jpg" alt="" width="1000" height="1334" loading="lazy"><h4>רגישות יתר</h4><p>חיזוק גבולות רגשיים בריאים</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/14-heather.jpg" alt="" width="1000" height="1500" loading="lazy"><h4>בדידות</h4><p>חיבור מחדש לעצמי ולאחרים</p></div>
+                <div class="bach-item reveal"><img src="images/flowers/37-wild-rose.jpg" alt="" width="1000" height="896" loading="lazy"><h4>צמיחה אישית</h4><p>פריחה והגשמה עצמית</p></div>
             </div>
         </div>
     </section>
 
     <!-- רצועת וידאו 2 — פרומו לחוויה -->
     <section class="video-break">
-        <video muted loop playsinline preload="metadata" src="videos/meadow.mp4"></video>
+        <video muted loop playsinline preload="metadata" poster="images/meadow-poster.jpg" src="videos/meadow.mp4"></video>
         <div class="shade"></div>
         <div class="quote reveal">
             <h2>38 תמציות. רגש אחד לכל אחת.</h2>
@@ -844,16 +843,16 @@
         </div>
         <div class="container">
             <div class="blog-row" id="blogRow">
-                <a class="blog-card reveal" href="posts/ebmt-therapy.html"><img class="thumb" src="images/flowers/27-rock-water.jpg" alt="" loading="lazy"><span class="tag">EBMT</span><h3>מהו טיפול EBMT? מדריך מקיף לשיטת הטיפול הישראלית</h3><p>הכירו את שיטת ה-EBMT — שיטת טיפול ייחודית שפותחה בישראל, המשלבת גוף, נפש ואנרגיה.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/bach-flowers.html"><img class="thumb" src="images/flowers/06-cherry-plum.jpg" alt="" loading="lazy"><span class="tag">פרחי באך</span><h3>פרחי באך — מדריך מקיף לטיפול הטבעי שמשנה חיים</h3><p>מה הם פרחי באך, איך הם עובדים ולמי הם מתאימים? כל מה שרציתם לדעת על 38 התמציות.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/neurofeedback-adhd.html"><img class="thumb" src="images/flowers/24-pine.jpg" alt="" loading="lazy"><span class="tag">נוירופידבק</span><h3>נוירופידבק — טיפול מתקדם בהפרעות קשב ללא תרופות</h3><p>איך נוירופידבק מאמן את המוח לווסת את עצמו — ללא תרופות וללא כאב.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/adhd-guide.html"><img class="thumb" src="images/flowers/07-chestnut-bud.jpg" alt="" loading="lazy"><span class="tag">מדריך להורים</span><h3>הפרעות קשב וריכוז — כל מה שהורים צריכים לדעת</h3><p>סימנים, אבחון, אפשרויות טיפול וטיפים מעשיים להתמודדות יומיומית עם ADHD.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/emotional-therapy.html"><img class="thumb" src="images/flowers/16-honeysuckle.jpg" alt="" loading="lazy"><span class="tag">טיפול רגשי</span><h3>טיפול רגשי — איך לבחור את השיטה הנכונה עבורך</h3><p>מרגישים שמשהו תקוע? מדריך שיעזור לכם להבין איזו שיטה מתאימה לכם.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/anxiety-social.html"><img class="thumb" src="images/flowers/02-aspen.jpg" alt="" loading="lazy"><span class="tag">חרדה</span><h3>חרדה חברתית — גורמים, סימנים ואיך מתגברים עליה</h3><p>למדו לזהות את הסימנים ואת דרכי הטיפול המוכחות שיכולות לשנות את חייכם.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/adhd-adults.html"><img class="thumb" src="images/flowers/17-hornbeam.jpg" alt="" loading="lazy"><span class="tag">ADHD מבוגרים</span><h3>ADHD אצל מבוגרים — הפרעת קשב שלא עוברת עם הגיל</h3><p>רבים לא יודעים שיש להם ADHD עד גיל מבוגר. סימנים שכדאי להכיר.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/burnout.html"><img class="thumb" src="images/flowers/23-olive.jpg" alt="" loading="lazy"><span class="tag">שחיקה</span><h3>שחיקה תעסוקתית — איך מזהים, מונעים ומחלימים</h3><p>שחיקה היא לא רק "עייפות מהעבודה". הכירו את הסימנים ואת הדרך חזרה לאיזון.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/emotional-intelligence.html"><img class="thumb" src="images/flowers/29-star-of-bethlehem.jpg" alt="" loading="lazy"><span class="tag">אינטלגנציה רגשית</span><h3>אינטלגנציה רגשית — המיומנות שמשנה חיים</h3><p>למה היא חשובה יותר ממנת המשכל וכיצד מפתחים אותה בכל גיל.</p><span class="more">לקריאה ←</span></a>
-                <a class="blog-card reveal" href="posts/postpartum-depression.html"><img class="thumb" src="images/flowers/37-wild-rose.jpg" alt="" loading="lazy"><span class="tag">אחרי לידה</span><h3>דיכאון אחרי לידה — טיפול טבעי ותמיכה רגשית</h3><p>שכיח הרבה יותר ממה שמדברים עליו. שיטות טיפול טבעיות ותמיכה.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/ebmt-therapy.html"><img class="thumb" src="images/flowers/27-rock-water.jpg" alt="" width="1000" height="610" loading="lazy"><span class="tag">EBMT</span><h3>מהו טיפול EBMT? מדריך מקיף לשיטת הטיפול הישראלית</h3><p>הכירו את שיטת ה-EBMT — שיטת טיפול ייחודית שפותחה בישראל, המשלבת גוף, נפש ואנרגיה.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/bach-flowers.html"><img class="thumb" src="images/flowers/06-cherry-plum.jpg" alt="" width="1000" height="750" loading="lazy"><span class="tag">פרחי באך</span><h3>פרחי באך — מדריך מקיף לטיפול הטבעי שמשנה חיים</h3><p>מה הם פרחי באך, איך הם עובדים ולמי הם מתאימים? כל מה שרציתם לדעת על 38 התמציות.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/neurofeedback-adhd.html"><img class="thumb" src="images/flowers/24-pine.jpg" alt="" width="1000" height="1334" loading="lazy"><span class="tag">נוירופידבק</span><h3>נוירופידבק — טיפול מתקדם בהפרעות קשב ללא תרופות</h3><p>איך נוירופידבק מאמן את המוח לווסת את עצמו — ללא תרופות וללא כאב.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/adhd-guide.html"><img class="thumb" src="images/flowers/07-chestnut-bud.jpg" alt="" width="1000" height="750" loading="lazy"><span class="tag">מדריך להורים</span><h3>הפרעות קשב וריכוז — כל מה שהורים צריכים לדעת</h3><p>סימנים, אבחון, אפשרויות טיפול וטיפים מעשיים להתמודדות יומיומית עם ADHD.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/emotional-therapy.html"><img class="thumb" src="images/flowers/16-honeysuckle.jpg" alt="" width="1000" height="750" loading="lazy"><span class="tag">טיפול רגשי</span><h3>טיפול רגשי — איך לבחור את השיטה הנכונה עבורך</h3><p>מרגישים שמשהו תקוע? מדריך שיעזור לכם להבין איזו שיטה מתאימה לכם.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/anxiety-social.html"><img class="thumb" src="images/flowers/02-aspen.jpg" alt="" width="1000" height="1332" loading="lazy"><span class="tag">חרדה</span><h3>חרדה חברתית — גורמים, סימנים ואיך מתגברים עליה</h3><p>למדו לזהות את הסימנים ואת דרכי הטיפול המוכחות שיכולות לשנות את חייכם.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/adhd-adults.html"><img class="thumb" src="images/flowers/17-hornbeam.jpg" alt="" width="1000" height="1334" loading="lazy"><span class="tag">ADHD מבוגרים</span><h3>ADHD אצל מבוגרים — הפרעת קשב שלא עוברת עם הגיל</h3><p>רבים לא יודעים שיש להם ADHD עד גיל מבוגר. סימנים שכדאי להכיר.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/burnout.html"><img class="thumb" src="images/flowers/23-olive.jpg" alt="" width="1000" height="750" loading="lazy"><span class="tag">שחיקה</span><h3>שחיקה תעסוקתית — איך מזהים, מונעים ומחלימים</h3><p>שחיקה היא לא רק "עייפות מהעבודה". הכירו את הסימנים ואת הדרך חזרה לאיזון.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/emotional-intelligence.html"><img class="thumb" src="images/flowers/29-star-of-bethlehem.jpg" alt="" width="1000" height="1500" loading="lazy"><span class="tag">אינטלגנציה רגשית</span><h3>אינטלגנציה רגשית — המיומנות שמשנה חיים</h3><p>למה היא חשובה יותר ממנת המשכל וכיצד מפתחים אותה בכל גיל.</p><span class="more">לקריאה ←</span></a>
+                <a class="blog-card reveal" href="posts/postpartum-depression.html"><img class="thumb" src="images/flowers/37-wild-rose.jpg" alt="" width="1000" height="896" loading="lazy"><span class="tag">אחרי לידה</span><h3>דיכאון אחרי לידה — טיפול טבעי ותמיכה רגשית</h3><p>שכיח הרבה יותר ממה שמדברים עליו. שיטות טיפול טבעיות ותמיכה.</p><span class="more">לקריאה ←</span></a>
             </div>
             <div class="blog-nav reveal">
                 <button id="blogPrev" aria-label="המאמר הקודם">→</button>
@@ -926,7 +925,7 @@
 
     <!-- צור קשר — על רקע וידאו עננים -->
     <section class="section" id="contact">
-        <video muted loop playsinline preload="metadata" src="videos/clouds.mp4"></video>
+        <video muted loop playsinline preload="metadata" poster="images/clouds-poster.jpg" src="videos/clouds.mp4"></video>
         <div class="shade"></div>
         <div class="container">
             <div class="sec-label reveal">בואו נדבר</div>
