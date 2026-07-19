@@ -412,23 +412,27 @@
 
         /* ===== "התחברתי" — בחירת תמציות למיקס אישי ===== */
         .connect-btn {
-            margin-top: 1.15rem;
-            display: inline-flex;
+            margin: 1.35rem auto 0;          /* ממורכז (במקום מיושר לימין) — מתרחק מכפתור הנגישות שבפינה */
+            display: flex;
+            width: fit-content;
+            max-width: 100%;
             align-items: center;
-            gap: 0.55rem;
-            padding: 0.6rem 1.55rem;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.78rem 2rem;           /* גדול ובולט יותר */
             border-radius: 100px;
-            border: 1.5px solid color-mix(in srgb, var(--accent) 70%, var(--deep));
-            background: transparent;
+            border: 2px solid var(--accent);
+            background: color-mix(in srgb, var(--accent) 16%, #fdfcfa);
             color: var(--deep);
             font-family: 'Heebo', sans-serif;
-            font-size: 0.93rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 26%, transparent);
             cursor: pointer;
-            transition: background 0.35s cubic-bezier(0.2,0.8,0.2,1), color 0.35s ease, border-color 0.35s ease, transform 0.25s ease;
+            transition: background 0.35s cubic-bezier(0.2,0.8,0.2,1), color 0.35s ease, border-color 0.35s ease, transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .connect-btn .heart { font-size: 1.1em; line-height: 1; transition: transform 0.3s ease; }
-        .connect-btn:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--accent) 18%, #fdfcfa); }
+        .connect-btn .heart { font-size: 1.15em; line-height: 1; transition: transform 0.3s ease; }
+        .connect-btn:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--accent) 30%, #fdfcfa); box-shadow: 0 12px 28px color-mix(in srgb, var(--accent) 34%, transparent); }
         .connect-btn.picked {
             background: var(--deep);
             border-color: var(--deep);
